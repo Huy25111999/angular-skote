@@ -1,0 +1,12 @@
+version: "3.3"
+
+services:
+  qlan-app:
+    container_name: qlan-app
+    image: qlan-app:local-latest
+
+    ports:
+      - "8083:80"
+volumes:
+  localdb:
+    driver: local
