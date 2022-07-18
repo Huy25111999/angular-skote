@@ -1,0 +1,152 @@
+
+.containers .content {
+    margin-top: 0;
+}
+
+.title-right ul {
+    padding: 0;
+}
+.title-right ul li {
+    display: inline;
+    padding: 8px;
+}
+.title-right ul li:first-child >a {
+    color: #74788d !important;
+}
+.title-right a {
+    color: #495057;
+}
+
+.content {
+    background: #FFFFFF;
+}
+
+// Search
+.search{
+    border: 1px solid #C5C7CD;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 14px;
+   // background-color: aquamarine;
+}
+.search-container {
+    margin: 16px;
+}
+
+.searchName{
+    display: flex;
+    margin-left: 32px;
+    justify-content: space-around;
+}
+
+.search-info {
+    width: 100%;
+    margin-right: 36px;
+}
+.search-info label {
+    line-height: 40px;
+}
+
+.search-info p{
+    font-family: 'roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    // line-height: 22px;
+    display: flex;
+    align-items: center;
+}
+.search-info input
+{
+    height: 40px;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    padding-right: 60px;
+}
+
+.btn-search {
+   text-align: center;
+   margin: 8px 0;
+   padding: 0 32px;
+}
+.btn-search button {
+    border-radius: 4px;
+    width: 170px;
+    color: #FFFFFF;
+    margin-right: 40px;
+}
+
+
+//Form-table-info
+
+.info-user
+{
+    width: 100%;
+    border: 1px solid #DFE0EB;
+    border-radius: 8px;
+    background: #FFFFFF;
+    margin-top: 38px;
+}
+
+div .user-head
+{
+    width: 100%;
+    text-align: right;
+    padding-right: 36px;
+}
+
+.img-feature {
+    width: 36px;
+    height: 36px;
+    position: relative;
+    float: right;
+    right: 115px;
+}
+
+.user-head button {
+    background: #FFFFFF;
+}
+
+button img
+{
+    width: 76px;
+    height: 76px;
+}
+
+button {
+    border: 0px;
+}
+
+// Table
+.user-table table {
+    width: 100%;
+}
+
+.table th {
+    padding-left: 10px;
+}
+
+img.edit
+{
+    width: 18px;
+    height: 18px;   
+}
+
+
+.info-number{
+    text-align: right;
+}
+.info-text
+{
+    text-align: left;
+}
+.info-date
+{
+    text-align: center;
+}
+.icon-item
+{
+    text-align: center;
+}

@@ -25,6 +25,7 @@ import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import {ConfigIP, ConfigIpService} from "./config-ip.service";
+// import { ManagementComponent } from './SSO/management/management.component';
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
@@ -45,6 +46,7 @@ export function createTranslateLoader(http: HttpClient): any {
   declarations: [
     AppComponent,
     CyptolandingComponent,
+    // ManagementComponent,
   ],
   imports: [
     BrowserModule,

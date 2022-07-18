@@ -1,0 +1,92 @@
+<div class="containers" id = "containers">
+    <div class="row">
+
+        <div class = 'side-bar'>
+
+            <div class="title-right">
+                <ul>
+                    <li><a href="">SSO</a></li>
+                    <li><a href="">/  User</a></li>
+                    <li><a href="">/  Detail</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Author -->
+        <div class="content">
+            <!-- info user -->
+            <div class="info-user">
+
+                <div class="user-infor">
+                    <h4>User information</h4>
+                </div>
+
+                <div class="user-table table-responsive">
+                    <table id="data-table" class = "table table-striped mb-0">
+                        <thead>
+                            <th class="info-number">STT</th>
+                            <th class="info-text">Username</th>
+                            <th class="info-number">Phone</th>   
+                            <th class="info-text">Address</th>
+                            <th class="info-text">Gender</th>
+                            <th class="info-text">Email</th>
+                            <th class="info-text">Position</th>
+                            <th class="icon-item">Action</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let dataUser of geojson.data">
+                                <td class="info-number">{{dataUser.no}}</td>
+                                <td class="info-text">{{dataUser.username}}</td>
+                                <td class="info-number">{{dataUser.phone}}</td>
+                                <td class="info-text">{{dataUser.address}}</td>
+                                <td class="info-text">{{dataUser.gender}}</td>
+                                <td class="info-text">{{dataUser.mail}}</td>
+                                <td class="info-text">{{dataUser.position}}</td>
+                                <td class="icon-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+                                    <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="info-user">
+                <div class="user-infor">
+                    <h4>Domains joined</h4>
+                </div>
+
+                <div class="user-table table-responsive">
+                    <table id="data-table" class = "table table-striped mb-0">
+                        <thead>
+                            <th class="info-number">STT</th>
+                            <th class="info-text">Domain</th>
+                            <th class="info-number">Private key</th>   
+                            <th class="info-text">Description</th>
+                            <th class="info-text">Created date</th>
+                            <th class="info-text">Status</th>
+                            <th class="icon-item">Action</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let dataUser of geojson.data">
+                                <td class="info-number">{{dataUser.no}}</td>
+                                <td class="info-text">{{dataUser.username}}</td>
+                                <td class="info-number">{{dataUser.phone}}</td>
+                                <td class="info-text">{{dataUser.address}}</td>
+                                <td class="info-text">{{dataUser.gender}}</td>
+                                <td class="info-text">{{dataUser.mail}}</td>
+                                <td class="icon-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+                                    <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+

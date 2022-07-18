@@ -1,0 +1,48 @@
+
+<!--Modal edit-->
+<div  id= "modal modal-edit" class="modal fade modalAdd" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabelEdit">Sửa người dùng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form">
+          <div class="row mb-4" *ngFor="let input of inputData">
+            <label class="col-sm-3" >{{input}}</label>
+
+            <div class="col-sm-9">
+              <input type="text" class="form-control">
+            </div>
+
+          </div>
+
+          <div class="row mb-4" *ngFor="let combo of comboData">
+
+            <label class="col-sm-3" >{{combo}}</label>
+            <div class="col-sm-9">
+              <select name="" id="" class="form-select">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <label class="col-sm-3" >Vị trí</label>
+
+            <div class="col-sm-9" >
+              <input type="text" class="form-control">
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

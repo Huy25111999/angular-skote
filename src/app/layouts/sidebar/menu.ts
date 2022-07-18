@@ -823,6 +823,35 @@ export const MENU: MenuItem[] = [
         ]
       },
     ]
+  },
+  
+  {
+    id: 130,
+    label: 'SSO',
+    icon: 'bbx-task',
+    // link: '/SSO/management',
+    subItems: [
+      {
+        id: 131,
+        label: 'User management',
+        link: '/SSO/management',
+        parentId: 130
+      },
+      {
+        id: 132,
+        label: 'Detail',
+        link: '/SSO/detail',
+        parentId: 130
+      }
+      ,
+      {
+        id: 133,
+        label: 'Domain',
+        link: '/SSO/domain',
+        parentId: 130
+      }
+    ]
+
   }
 ];
 

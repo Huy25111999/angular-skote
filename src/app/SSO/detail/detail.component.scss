@@ -1,0 +1,80 @@
+
+.containers .content {
+    margin-top: 0;
+}
+
+.title-right ul {
+    padding: 0;
+}
+.title-right ul li {
+    display: inline;
+    padding: 8px;
+}
+.title-right ul li:first-child >a {
+    color: #74788d !important;
+}
+.title-right a {
+    color: #495057;
+}
+
+.content {
+    background: #FFFFFF;
+}
+
+//Form-table-info
+
+.info-user
+{
+    width: 100%;
+    border: 1px solid #DFE0EB;
+    border-radius: 8px;
+    background: #FFFFFF;
+    margin-top: 38px;
+}
+
+div .user-infor
+{
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    color: #000000;
+    height: 48px;
+}
+.user-infor h4
+{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 16px 0 16px 32px;
+}
+
+
+// Table
+.user-table table {
+    width: 100%;
+}
+
+.table th {
+    padding-left: 10px;
+}
+
+img.edit
+{
+    width: 18px;
+    height: 18px;   
+}
+
+.info-number{
+    text-align: right;
+}
+.info-text
+{
+    text-align: left;
+}
+.icon-item
+{
+    text-align: center;
+}

@@ -1,0 +1,96 @@
+<div class="containers" id = "containers">
+    <div class="row">
+
+            <div class = 'side-bar'>
+
+                <div class="title-right">
+                    <ul>
+                        <li><a href="">SSO</a></li>
+                        <li><a href="">/  Domain</a></li>
+                    </ul>
+
+
+                </div>
+
+            </div>
+
+            <!-- Author -->
+            <div class="content">
+
+                <!-- seach    -->
+                <div class="search">
+                    <div class="search-container">
+                        <div class="searchName">
+                            <div class = 'search-info row' >
+                                <label class = "col-md-2">Domain</label>
+                                <div class="col-md-10">
+                                    <input  type="text" class="form-control">
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="button">
+                            <div class="btn-search">
+                                <button class=" btn btn-primary btn-lg" type="button">Tìm kiếm</button>
+                                <button class=" btn btn-success btn-lg" type="button">Tạo mới</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- info user -->
+
+                <div class="info-user">
+                    <!-- <div class="user-head">
+                        <button type="button" (click)="openModal()">
+                            <img  class = "note" src="./assets/images/sso/btn-add.png" alt="">
+                        </button>
+                    </div> -->
+
+                    <div class="user-table table-responsive">
+                        <table id="data-table" class = "table table-striped mb-0" datatable [dtOptions]="dtOptions">
+                            <thead>
+                                <th class="info-number">STT</th>
+                                <th class="info-text">Domain</th>
+                                <th class="info-text">Private key</th>
+                                <th class="info-text">Description</th>
+                                <th class="info-date">Created date</th>
+                                <th class="info-text">Status</th>
+                                <th class="icon-item">Action</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let dataUser of geojson.data">
+                                    <td class="info-number">{{dataUser.no}}</td>
+                                    <td class="info-text">{{dataUser.domain}}</td>
+                                    <td class="info-number">{{dataUser.key}}</td>
+                                    <td class="info-text">{{dataUser.description}}</td>
+                                    
+                                    <td class="info-date">{{dataUser['created-date']}}</td>
+                                    <td class="info-text">{{dataUser.status}}</td>
+                                    <td class="icon-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+                                        <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+
+    </div>
+
+
+</div>
+
+<app-modal-add></app-modal-add>
+
