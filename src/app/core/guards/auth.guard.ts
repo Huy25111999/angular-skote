@@ -15,20 +15,12 @@ export class AuthGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (environment.defaultauth === 'firebase') {
-            const currentUser = this.authenticationService.currentUser();
-            if (currentUser) {
-                // logged in so return true
-                return true;
-            }
-        } else {
-            const currentUser = this.authFackservice.currentUserValue;
-            if (currentUser) {
-                return true;
-            }
-        }
-        // not logged in so redirect to login page with the return url
-        void this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
-        return false;
+        //     const currentUser = this.authFackservice.currentUserValue;
+        //     if (currentUser) {
+        //         return true;
+        //     }
+        // // not logged in so redirect to login page with the return url
+        // void this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
+        return true;
     }
 }

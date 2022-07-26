@@ -20,70 +20,145 @@
                 <!-- seach    -->
                 <div class="search">
                     <div class="search-container">
-                        <div class="searchName">
-                            <div class = 'search-info' *ngFor="let label of listDataSearch">
-                                <p>{{label}}</p>
-                                <input type="text" class="form-control">
-                            </div>
+                        <div class="search-header">
+                            <h4>Tìm kiếm người dùng</h4>
                         </div>
+
+                        <div class="searchName row">
+
+                            <div class = 'search-info col-md-4' > 
+                                <form class="form" action="" [formGroup]="formData" >
+
+                                    <p>Tên người dùng</p>
+                                    <input type="text" class="form-control" formControlName = "username" [(ngModel)]="searchText">
+                                </form>
+                            </div>
+
+                            <div class = 'search-info col-md-4' >  
+                                <form class="form" action="" [formGroup]="formData" >
+                          
+                                    <p>Số điện thoại</p>
+                                    <input type="text" class="form-control" formControlName = "phone">
+                                </form>
+                            </div>
+
+                            <div class = 'search-info col-md-4' > 
+                                <form class="form" action="" [formGroup]="formData" >
+                           
+                                    <p>Email</p>
+                                    <input type="text" class="form-control" formControlName = "email">
+                                </form>
+
+                            </div>
+                           
+                        </div>
+
 
                         <div class="button">
                             <div class="btn-search">
-                                <button class=" btn btn-primary btn-lg" type="button">Tìm kiếm</button>
-                                <button class=" btn btn-success btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="titleModalAdd()">Tạo mới</button>
+                                <button class=" btn btn-primary btn-sm" type="button" >
+                                    <span class="bx bx-search-alt-2"></span>
+                                    <span>Tìm kiếm</span> 
+                                </button>
+                                <button class=" btn btn-success btn-sm" type="button" (click)="openModalAdd(listUsers)">
+                                    <span class="bx bx-plus-medical"></span>
+                                    <span>Thêm mới</span>
+                                </button>
+                                <!-- <button class=" btn btn-success" type="button" routerLink="../detail" routerLinkActive="active">
+                                    <span class="bx bx-plus-medical"></span>
+                                    <span>View</span>
+                                </button> -->
                             </div>
-
                         </div>
+                        <!-- <app-modal-add *></app-modal-add> -->
 
                     </div>
 
                 </div>
 
                 <!-- info user -->
-
                 <div class="info-user">
-                    <!-- <div class="user-head">
-                        <button type="button" (click)="openModal()">
-                            <img  class = "note" src="./assets/images/sso/btn-add.png" alt="">
-                        </button>
-                    </div> -->
+                    <div class="user-container">
 
-                    <div class="user-table table-responsive">
-                        <table id="data-table" class = "table table-striped mb-0">
-                            <thead>
-                                <th class="info-number">STT</th>
-                                <th class="info-text">Username</th>
-                                <th class="info-number">Phone</th>
-                                <th class="info-text">Email</th>
-                                <th class="info-text">Position</th>
-                                <th class="icon-item">Action</th>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let dataUser of geojson.data">
-                                    <td class="info-number">{{dataUser.no}}</td>
-                                    <td class="info-text">{{dataUser.username}}</td>
-                                    <td class="info-number">{{dataUser.phone}}</td>
-                                    <td class="info-text">{{dataUser.mail}}</td>
-                                    <td class="info-text">{{dataUser.position}}</td>
-                                    <td class="icon-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="titleModalEdit()">
-                                        <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="search-header">
+                            <h4>Thông tin người dùng</h4>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table id="data-table" class = "table table-striped mb-0">
+                                <thead>
+                                    <th class="info-number-icon">STT</th>
+                                    <th class="info-text">Tên người dùng</th>
+                                    <th class="info-text">Số điện thoại</th>
+                                    <th class="info-text">Email</th>
+                                    <th class="info-text">Chức vụ</th>
+                                    <th class="info-number-icon">Hành động</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dataUser of listUsers | paginate: {
+                                        itemsPerPage: tableSize,
+                                        currentPage: page,
+                                        totalItems: count
+                                        };"> 
+
+                                        <td class="info-number-icon">{{listUsers.indexOf(dataUser)+1}}</td>
+                                        <td class="info-text">{{dataUser.username}}</td>
+                                        <td class="info-number">{{dataUser.phone}}</td>
+                                        <td class="info-text">{{dataUser.email}}</td>
+                                        <td class="info-text">{{dataUser.position}}</td>
+                                        
+                                        <td class="info-number-icon" >
+                                            <i>
+                                                <img  class = "edit" (click)="openModalEdit(dataUser)" src="./assets/images/sso/edit.png" alt="">
+
+                                            </i>
+                                            <i *ngIf="dataUser.active == 1" class="bx bx-lock-alt " (click)="lockOneUser(dataUser.id)"></i>
+                                            <i *ngIf="dataUser.active == 0" class="bx bx-lock-open-alt" (click)="unlockOneUser(dataUser.id)"></i>
+
+                                            <i class="bx bx bx-show-alt" routerLink='../detail/{{dataUser.id}}' routerLinkActive="active" (click)="getOneUser(dataUser.id)"></i>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="page">
+                                <div class="page-right">
+                                     <pagination-controls (pageChange)="onTableDataChange($event)"
+                                     ></pagination-controls>
+                                </div>
+                                <!-- (pageChange)="page = $event"  -->
+                            </div>
+                            
+                        </div>
                     </div>
+                    
 
                 </div>
-
-
-
+        
             </div>
-
-
-
     </div>
-
-
 </div>
 
-<app-modal-add></app-modal-add>
+
+
+<!-- id: string;
+    maxSize: number;
+    get directionLinks(): boolean;
+    set directionLinks(value: boolean);
+    get autoHide(): boolean;
+    set autoHide(value: boolean);
+    get responsive(): boolean;
+    set responsive(value: boolean);
+    previousLabel: string;
+    nextLabel: string;
+    screenReaderPaginationLabel: string;
+    screenReaderPageLabel: string;
+    screenReaderCurrentLabel: string;
+    pageChange: EventEmitter<number>;
+    pageBoundsCorrection: EventEmitter<number>;
+    private _directionLinks;
+    private _autoHide;
+    private _responsive;
+    trackByIndex(index: number): number;
+    static ɵfac: i0.ɵɵFactoryDeclaration<PaginationControlsComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<PaginationControlsComponent, "pagination-controls", never, { "id": "id"; "maxSize": "maxSize"; "directionLinks": "directionLinks"; "autoHide": "autoHide"; "responsive": "responsive"; "previousLabel": "previousLabel"; "nextLabel": "nextLabel"; "screenReaderPaginationLabel": "screenReaderPaginationLabel"; "screenReaderPageLabel": "screenReaderPageLabel"; "screenReaderCurrentLabel": "screenReaderCurrentLabel"; }, { "pageChange": "pageChange"; "pageBoundsCorrection": "pageBoundsCorrection"; }, never, never>; -->

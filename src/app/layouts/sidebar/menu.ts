@@ -828,25 +828,28 @@ export const MENU: MenuItem[] = [
   {
     id: 130,
     label: 'SSO',
-    icon: 'bbx-task',
+    icon: 'bx-task',
     // link: '/SSO/management',
     subItems: [
       {
         id: 131,
         label: 'User management',
+        
+        icon: 'bx-home-circle',
         link: '/SSO/management',
         parentId: 130
       },
       {
         id: 132,
-        label: 'Detail',
-        link: '/SSO/detail',
+        label: 'Login',
+        icon: 'bxs-bar-chart-alt-2',
+        link: '/SSO/login',
         parentId: 130
-      }
-      ,
+      },
       {
         id: 133,
         label: 'Domain',
+        icon: 'bxs-bar-chart-alt-2',
         link: '/SSO/domain',
         parentId: 130
       }

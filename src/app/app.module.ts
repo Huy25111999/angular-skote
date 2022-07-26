@@ -25,12 +25,13 @@ import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import {ConfigIP, ConfigIpService} from "./config-ip.service";
-// import { ManagementComponent } from './SSO/management/management.component';
+
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+// import { HomeComponent } from './home/home.component';
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
 } else {
-  // tslint:disable-next-line: no-unused-expression
   FakeBackendInterceptor;
 }
 const appInitializerFn = (appConfig: ConfigIpService) => {
@@ -45,10 +46,13 @@ export function createTranslateLoader(http: HttpClient): any {
 @NgModule({
   declarations: [
     AppComponent,
-    CyptolandingComponent,
+    CyptolandingComponent
+    // HomeComponent,
     // ManagementComponent,
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -74,7 +78,6 @@ export function createTranslateLoader(http: HttpClient): any {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
     {
       provide: ConfigIP,
       useExisting: ConfigIpService,

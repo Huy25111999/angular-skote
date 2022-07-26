@@ -1,11 +1,11 @@
 export interface infor {
-    address : string,
     id : number,
+    address : string,
     username : string,
     password : string,
     position: string,
-    active: number,
-    email:string,
     phone:string,
-    gender : number
+    email:string,
+    gender : number,
+    active: number
 }

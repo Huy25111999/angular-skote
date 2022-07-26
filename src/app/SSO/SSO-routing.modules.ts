@@ -4,32 +4,35 @@ import { ManagementComponent } from './management/management.component';
 import { ModalAddComponent } from './modal-add/modal-add.component';
 import {ModalEditComponent} from './modal-edit/modal-edit.component';
 import { DetailComponent } from './detail/detail.component';
-import { DomainComponent } from './domain/domain.component';
+import { DomainComponent } from './managementDomain/domain/domain.component';
+import { domain } from 'src/app/model/domain';
+import { HomeComponent } from './home/home.component';
 
-
-
-
+    var id:any ;
 const routes: Routes = [
     {
         path: 'management',
         component: ManagementComponent
     },
     {
-        path: 'detail',
-        component: DetailComponent
+        path: 'detail/:id',
+        component: DetailComponent,
+
     },
     {
         path: 'domain',
         component: DomainComponent
     },
     {
-        path: 'modadAdd',
-        component: ModalAddComponent
+        path: 'login',
+        component: HomeComponent,
+
     },
     {
-      path: 'modadEdit',
-      component: ModalEditComponent
+        path:'',
+        component:ManagementComponent
     }
+
 ];
 
 @NgModule({
@@ -37,3 +40,5 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 export class SSORoutingModule { }
+
+

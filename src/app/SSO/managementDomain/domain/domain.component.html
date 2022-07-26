@@ -1,0 +1,119 @@
+<div class="containers" id = "containers">
+    <div class="row">
+
+            <div class = 'side-bar'>
+
+                <div class="title-right">
+                    <ul>
+                        <li><a href="">SSO</a></li>
+                        <li><a href="">/  Domain</a></li>
+                    </ul>
+
+
+                </div>
+
+            </div>
+
+            <!-- Author -->
+            <div class="content">
+
+                <!-- seach    -->
+                <div class="search">
+                    <div class="search-container">
+                        <div class="search-header">
+                            <h4>Tìm kiếm Domain</h4>
+                        </div>
+
+                        <div class="searchName">
+                            <div class = 'search-info row' >
+                                <label class = "col-md-2">Domain</label>
+                                <div class="col-md-10">
+                                    <input  type="text" class="form-control">
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="button">
+                            <div class="btn-search">
+                                <button class=" btn btn-primary btn-sm" type="button" >
+                                    <span class="bx bx-search-alt-2"></span>
+                                    <span>Tìm kiếm</span> 
+                                </button>
+                                <button class=" btn btn-success btn-sm" type="button" (click)="openModalAdd(listDomain)">
+                                    <span class="bx bx-plus-medical"></span>
+                                    <span>Thêm mới</span>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- info user -->
+
+                <div class="info-user">
+                    <div class="user-container">
+                        <div class="search-header">
+                            <h4>Thông tin Domain</h4>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="data-table" class = "table table-striped mb-0">
+                                <thead>
+                                    <th class="info-number-icon">STT</th>
+                                    <th class="info-text">Domain</th>
+                                    <th class="info-text">Private key</th>
+                                    <th class="info-text">Description</th>
+                                    <th class="info-date">Created date</th>
+                                    <th class="info-text">Status</th>
+                                    <th class="info-number-icon">Action</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dataDomain of listDomain | paginate: {
+                                        itemsPerPage: 5,
+                                        currentPage: p,
+                                        totalItems: count
+                                        };">
+                                        <td class="info-number-icon">{{listDomain.indexOf(dataDomain)+1}}</td>
+                                        <td class="info-text">{{dataDomain.domainName}}</td>
+                                        <td class="info-text">{{dataDomain.privateKey}}</td>
+                                        <td class="info-text">{{dataDomain.description}}</td>
+                                        <td class="info-date">{{dataDomain.createDates}}</td>
+                                        <td class="info-text">{{dataDomain.status}}</td>
+                                        <td class="info-number-icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  >
+                                            <i (click)="openModalEdit(dataDomain)">
+                                                <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                                            </i>
+
+                                            <i  *ngIf="dataDomain.status == 1" class="bx bx-lock-alt" (click)="lockOneDomain(dataDomain.id)"></i>                                                                                        
+                                            <i *ngIf="dataDomain.status == 0" class="bx bx-lock-open-alt" (click)="unlockOneDomain(dataDomain.id)"></i>                                                                                        
+                                  
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="page">
+                                <div class="page-right">
+                                     <pagination-controls (pageChange)="p = $event"
+                                     ></pagination-controls>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+    </div>
+
+
+</div>
+
+

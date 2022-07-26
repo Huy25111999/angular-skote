@@ -6,83 +6,81 @@
             <div class="title-right">
                 <ul>
                     <li><a href="">SSO</a></li>
-                    <li><a href="">/  User</a></li>
+                    <li><a href="" routerLink="../../management" routerLinkActive="active">/  User</a></li>
                     <li><a href="">/  Detail</a></li>
                 </ul>
             </div>
         </div>
 
-        <!-- Author -->
+
         <div class="content">
-            <!-- info user -->
+            <!-- infor user -->
             <div class="info-user">
 
-                <div class="user-infor">
-                    <h4>User information</h4>
+                <div class="user-container">
+                    <div class="user-header">
+                        <h4>Thông tin người dùng</h4>
+                    </div>
+    
+                    <div class="table-responsive">
+                        <table id="data-table" class = "table table-striped mb-0">
+                            <thead>
+                                <th class="info-number-icon">STT</th>
+                                <th class="info-text">Tên người dùng</th>
+                                <th class="info-number">Số điện thoại</th>   
+                                <th class="info-text">Địa chỉ</th>
+                                <th class="info-text">Giới tính</th>
+                                <th class="info-text">Email</th>
+                                <th class="info-text">Chức vụ</th>
+                                <th class="info-number-icon">Hành động</th>
+                            </thead>
+    
+                            <tbody>
+                                <tr >
+                                    <td class="info-number-icon">{{data.id}}</td>
+                                    <td class="info-text">{{data.username}}</td>
+                                    <td class="info-number">{{data.phone}}</td>
+                                    <td class="info-text">{{data.address}}</td>
+                                    <td class="info-text">{{data.gender}}</td>
+                                    <td class="info-text">{{data.email}}</td>
+                                    <td class="info-text">{{data.position}}</td>
+                                    <td class="info-number-icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+                                        <img (click)="openModalEdit(data)" class = "edit" src="./assets/images/sso/edit.png" alt="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <div class="user-table table-responsive">
-                    <table id="data-table" class = "table table-striped mb-0">
-                        <thead>
-                            <th class="info-number">STT</th>
-                            <th class="info-text">Username</th>
-                            <th class="info-number">Phone</th>   
-                            <th class="info-text">Address</th>
-                            <th class="info-text">Gender</th>
-                            <th class="info-text">Email</th>
-                            <th class="info-text">Position</th>
-                            <th class="icon-item">Action</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let dataUser of geojson.data">
-                                <td class="info-number">{{dataUser.no}}</td>
-                                <td class="info-text">{{dataUser.username}}</td>
-                                <td class="info-number">{{dataUser.phone}}</td>
-                                <td class="info-text">{{dataUser.address}}</td>
-                                <td class="info-text">{{dataUser.gender}}</td>
-                                <td class="info-text">{{dataUser.mail}}</td>
-                                <td class="info-text">{{dataUser.position}}</td>
-                                <td class="icon-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
-                                    <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
+         
             </div>
-
+            <!-- infor domain -->
             <div class="info-user">
-                <div class="user-infor">
-                    <h4>Domains joined</h4>
+                <div class="user-container">
+                    <div class="user-header">
+                        <h4>Danh sách domain tham gia</h4>
+                    </div>
+                    
+                    
+                    <div class="table-responsive">
+                        <table id="data-table" class = "table table-striped mb-0">
+                            <thead>
+                                <th class="info-number-icon">STT</th>
+                                <th class="info-text">Tên domain</th>
+                                <th class="info-number">Key</th>   
+                                <th class="info-text">Miêu tả</th>
+                                <th class="info-text">Ngày tạo</th>
+                                <th class="info-text">Trạng thái</th>
+                                <th class="info-number-icon">Hành động</th>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                   
                 </div>
 
-                <div class="user-table table-responsive">
-                    <table id="data-table" class = "table table-striped mb-0">
-                        <thead>
-                            <th class="info-number">STT</th>
-                            <th class="info-text">Domain</th>
-                            <th class="info-number">Private key</th>   
-                            <th class="info-text">Description</th>
-                            <th class="info-text">Created date</th>
-                            <th class="info-text">Status</th>
-                            <th class="icon-item">Action</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let dataUser of geojson.data">
-                                <td class="info-number">{{dataUser.no}}</td>
-                                <td class="info-text">{{dataUser.username}}</td>
-                                <td class="info-number">{{dataUser.phone}}</td>
-                                <td class="info-text">{{dataUser.address}}</td>
-                                <td class="info-text">{{dataUser.gender}}</td>
-                                <td class="info-text">{{dataUser.mail}}</td>
-                                <td class="icon-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
-                                    <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
 
         </div>

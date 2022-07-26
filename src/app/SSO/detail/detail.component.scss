@@ -21,7 +21,8 @@
     background: #FFFFFF;
 }
 
-//Form-table-info
+//----Form-table-info
+
 
 .info-user
 {
@@ -29,37 +30,35 @@
     border: 1px solid #DFE0EB;
     border-radius: 8px;
     background: #FFFFFF;
-    margin-top: 38px;
+    margin-bottom: 18px;
 }
 
-div .user-infor
-{
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 22px;
-    color: #000000;
-    height: 48px;
-}
-.user-infor h4
-{
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 16px 0 16px 32px;
+ .user-container {
+    margin: 0 16px;
 }
 
+.user-header h4 {
+    font-size: 20px;
+    margin: 16px 0;
+    color: #f0058a;
+}
 
 // Table
-.user-table table {
-    width: 100%;
+.table-responsive {
+    margin: 18px 0;
 }
 
 .table th {
     padding-left: 10px;
 }
+
+table, th, tr, td {
+    border: 1px solid #CECECE;
+}
+tbody {
+    border: 0 !important;
+}
+
 
 img.edit
 {
@@ -67,14 +66,7 @@ img.edit
     height: 18px;   
 }
 
-.info-number{
-    text-align: right;
-}
-.info-text
-{
-    text-align: left;
-}
-.icon-item
+ .info-number-icon
 {
     text-align: center;
 }
