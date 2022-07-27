@@ -27,6 +27,7 @@ import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import {ConfigIP, ConfigIpService} from "./config-ip.service";
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {HomeComponent} from "./home/home.component";
 // import { HomeComponent } from './home/home.component';
 
 if (environment.defaultauth === 'firebase') {
@@ -46,7 +47,8 @@ export function createTranslateLoader(http: HttpClient): any {
 @NgModule({
   declarations: [
     AppComponent,
-    CyptolandingComponent
+    CyptolandingComponent,
+    HomeComponent
     // HomeComponent,
     // ManagementComponent,
   ],

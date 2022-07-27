@@ -1,5 +1,5 @@
 export interface author {
-    username : string,
-    password : string,
-    domainCode  : string
+  username?: string,
+  password?: string,
+  domainCode?: string
 }

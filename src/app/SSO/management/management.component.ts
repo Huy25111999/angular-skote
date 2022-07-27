@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { FilterModule } from 'ng2-smart-table/lib/components/filter/filter.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { PaginationComponent } from '../pagination/pagination.component';
+import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-management',
@@ -46,7 +46,7 @@ export class ManagementComponent implements OnInit
   public user =[];
   closeResult: string;
   searchText: any;
-    
+
   constructor(
     private postService: PostService,
     private modalService : NgbModal,
@@ -54,7 +54,7 @@ export class ManagementComponent implements OnInit
     ) {}
 
   ngOnInit(): void {
-    // this.getListUsers(); 
+    // this.getListUsers();
     this.onSearch();
   }
 
@@ -72,19 +72,19 @@ export class ManagementComponent implements OnInit
     })
   }
 
-  
+
   openModalEdit(data)
   {
     const modalRef = this.modalService.open(ModalEditComponent, {size : 'lg'})
     modalRef.componentInstance.dtUser = data;
     modalRef.result.then((data) => {
-      
-      
+
+
     }, (reason) => {
       data = reason;
       this.getListUsers()
     })
-    
+
   }
 
 
@@ -94,7 +94,7 @@ export class ManagementComponent implements OnInit
     email: new FormControl('')
   })
 
-  
+
   // Get all user
   getListUsers()
   {
@@ -104,10 +104,10 @@ export class ManagementComponent implements OnInit
       console.log('list: ',this.listUsers);
       // this.collectionSize = this.listUsers.length ;
       // console.log('collect:',  this.collectionSize);
-      
+
     }, error => {
       console.log(error);
-      
+
     })
   }
 
@@ -140,7 +140,7 @@ export class ManagementComponent implements OnInit
         return res.phone.toLocaleLowerCase().match(this.phone.toLocaleLowerCase());
       })
     }
-  }  
+  }
 
   searchEmail()
   {
@@ -154,7 +154,7 @@ export class ManagementComponent implements OnInit
         return res.email.toLocaleLowerCase().match(this.email.toLocaleLowerCase());
       })
     }
-  }    
+  }
 
 
 //Pageination
@@ -163,7 +163,7 @@ onSearch(isActionPage: boolean) {
   let dto;
   if (!isActionPage) {
     this.sortList = {
-     
+
     }
     this.sortPriorityList = [];
     this.page = 1;
@@ -201,7 +201,7 @@ onSearch(isActionPage: boolean) {
   })
 }
 */
-  
+
   onSearch()
   {
     this.postService.search( this.searchName, this.searchPhone, this.searchEmail, this.pageNum).subscribe(data => {
@@ -210,7 +210,7 @@ onSearch(isActionPage: boolean) {
     }, error => {
       console.log(error);
     })
-    
+
   }
 
   //Pagination
@@ -251,7 +251,7 @@ onSearch(isActionPage: boolean) {
     })
     console.log('user: ',id);
     console.log('----------',this.listUsers);
-    
+
   }
 
 
@@ -271,7 +271,7 @@ onSearch(isActionPage: boolean) {
       console.log('----------',this.listUsers);
     }, err => {
       console.log(err);
-      
+
     })
   }
 
@@ -301,7 +301,7 @@ onSearch(isActionPage: boolean) {
             'Bạn vừa mở khóa thành công.',
             'success'
           );
-          
+
           this.unlockUser(id);
 
         } else if (

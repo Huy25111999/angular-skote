@@ -10,18 +10,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from '../app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AddDomainComponent } from './managementDomain/add-domain/add-domain.component';
 import { EditDomainComponent } from './managementDomain/edit-domain/edit-domain.component';
 import { SearchfilterPipe } from './searchfilter.pipe';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { HomeComponent } from './home/home.component';
 import { Ng2CompleterModule } from 'ng2-completer';
-import { PaginationComponent } from './pagination/pagination.component';
+import {SharedModule} from "../shared/shared.module";
 
-// import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -33,13 +29,10 @@ import { PaginationComponent } from './pagination/pagination.component';
     AddDomainComponent,
     EditDomainComponent,
     SearchfilterPipe,
-    HomeComponent,
-    PaginationComponent
   ],
   imports: [
     CommonModule,
     SSORoutingModule,
-    NgxPaginationModule,
     Ng2SearchPipeModule,
     Ng2CompleterModule,
     Ng2SmartTableModule,
@@ -47,8 +40,9 @@ import { PaginationComponent } from './pagination/pagination.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-     NgbModule
-    // BrowserModule 
+    NgbModule,
+    SharedModule,
+    // BrowserModule
   ],
   bootstrap: [AppComponent]
 })

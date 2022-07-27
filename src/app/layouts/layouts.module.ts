@@ -19,8 +19,8 @@ import { LanguageService } from '../core/services/language.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  // tslint:disable-next-line: max-line-length
-  declarations: [LayoutComponent, SidebarComponent, TopbarComponent, FooterComponent, RightsidebarComponent, HorizontalComponent, VerticalComponent, HorizontaltopbarComponent],
+    // tslint:disable-next-line: max-line-length
+    declarations: [LayoutComponent, SidebarComponent, TopbarComponent, FooterComponent, RightsidebarComponent, HorizontalComponent, VerticalComponent, HorizontaltopbarComponent],
     imports: [
         CommonModule,
         TranslateModule,
@@ -31,6 +31,9 @@ import { TranslateModule } from '@ngx-translate/core';
         SimplebarAngularModule,
         NgbTooltipModule
     ],
-  providers: [LanguageService]
+    exports: [
+        FooterComponent
+    ],
+    providers: [LanguageService]
 })
 export class LayoutsModule { }
