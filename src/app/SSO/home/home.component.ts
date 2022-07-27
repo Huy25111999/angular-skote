@@ -88,14 +88,14 @@ export class HomeComponent implements OnInit {
         console.log('Infor login :------ ',this.formData.value);
         console.log('........',data);
 
-        // if(!this.tickit)
-        // {
-        //   this.warnTickit()
-        // }
-        // else{
-        //   this.success();
-        //   this.rout();
-        // }
+        if(!this.tickit)
+        {
+          this.warnTickit()
+        }
+        else{
+          this.success();
+          this.rout();
+        }
   
      },error =>{
       console.log(error);

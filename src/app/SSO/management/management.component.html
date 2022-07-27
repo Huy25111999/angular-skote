@@ -25,38 +25,39 @@
                         </div>
 
                         <div class="searchName row">
+                            <form class="form row" action="" [formGroup]="formData" >
 
-                            <div class = 'search-info col-md-4' > 
-                                <form class="form" action="" [formGroup]="formData" >
+                                <div class = 'search-info col-md-4' > 
+                                
 
-                                    <p>Tên người dùng</p>
-                                    <input type="text" class="form-control" formControlName = "username" [(ngModel)]="searchText">
-                                </form>
-                            </div>
+                                        <p>Tên người dùng</p>
+                                        <input type="text" class="form-control" formControlName = "username" [(ngModel)]="searchName" >
+                                
+                                </div>
 
-                            <div class = 'search-info col-md-4' >  
-                                <form class="form" action="" [formGroup]="formData" >
-                          
-                                    <p>Số điện thoại</p>
-                                    <input type="text" class="form-control" formControlName = "phone">
-                                </form>
-                            </div>
+                                <div class = 'search-info col-md-4' >  
+                                
+                            
+                                        <p>Số điện thoại</p>
+                                        <input type="text" class="form-control" formControlName = "phone" [(ngModel)]="searchPhone" >
+                                
+                                </div>
 
-                            <div class = 'search-info col-md-4' > 
-                                <form class="form" action="" [formGroup]="formData" >
-                           
-                                    <p>Email</p>
-                                    <input type="text" class="form-control" formControlName = "email">
-                                </form>
+                                <div class = 'search-info col-md-4' > 
+                                
+                            
+                                        <p>Email</p>
+                                        <input type="text" class="form-control" formControlName = "email" [(ngModel)]="searchEmail" >
+                            
 
-                            </div>
-                           
+                                </div>
+                           </form>
                         </div>
 
 
                         <div class="button">
                             <div class="btn-search">
-                                <button class=" btn btn-primary btn-sm" type="button" >
+                                <button class=" btn btn-primary btn-sm" type="button" (click)=" onSearch()" >
                                     <span class="bx bx-search-alt-2"></span>
                                     <span>Tìm kiếm</span> 
                                 </button>
@@ -95,13 +96,17 @@
                                     <th class="info-number-icon">Hành động</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let dataUser of listUsers | paginate: {
+
+                                    
+                                    <!-- <tr *ngFor="let dataUser of listUsers | paginate: {
                                         itemsPerPage: tableSize,
                                         currentPage: page,
                                         totalItems: count
-                                        };"> 
-
-                                        <td class="info-number-icon">{{listUsers.indexOf(dataUser)+1}}</td>
+                                        };">  -->
+                                    <tr *ngFor="let dataUser of listUsers ; let i = index">
+<!-- 
+                                        <td class="info-number-icon">{{listUsers.indexOf(dataUser)+1}}</td> -->
+                                        <td class="info-number-icon">{{(page-1)*pageSize + (i+1)}}</td>
                                         <td class="info-text">{{dataUser.username}}</td>
                                         <td class="info-number">{{dataUser.phone}}</td>
                                         <td class="info-text">{{dataUser.email}}</td>
@@ -119,16 +124,24 @@
 
                                         </td>
                                     </tr>
+                                    
+
                                 </tbody>
                             </table>
-                            <div class="page">
-                                <div class="page-right">
-                                     <pagination-controls (pageChange)="onTableDataChange($event)"
-                                     ></pagination-controls>
-                                </div>
-                                <!-- (pageChange)="page = $event"  -->
-                            </div>
+
+                            <!--Pagination-->
+                              
+                            <app-pagination *ngIf="listUsers.length"
+                                            [page]="page"
+                                            [pageSize]="pageSize"
+                                            [collectionSize]="listUsers.length"
+                                            (pageChange)="onPageChange($event)"
+                                            (pageSizeChange)="pageChangeEvent($event)"
+                            >
+
+                            </app-pagination>
                             
+                      
                         </div>
                     </div>
                     
@@ -138,27 +151,3 @@
             </div>
     </div>
 </div>
-
-
-
-<!-- id: string;
-    maxSize: number;
-    get directionLinks(): boolean;
-    set directionLinks(value: boolean);
-    get autoHide(): boolean;
-    set autoHide(value: boolean);
-    get responsive(): boolean;
-    set responsive(value: boolean);
-    previousLabel: string;
-    nextLabel: string;
-    screenReaderPaginationLabel: string;
-    screenReaderPageLabel: string;
-    screenReaderCurrentLabel: string;
-    pageChange: EventEmitter<number>;
-    pageBoundsCorrection: EventEmitter<number>;
-    private _directionLinks;
-    private _autoHide;
-    private _responsive;
-    trackByIndex(index: number): number;
-    static ɵfac: i0.ɵɵFactoryDeclaration<PaginationControlsComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<PaginationControlsComponent, "pagination-controls", never, { "id": "id"; "maxSize": "maxSize"; "directionLinks": "directionLinks"; "autoHide": "autoHide"; "responsive": "responsive"; "previousLabel": "previousLabel"; "nextLabel": "nextLabel"; "screenReaderPaginationLabel": "screenReaderPaginationLabel"; "screenReaderPageLabel": "screenReaderPageLabel"; "screenReaderCurrentLabel": "screenReaderCurrentLabel"; }, { "pageChange": "pageChange"; "pageBoundsCorrection": "pageBoundsCorrection"; }, never, never>; -->

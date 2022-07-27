@@ -9,7 +9,8 @@
         </div>
 
         <div class="modal-body">
-            <form class="form" [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            <div class="input-form">
+                <form class="form" [formGroup]="editForm" (ngSubmit)="onSubmit()">
                
                 <div class="row mb-4" >
                     <label class="col-sm-3" >Tên đăng nhập</label>
@@ -89,19 +90,11 @@
                         <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')"><i class="mdi mdi-close"></i></button>
                         <button type="submit" class="btn btn-primary w-md" [disabled]="!editForm.valid"><i class="fas fa-check"></i></button>
                     </div>
-                </div>
+                </div>  
 
-                <!-- <div class="modal-footer">
-                     <div class="btn-footer">
-                        <button type="button" class="btn btn-secondary w-md" data-bs-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary w-md" [disabled]="!editForm.valid">Lưu</button>
-               
-                    </div> 
-
-                </div> -->
-
-               
-            </form>
+                </form>
+            </div> 
+      
         </div>
 
        

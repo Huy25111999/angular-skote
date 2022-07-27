@@ -14,8 +14,8 @@ export class PostService {
   user!: infor[];
   main!: domain[];
   auth!:author[];
-  // private API:string = "http://192.168.0.101:8224/api" ;
-   private API:string = "http://192.168.3.41:8224/api" ;
+   private API:string = "http://192.168.0.101:8224/api" ;
+   //private API:string = "http://192.168.3.41:8224/api" ;
   constructor(private http: HttpClient) {}
 
   // User
@@ -48,6 +48,11 @@ export class PostService {
   unlockUser(id:number):Observable<any>
   {
     return this.http.put<any>(this.API +'/users/unlock-user/' + id, null );
+  }
+
+  search(username:any,phone:any,email:any,pageNumber:number):Observable<any>
+  {
+    return  this.http.get<any>(this.API + '/users/'+'?username='+username+'&phone='+phone+'&email='+email+'&pageNumber='+pageNumber);
   }
 
 // Domain
