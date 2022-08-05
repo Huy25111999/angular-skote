@@ -36,12 +36,12 @@
                                             <img *ngIf="gender == 1;" class="col-5" src="assets/images/users/avatar-7.jpg" alt="">
 
                                         </div>
-                                        <h6>{{username}}</h6>
-                                        <h6>{{email}}</h6>
+                                        <h6><i class="bx bx-user"></i>{{username}}</h6>
+                                        <h6><i class="bx bx-mail-send"></i>{{email}}</h6>
                                     </div>
                                     <div class="col-4">
-                                        <h6>{{address}}</h6>
-                                        <h6>{{phone}}</h6>
+                                        <h6><i class="bx bx-map"></i>{{address}}</h6>
+                                        <h6 ><i class="bx bx-phone-call"></i> {{phone}}</h6>
 
                                         <button type="submit" class="btn btn-success btn-sm" (click)="openModalEdit(dataUser)">                                        
                                             <i class="bx bx-pencil"></i>
@@ -71,9 +71,11 @@
                                             <span>Thêm mới</span>
                                         </button>
 
-                                        <button class=" btn btn-primary btn-sm" type="button" (click)="onUpdate()" >
-                                            <span class="bx bx-search-alt-2"></span>
-                                            <span>Cập nhật</span> 
+                                        <button class=" btn btn-primary btn-sm delete" type="button" (click)="deleteDomain()" >
+                                            <span class="">
+                                                <i class="bx bx-trash"></i>
+                                            </span>
+                                            <span>Xóa</span> 
                                         </button>
                                     </div>
                                 </div>

@@ -36,7 +36,7 @@ export class ManagementComponent implements OnInit
   email:string = '';
   totalElements:number;
 
-
+  token : any;
 
 //--------
   listUsers : infor[]= [];
@@ -59,8 +59,14 @@ export class ManagementComponent implements OnInit
   ngOnInit(): void {
     // this.getListUsers();
     this.onSearch(false);
+    this.getToken()
   }
 
+  getToken(){
+    this.token = localStorage.getItem('auth');
+    console.log("token: ",this.token);
+    
+  }
 
   //Open modal
    openModalAdd(data)
@@ -148,7 +154,7 @@ export class ManagementComponent implements OnInit
       this.totalElements = data.data.totalElements;
     }, error => {
 
-      // this.router.navigate(['/account/login']);
+      this.router.navigate(['/account/login']);
       console.log('Lỗi 403: Bạn ko có quyền truy cập vào');
       
     })

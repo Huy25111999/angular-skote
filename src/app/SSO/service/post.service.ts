@@ -15,7 +15,7 @@ export class PostService {
   main!: domain[];
   auth!:author[];
   private API:string = "http://192.168.0.101:8224/api" ;
-   //private API:string = "http://192.168.3.41:8224/api" ;
+  //private API:string = "http://192.168.3.41:8224/api" ;
   constructor(private http: HttpClient) {}
 
   // User

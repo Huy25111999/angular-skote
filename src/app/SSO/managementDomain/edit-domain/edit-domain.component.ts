@@ -27,14 +27,18 @@ export class EditDomainComponent implements OnInit {
   ) { }
 
   editForm:FormGroup = this.formBuilder.group({
-    domainName: null,
-    privateKey: null,
-    description: null,
-    status: null,
-    domainCode: null,
-    hook: null,
+    domainName: new FormControl('',[Validators.required,Validators.maxLength(100)]),
+    privateKey: new FormControl('',[Validators.required,Validators.maxLength(100)]),
+    description: new FormControl('',[Validators.required,Validators.maxLength(200)]),
+    status: new FormControl('',[Validators.required,Validators.maxLength(10)]),
+    domainCode: new FormControl('',[Validators.required]),
+    hook: new FormControl('',[Validators.required, Validators.maxLength(100)]),
     id:null,
   })
+
+  get f(){
+    return this.editForm.controls;
+  }
 
   ngOnInit(): void {
     console.log(this.dtDomain);

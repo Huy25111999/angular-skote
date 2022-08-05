@@ -825,8 +825,8 @@ export const MENU: MenuItem[] = [
       },
     ]
   },
-  */
   
+  */
   {
     id: 130,
     label: 'User management',
@@ -839,24 +839,5 @@ export const MENU: MenuItem[] = [
     icon: 'bx-list-ul',
     link: '/SSO/domain'
   }
-    // subItems: [
-    //   {
-    //     id: 131,
-    //     label: 'User management',
-        
-    //     icon: 'bx-home-circle',
-    //     link: '/SSO/management',
-    //     parentId: 130
-    //   },
-    //   {
-    //     id: 133,
-    //     label: 'Domain',
-    //     icon: 'bxs-bar-chart-alt-2',
-    //     link: '/SSO/domain',
-    //     parentId: 130
-    //   }
-    // ]
-
- // }
 ];
 

@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (token) {
       req = req.clone({
         setHeaders: {
-          Authorization: token,
+          Authorization: 'Bearer '+ token,
           'isSlide': 'true',
           'Accept-language': 'vi'
         }

@@ -8,7 +8,7 @@ import { domain } from '../../model/domain';
 import { EditDomainComponent } from '../managementDomain/edit-domain/edit-domain.component';
 import { ModalUserDomainComponent } from '../modal-user-domain/modal-user-domain.component';
 import { param } from 'jquery';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail',
@@ -126,6 +126,7 @@ export class DetailComponent implements OnInit {
       this.postService.deleteListUserDomainJoin(this.index,domainId).subscribe(data => {
         console.log('update',data);
         this.getListUserDomain(this.index);
+        
       }, error => {
         console.log(error);
         
@@ -133,4 +134,22 @@ export class DetailComponent implements OnInit {
       this.getListUserDomain(this.index);
   }  
 
+  
+  deleteDomain(){
+    Swal.fire({
+      title: 'Xóa liên kết domain',
+      text: 'Bạn có chắc chắn muốn khóa domain này không!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText:  'Đồng ý',
+      
+    }).then(result => {
+      if (result.value) {
+        Swal.fire('Khóa!','Bạn vừa khóa thành công.','success');
+        this.onUpdate();
+      }
+    });
+  }
 }

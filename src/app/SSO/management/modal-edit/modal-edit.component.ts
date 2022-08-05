@@ -30,18 +30,20 @@ export class ModalEditComponent implements OnInit {
   ) { }
 
   editForm: FormGroup = this.formBuilder.group({
-    username: null,
-    password: null,
-    email: null,
-    phone:null,
-    address: null,
-    gender:null,
-    position: null,
+    username:['',[Validators.required,Validators.maxLength(100)]],
+    password:['',[Validators.required,Validators.minLength(6)]],
+    email:['',[Validators.required, Validators.email]],
+    phone:['',[Validators.required, Validators.maxLength(10), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+    address:['',[Validators.required, Validators.maxLength(100)]],
+    gender:['',[Validators.required]],
+    position:['',[Validators.required, Validators.maxLength(10)]],
     active: null,
     id: null,
   })
 
-
+  get f(){
+    return this.editForm.controls;
+  }
 
   ngOnInit(): void {
     console.log(this.dtUser);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthenticationService } from '../../../core/services/auth.service';
@@ -12,7 +12,7 @@ import { PostService } from 'src/app/SSO/service/post.service';
 import {HttpClient} from "@angular/common/http";
 import { AuthService } from 'src/app/services/auth.service';
 //----------------
-
+import { TopbarComponent } from 'src/app/layouts/topbar/topbar.component';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +25,12 @@ import { AuthService } from 'src/app/services/auth.service';
  */
 export class LoginComponent implements OnInit {
 
+  @Input() childMessage = "test";
+  child:string="demo" ;
+  @Output() voteSize = new EventEmitter();
+  counter: number = 0;
+
+  parentMessage: string = "Message from parent";
   loginForm: FormGroup;
   submitted = false;
   error = '';
@@ -43,6 +49,9 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {
+    this.counter ++;
+    this.voteSize.emit(this.counter);
+    
     this.initForm();
     // this.loginForm = this.formBuilder.group({
     //   username: ['admin', [Validators.required]],
@@ -97,7 +106,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.authService.login(this.formData.value).subscribe(data => {  
-    console.log('---------:',data);
+    console.log('---------token:',data);
     this.router.navigate(['/management']);
     })
   }

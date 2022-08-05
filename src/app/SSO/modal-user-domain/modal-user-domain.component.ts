@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, filter, tap } from 'rxjs/operators'
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-user-domain',
@@ -19,6 +19,7 @@ export class ModalUserDomainComponent implements OnInit {
   userDomainJoin : domain[]= [];
   index:any;
   isChecked ;
+
   constructor(
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
@@ -58,12 +59,10 @@ export class ModalUserDomainComponent implements OnInit {
   onSubmit()
   {
       console.log(this.userDomainJoin);
-      
+      const count = 0;
       const domainId = this.userDomainJoin.filter( (e: any) => {  
-
         if (e.isChecked)
-          return e
-
+           return e
       }).map( e => e.id);
       console.log(domainId);
       // console.log(listSelected.map(e => e.id));
@@ -72,11 +71,21 @@ export class ModalUserDomainComponent implements OnInit {
         // this.getListUserDomainJoin(this.idUser);
         this.activeModal.dismiss( domainId);
         this.activeModal.close('Close click');    
-         
+        this.success();
       }, error => {
         console.log(error);
         
       })
+  }
+
+  success() {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Tạo mới thành công',
+      showConfirmButton: false,
+      timer: 1500
+    });
   }
 
 }

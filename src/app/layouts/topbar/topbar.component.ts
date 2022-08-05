@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter, Inject} from '@angular/core';
+import {Component,ViewChild , OnInit, Input, Output, EventEmitter, Inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {DOCUMENT} from '@angular/common';
 import {AuthenticationService} from '../../core/services/auth.service';
@@ -10,7 +10,9 @@ import {TranslateService} from '@ngx-translate/core';
 import {ShareDataService} from "../../services/share-data.service";
 import { ManagementComponent } from 'src/app/SSO/management/management.component';
 // import { DomainComponent } from 'src/app/SSO/managementDomain/domain/domain.component';
-
+import { LoginComponent } from 'src/app/account/auth/login/login.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -23,7 +25,9 @@ import { ManagementComponent } from 'src/app/SSO/management/management.component
  * Topbar component
  */
 export class TopbarComponent implements OnInit {
+  @Input() name: string;
 
+  user : any;
   element;
   cookieValue;
   flagvalue;
@@ -32,13 +36,14 @@ export class TopbarComponent implements OnInit {
   title;
   pageUser;
   pageDomain;
-  user;
+  
   constructor(@Inject(DOCUMENT) private document: any, private router: Router, private authService: AuthenticationService,
               private authFackservice: AccountAuthenticationService,
               public languageService: LanguageService,
               public translate: TranslateService,
               private shareDataService: ShareDataService,
-              public _cookiesService: CookieService
+              public _cookiesService: CookieService,
+              private auth: AuthService 
               // private mana:ManagementComponent,
               // private domain: DomainComponent
               ) {
@@ -61,9 +66,10 @@ export class TopbarComponent implements OnInit {
   @Output() mobileMenuButtonClicked = new EventEmitter();
 
   ngOnInit() {
-    // this.user = this.mana.viewText;
-
-    // this.pageUser = this.user;
+    //_____-______
+    this.user = localStorage.getItem('user')
+    console.log(this.user);
+    
     this.openMobileMenu = false;
     this.element = document.documentElement;
 
@@ -75,7 +81,14 @@ export class TopbarComponent implements OnInit {
     } else {
       this.flagvalue = val.map(element => element.flag);
     }
+   
   }
+  
+  // getUser(){
+  //   this.user = localStorage.getItem('user');
+  //   console.log(this.user);
+    
+  // }
 
   setLanguage(text: string, lang: string, flag: string) {
     this.countryName = text;
@@ -109,6 +122,8 @@ export class TopbarComponent implements OnInit {
       this.authFackservice.logout();
     }
   }
+
+
 
   /**
    * Fullscreen method
@@ -145,4 +160,5 @@ export class TopbarComponent implements OnInit {
       }
     }
   }
+
 }
