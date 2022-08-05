@@ -1,0 +1,123 @@
+<div class="containers" id = "containers">
+    <div class="row">
+
+        <div class = 'side-bar'>
+
+            <div class="title-right">
+                <ul>
+                    <li><a href="">SSO</a></li>
+                    <li><a href="" routerLink="../../management" routerLinkActive="active">/  User</a></li>
+                    <li><a href="">/  Detail</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="content">
+            <!-- infor user -->
+            <div class="info-user">
+
+                <div class="user-container row">
+                    <div class="col-4">
+                        <div class="user">
+                            <div class="user-header row">
+                                <div class="col-1"></div>
+                                <p class="col-6">Chi tiết người dùng</p>
+                                <img class="col-4" src="assets/images/profile-img.png" alt="">
+                                <div class="col-1"></div>
+                            </div>
+                            <div class="user-container">
+                                
+                                <div class="user-infor row">
+                                    <div class="col-1"></div>
+                                    <div class="col-6 user-left">
+                                        <div class="img-feature"  >
+                                            <img *ngIf="gender == 0;" class="col-5" src="assets/images/users/avatar-1.jpg" alt="">
+                                            <img *ngIf="gender == 1;" class="col-5" src="assets/images/users/avatar-7.jpg" alt="">
+
+                                        </div>
+                                        <h6>{{username}}</h6>
+                                        <h6>{{email}}</h6>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>{{address}}</h6>
+                                        <h6>{{phone}}</h6>
+
+                                        <button type="submit" class="btn btn-success btn-sm" (click)="openModalEdit(dataUser)">                                        
+                                            <i class="bx bx-pencil"></i>
+                                            <span>Sửa</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-1">
+                                        
+                                    </div>
+                                </div>
+                   
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                           <!-- infor domain -->
+                        <div class="info-user">
+                            <div class="user-container">
+                                <div class="user-header">
+                                    <h4>Danh sách domain tham gia</h4>
+                                </div>
+                                
+                                <div class="button">
+                                    <div class="btn-search">
+                                        <button class=" btn btn-success btn-sm" type="button" (click)="openModalUserDomain(dataUser.id)">
+                                            <span class="bx bx-plus-medical"></span>
+                                            <span>Thêm mới</span>
+                                        </button>
+
+                                        <button class=" btn btn-primary btn-sm" type="button" (click)="onUpdate()" >
+                                            <span class="bx bx-search-alt-2"></span>
+                                            <span>Cập nhật</span> 
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table id="data-table" class = "table table-striped mb-0">
+                                        <thead>
+                                            <th class="info-number-icon"></th>
+                                            <th class="info-text">Tên domain</th>
+                                            <th class="info-number">Key</th>   
+                                            <th class="info-text">Miêu tả</th>
+                                            <th class="info-text">Ngày tạo</th>
+                                            <th class="info-text">Trạng thái</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let dataDomain of listDomain">
+                                                <td class="info-number-icon">
+                                                    <input type="checkbox" value="dataDomain.id"  [(ngModel)]="dataDomain.isChecked" > 
+                                                </td>
+                                                <td class="info-text">{{dataDomain.domainName}}</td>
+                                                <td class="info-text">{{dataDomain.privateKey}}</td>
+                                                <td class="info-text">{{dataDomain.description}}</td>
+                                                <td class="info-date">{{dataDomain.createDates}}</td>
+                                                <td class="info-text" >
+                                                    <p *ngIf="dataDomain.status == 1">Mở khóa</p>
+                                                    <p *ngIf="dataDomain.status == 0">Đóng khóa</p>
+                
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+         
+            </div>
+
+        </div>
+
+    </div>
+</div>
+

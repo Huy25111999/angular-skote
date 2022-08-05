@@ -1,0 +1,114 @@
+
+.containers .content {
+    margin-top: 0;
+}
+
+.title-right ul {
+    padding: 0;
+}
+.title-right ul li {
+    display: inline;
+    padding: 8px;
+}
+.title-right ul li:first-child >a {
+    color: #74788d !important;
+}
+.title-right a {
+    color: #495057;
+}
+
+.content {
+    background: #FFFFFF;
+}
+
+// Search
+.search{
+    border: 1px solid #C5C7CD;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.search-header h4 {
+    font-size: 20px;
+    margin: 16px 0;
+    color: #f0058a;
+}
+
+.search-container, .user-container {
+    margin: 0 16px;
+}
+
+.btn-search {
+   text-align: center;
+   margin: 16px 0;
+}
+.btn-search button {
+    border-radius: 4px;
+    color: #FFFFFF;
+    margin-right: 40px;
+    border: 0;
+}
+
+button.btn.btn-primary span, button.btn.btn-success span {
+    padding: 0 8px;
+}
+
+button.btn.btn-success.btn-sm {
+    background: #00b74a;
+}
+//Form-table-info
+
+.info-user
+{
+    width: 100%;
+    border: 1px solid #DFE0EB;
+    border-radius: 8px;
+    background: #FFFFFF;
+    margin-top: 38px;
+}
+
+
+// Table
+
+.table th {
+    padding-left: 10px;
+}
+
+table, th, tr, td {
+    border: 1px solid #CECECE;
+}
+tbody {
+    border: 0 !important;
+}
+
+
+img.edit, button img
+{
+    width: 18px;
+    height: 18px;   
+}
+
+.page-right {
+    float: right;
+    margin: 16px 0;
+}
+
+ .info-number-icon
+{
+    text-align: center;
+}
+
+td.info-number-icon i {
+    margin: 0 8px;
+}
+
+.bx-lock-alt{
+    color: #ec148e;
+}
+
+.bx-lock-open-alt{
+    color: rgb(41, 179, 119);
+}
+i.bx.bx.bx-show-alt {
+    color: #1306ec;
+}

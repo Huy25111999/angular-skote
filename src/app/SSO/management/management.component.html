@@ -1,0 +1,149 @@
+<div class="containers" id = "containers">
+    <div class="row">
+
+            <div class = 'side-bar'>
+
+                <div class="title-right">
+                    <ul>
+                        <li><a href="">SSO</a></li>
+                        <li><a href="">/  User</a></li>
+                    </ul>
+
+
+                </div>
+
+            </div>
+
+            <!-- Author -->
+            <div class="content">
+
+                <!-- seach    -->
+                <div class="search">
+                    <div class="search-container">
+                        <div class="search-header">
+                            <h4>Tìm kiếm người dùng</h4>
+                        </div>
+
+                        <div class="">
+                            <form class="form row" action="" [formGroup]="formData" >
+
+                                <div class = 'search-info col-md-4' >  
+                                
+
+                                        <p>Tên người dùng</p>
+                                        <input type="text" ngxTrim class="form-control" formControlName = 'username' placeholder="Nhập tên người dùng">
+                                
+                                </div>
+
+                                <div class = 'search-info col-md-4' >  
+                                
+                            
+                                        <p>Số điện thoại</p>
+                                        <input type="text" ngxTrim class="form-control"  formControlName = 'phone' placeholder="Nhập số điện thoại">
+                                
+                                </div>
+
+                                <div class = 'search-info col-md-4' > 
+                                
+                            
+                                        <p>Email</p>
+                                        <input type="text" ngxTrim class="form-control" formControlName = 'email' placeholder="Nhập email">
+                            
+
+                                </div>
+                           </form>
+                        </div>
+
+
+                        <div class="button">
+                            <div class="btn-search">
+                                <button class=" btn btn-primary btn-sm" type="button" (click)=" onSearch(true)" >
+                                    <span class="bx bx-search-alt-2"></span>
+                                    <span>Tìm kiếm</span> 
+                                </button>
+                                <button class=" btn btn-success btn-sm" type="button" (click)="openModalAdd(listUsers)">
+                                    <span class="bx bx-plus-medical"></span>
+                                    <span>Thêm mới</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- <app-modal-add *></app-modal-add> -->
+
+                    </div>
+
+                </div>
+
+                <!-- info user -->
+                <div class="info-user">
+                    <div class="user-container">
+
+                        <div class="search-header">
+                            <h4>Thông tin người dùng</h4>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table id="data-table" class = "table table-striped mb-0">
+                                <thead>
+                                    <th class="info-number-icon">STT</th>
+                                    <th class="info-text">Tên người dùng</th>
+                                    <th class="info-text">Số điện thoại</th>
+                                    <th class="info-text">Email</th>
+                                    <th class="info-text">Chức vụ</th>
+                                    <th class="info-number-icon">Hành động</th>
+                                </thead>
+                                <tbody>
+
+                                    
+                                    <!-- <tr *ngFor="let dataUser of listUsers | paginate: {
+                                        itemsPerPage: tableSize,
+                                        currentPage: page,
+                                        totalItems: count
+                                        };">  -->
+                                    <tr *ngFor="let dataUser of listUsers ; let i = index">
+<!-- 
+                                        <td class="info-number-icon">{{listUsers.indexOf(dataUser)+1}}</td> -->
+                                        <td class="info-number-icon">{{(page-1)*pageSize + (i+1)}}</td>
+                                        <td class="info-text">{{dataUser.username}}</td>
+                                        <td class="info-number">{{dataUser.phone}}</td>
+                                        <td class="info-text">{{dataUser.email}}</td>
+                                        <td class="info-text">{{dataUser.position}}</td>
+                                        
+                                        <td class="info-number-icon" >
+                                            <i>
+                                                <img  class = "edit" (click)="openModalEdit(dataUser)" src="./assets/images/sso/edit.png" alt="">
+
+                                            </i>
+                                            <i *ngIf="dataUser.active == 0" class="bx bx-lock-alt " (click)="unlockOneUser(dataUser.id)"></i>
+                                            <i *ngIf="dataUser.active == 1" class="bx bx-lock-open-alt" (click)="lockOneUser(dataUser.id)"></i>
+
+                                            <i class="bx bx bx-show-alt" routerLink='../detail/{{dataUser.id}}' routerLinkActive="active" (click)="getOneUser(dataUser.id)"></i>
+
+                                        </td>
+                                    </tr>
+                                    
+
+                                </tbody>
+                            </table>
+
+                            <!--Pagination-->
+                              
+                            <app-pagination *ngIf="listUsers.length"
+                                            [page]="page"
+                                            [pageSize]="pageSize"
+                                            [collectionSize]="totalElements"
+                                            (pageChange)="onPageChange($event)"
+                                            (pageSizeChange)="pageChangeEvent($event)"
+                            >
+
+                            </app-pagination>
+                            
+                      
+                        </div>
+                    </div>
+                    
+
+                </div>
+        
+            </div>
+    </div>
+</div>

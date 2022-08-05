@@ -1,0 +1,22 @@
+.truncateLabel {
+  display: inline-block;
+  max-width: 70% !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+::ng-deep {
+  .vertical-collpsed .vertical-menu #sidebar-menu > ul > li > a span {
+    display: inline-block !important;
+    max-width: 82% !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.truncateSubItem{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
