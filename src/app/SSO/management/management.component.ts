@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { ModalAddComponent } from '../modal-add/modal-add.component';
-import { ModalEditComponent } from '../modal-edit/modal-edit.component';
+import { ModalAddComponent } from './modal-add/modal-add.component';
+import { ModalEditComponent } from './modal-edit/modal-edit.component';
 import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PostService } from '../service/post.service';
 import { infor } from '../../model/infor';
@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { FilterModule } from 'ng2-smart-table/lib/components/filter/filter.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-management',
@@ -27,15 +28,15 @@ export class ManagementComponent implements OnInit
   tableSizes: any = [3, 6, 9, 12];
   // collectionSize = 0;
   //Search
-  username: any;
-  phone: any;
-  email: any
-  searchName= '';
-  searchPhone= '';
-  searchEmail= ''
-  pageNum=1;
+  // username: any;
+  // phone: any;
+  // email: any
+  username:string = '';
+  phone:string = '';
+  email:string = '';
+  totalElements:number;
 
-
+  token : any;
 
 //--------
   listUsers : infor[]= [];
@@ -46,18 +47,26 @@ export class ManagementComponent implements OnInit
   public user =[];
   closeResult: string;
   searchText: any;
+  viewText : string="Quản lý user";
 
   constructor(
     private postService: PostService,
     private modalService : NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router:Router
     ) {}
 
   ngOnInit(): void {
     // this.getListUsers();
-    this.onSearch();
+    this.onSearch(false);
+    this.getToken()
   }
 
+  getToken(){
+    this.token = localStorage.getItem('auth');
+    console.log("token: ",this.token);
+
+  }
 
   //Open modal
    openModalAdd(data)
@@ -105,6 +114,7 @@ export class ManagementComponent implements OnInit
       // this.collectionSize = this.listUsers.length ;
       // console.log('collect:',  this.collectionSize);
 
+
     }, error => {
       console.log(error);
 
@@ -128,102 +138,38 @@ export class ManagementComponent implements OnInit
     }
   }
 
-  searchPhone()
-  {
-    if(this.phone == '')
-    {
-      this.getListUsers();
-    }
-    else
-    {
-      this.listUsers = this.listUsers.filter( res=>{
-        return res.phone.toLocaleLowerCase().match(this.phone.toLocaleLowerCase());
-      })
-    }
-  }
-
-  searchEmail()
-  {
-    if(this.email == '')
-    {
-      this.getListUsers();
-    }
-    else
-    {
-      this.listUsers = this.listUsers.filter( res=>{
-        return res.email.toLocaleLowerCase().match(this.email.toLocaleLowerCase());
-      })
-    }
-  }
-
-
-//Pageination
-/*
-onSearch(isActionPage: boolean) {
-  let dto;
-  if (!isActionPage) {
-    this.sortList = {
-
-    }
-    this.sortPriorityList = [];
-    this.page = 1;
-    this.pageSize = 10;
-    dto = this.mapSearchDto(this.formGroup.value);
-    this.historySearch = dto;
-    this.setOfCheckedId.clear();
-    this.setOfCheckedRecord.clear();
-  } else {
-    dto = this.historySearch;
-  }
-  DataUtilsService.removeEmptyPros(dto);
-  this.loading = true;
-  this.records = [];
-  this.collectionSize = 0;
-  const sortArr = this.getSortArr();
-
-  this.postService.search(dto, this.page - 1, this.pageSize, sortArr).subscribe(res => {
-    this.loading = false;
-    if (res && res.content) {
-      this.records = res.content;
-      this.records.forEach(e => {
-        e.id = e.documentId;
-        e.docLable = getDocsLabel(e.documentType);
-        e.statusLable = getStatusLabel(e.status);
-        e.isOverDealine = e.deadline && moment().isAfter(moment(e.deadline), 'days');
-        // e.isOverDealine = true
-      });
-
-      this.refreshCheckedStatus();
-    }
-    this.collectionSize = res.totalElements
-  },() => {
-    this.loading = false;
-  })
-}
 */
 
-  onSearch()
+//Pageination
+
+
+  onSearch(flag)
   {
-    this.postService.search( this.searchName, this.searchPhone, this.searchEmail, this.pageNum).subscribe(data => {
+    console.log(this.formData.value);
+    this.postService.search( {
+      ...this.formData.value, page: this.page, pageSize: this.pageSize
+    }).subscribe(data => {
       this.listUsers = data.data.content;
       console.log('list user : ',this.listUsers)
+      this.totalElements = data.data.totalElements;
     }, error => {
-      console.log(error);
+
+      this.router.navigate(['/account/login']);
+      console.log('Lỗi 403: Bạn ko có quyền truy cập vào');
+
     })
 
   }
 
-  //Pagination
-
   onPageChange(event: any) {
     this.page = event;
-    // this.onSearch(true);
+    this.onSearch(true);
   }
 
   pageChangeEvent(event: any) {
     this.page = 1;
     this.pageSize = event;
-    // this.onSearch(true);
+    this.onSearch(true);
   }
 
 
@@ -249,8 +195,6 @@ onSearch(isActionPage: boolean) {
     }, error => {
       console.log(error);
     })
-    console.log('user: ',id);
-    console.log('----------',this.listUsers);
 
   }
 
@@ -260,6 +204,7 @@ onSearch(isActionPage: boolean) {
     this.postService.lockUser(id).subscribe(data => {
       console.log("success: lock", id);
          console.log('----------',this.listUsers);
+         this.onSearch(true);
     }, error => {
       console.log(error);
     })
@@ -269,93 +214,49 @@ onSearch(isActionPage: boolean) {
     this.postService.unlockUser(id).subscribe(data => {
       console.log("success: Unclock", id);
       console.log('----------',this.listUsers);
+      this.onSearch(true);
     }, err => {
       console.log(err);
 
     })
   }
 
+  unlockOneUser(id){
+    Swal.fire({
+      title:'Mở khóa người dùng',
+      text: 'Bạn có chắc chắn muốn mở khóa user này không!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Đồng ý!'
 
-  unlockOneUser(id) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger ms-2'
-      },
-      buttonsStyling: false
+    }).then(result => {
+      if (result.value) {
+        Swal.fire('Mở khóa!', 'Bạn vừa mở khóa thành công.','success');
+        this.unlockUser(id);
+
+      }
     });
-
-    swalWithBootstrapButtons
-      .fire({
-        title: 'Mở khóa người dùng',
-        text: 'Bạn có chắc chắn muốn mở khóa user này không!',
-        icon: 'warning',
-        confirmButtonText: 'Yes, unlock it!',
-        cancelButtonText: 'No, cancel!',
-        showCancelButton: true
-      })
-      .then(result => {
-        if (result.value) {
-          swalWithBootstrapButtons.fire(
-            'Mở khóa!',
-            'Bạn vừa mở khóa thành công.',
-            'success'
-          );
-
-          this.unlockUser(id);
-
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Mở khóa thất bại:)',
-            'error'
-          );
-        }
-      });
   }
 
+  lockOneUser(id){
+    Swal.fire({
+      title: 'Khóa người dùng',
+      text: 'Bạn có chắc chắn muốn khóa user này không!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText:  'Đồng ý',
 
-  lockOneUser(id) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger ms-2'
-      },
-      buttonsStyling: false
+    }).then(result => {
+      if (result.value) {
+        Swal.fire('Khóa!','Bạn vừa khóa thành công.','success');
+        this.lockUser(id);
+
+      }
     });
-
-    swalWithBootstrapButtons
-      .fire({
-        title: 'Khóa người dùng',
-        text: 'Bạn có chắc chắn muốn khóa user này không!',
-        icon: 'warning',
-        confirmButtonText: 'Yes, lock it!',
-        cancelButtonText: 'No, cancel!',
-        showCancelButton: true
-      })
-      .then(result => {
-        if (result.value) {
-          swalWithBootstrapButtons.fire(
-            'Khóa!',
-            'Bạn vừa khóa thành công.',
-            'success'
-          );
-          this.lockUser(id);
-
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Khóa người dùng thất bại :)',
-            'error'
-          );
-        }
-      });
   }
 
 }

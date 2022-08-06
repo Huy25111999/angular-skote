@@ -6,6 +6,7 @@ export const MENU: MenuItem[] = [
     label: 'MENUITEMS.MENU.TEXT',
     isTitle: true
   },
+  /*
   {
     id: 2,
     label: 'MENUITEMS.DASHBOARDS.TEXT',
@@ -825,36 +826,18 @@ export const MENU: MenuItem[] = [
     ]
   },
   
+  */
   {
     id: 130,
-    label: 'SSO',
+    label: 'User management',
     icon: 'bx-task',
-    // link: '/SSO/management',
-    subItems: [
-      {
-        id: 131,
-        label: 'User management',
-        
-        icon: 'bx-home-circle',
-        link: '/SSO/management',
-        parentId: 130
-      },
-      {
-        id: 132,
-        label: 'Login',
-        icon: 'bxs-bar-chart-alt-2',
-        link: '/SSO/login',
-        parentId: 130
-      },
-      {
-        id: 133,
-        label: 'Domain',
-        icon: 'bxs-bar-chart-alt-2',
-        link: '/SSO/domain',
-        parentId: 130
-      }
-    ]
-
+    link: '/SSO/management',
+  },
+  {
+    id: 131,
+    label: 'Domain management',
+    icon: 'bx-list-ul',
+    link: '/SSO/domain'
   }
 ];
 

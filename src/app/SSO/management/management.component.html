@@ -24,14 +24,14 @@
                             <h4>Tìm kiếm người dùng</h4>
                         </div>
 
-                        <div class="searchName row">
+                        <div class="">
                             <form class="form row" action="" [formGroup]="formData" >
 
-                                <div class = 'search-info col-md-4' > 
+                                <div class = 'search-info col-md-4' >  
                                 
 
                                         <p>Tên người dùng</p>
-                                        <input type="text" class="form-control" formControlName = "username" [(ngModel)]="searchName" >
+                                        <input type="text" ngxTrim class="form-control" formControlName = 'username' placeholder="Nhập tên người dùng">
                                 
                                 </div>
 
@@ -39,7 +39,7 @@
                                 
                             
                                         <p>Số điện thoại</p>
-                                        <input type="text" class="form-control" formControlName = "phone" [(ngModel)]="searchPhone" >
+                                        <input type="text" ngxTrim class="form-control"  formControlName = 'phone' placeholder="Nhập số điện thoại">
                                 
                                 </div>
 
@@ -47,7 +47,7 @@
                                 
                             
                                         <p>Email</p>
-                                        <input type="text" class="form-control" formControlName = "email" [(ngModel)]="searchEmail" >
+                                        <input type="text" ngxTrim class="form-control" formControlName = 'email' placeholder="Nhập email">
                             
 
                                 </div>
@@ -57,7 +57,7 @@
 
                         <div class="button">
                             <div class="btn-search">
-                                <button class=" btn btn-primary btn-sm" type="button" (click)=" onSearch()" >
+                                <button class=" btn btn-primary btn-sm" type="button" (click)=" onSearch(true)" >
                                     <span class="bx bx-search-alt-2"></span>
                                     <span>Tìm kiếm</span> 
                                 </button>
@@ -65,10 +65,6 @@
                                     <span class="bx bx-plus-medical"></span>
                                     <span>Thêm mới</span>
                                 </button>
-                                <!-- <button class=" btn btn-success" type="button" routerLink="../detail" routerLinkActive="active">
-                                    <span class="bx bx-plus-medical"></span>
-                                    <span>View</span>
-                                </button> -->
                             </div>
                         </div>
                         <!-- <app-modal-add *></app-modal-add> -->
@@ -117,8 +113,8 @@
                                                 <img  class = "edit" (click)="openModalEdit(dataUser)" src="./assets/images/sso/edit.png" alt="">
 
                                             </i>
-                                            <i *ngIf="dataUser.active == 1" class="bx bx-lock-alt " (click)="lockOneUser(dataUser.id)"></i>
-                                            <i *ngIf="dataUser.active == 0" class="bx bx-lock-open-alt" (click)="unlockOneUser(dataUser.id)"></i>
+                                            <i *ngIf="dataUser.active == 0" class="bx bx-lock-alt " (click)="unlockOneUser(dataUser.id)"></i>
+                                            <i *ngIf="dataUser.active == 1" class="bx bx-lock-open-alt" (click)="lockOneUser(dataUser.id)"></i>
 
                                             <i class="bx bx bx-show-alt" routerLink='../detail/{{dataUser.id}}' routerLinkActive="active" (click)="getOneUser(dataUser.id)"></i>
 
@@ -134,7 +130,7 @@
                             <app-pagination *ngIf="listUsers.length"
                                             [page]="page"
                                             [pageSize]="pageSize"
-                                            [collectionSize]="listUsers.length"
+                                            [collectionSize]="totalElements"
                                             (pageChange)="onPageChange($event)"
                                             (pageSizeChange)="pageChangeEvent($event)"
                             >

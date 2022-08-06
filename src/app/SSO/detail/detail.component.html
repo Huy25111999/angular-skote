@@ -17,70 +17,105 @@
             <!-- infor user -->
             <div class="info-user">
 
-                <div class="user-container">
-                    <div class="user-header">
-                        <h4>Thông tin người dùng</h4>
+                <div class="user-container row">
+                    <div class="col-4">
+                        <div class="user">
+                            <div class="user-header row">
+                                <div class="col-1"></div>
+                                <p class="col-6">Chi tiết người dùng</p>
+                                <img class="col-4" src="assets/images/profile-img.png" alt="">
+                                <div class="col-1"></div>
+                            </div>
+                            <div class="user-container">
+                                
+                                <div class="user-infor row">
+                                    <div class="col-1"></div>
+                                    <div class="col-6 user-left">
+                                        <div class="img-feature"  >
+                                            <img *ngIf="gender == 0;" class="col-5" src="assets/images/users/avatar-1.jpg" alt="">
+                                            <img *ngIf="gender == 1;" class="col-5" src="assets/images/users/avatar-7.jpg" alt="">
+
+                                        </div>
+                                        <h6><i class="bx bx-user"></i>{{username}}</h6>
+                                        <h6><i class="bx bx-mail-send"></i>{{email}}</h6>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6><i class="bx bx-map"></i>{{address}}</h6>
+                                        <h6 ><i class="bx bx-phone-call"></i> {{phone}}</h6>
+
+                                        <button type="submit" class="btn btn-success btn-sm" (click)="openModalEdit(dataUser)">                                        
+                                            <i class="bx bx-pencil"></i>
+                                            <span>Sửa</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-1">
+                                        
+                                    </div>
+                                </div>
+                   
+                            </div>
+                        </div>
                     </div>
-    
-                    <div class="table-responsive">
-                        <table id="data-table" class = "table table-striped mb-0">
-                            <thead>
-                                <th class="info-number-icon">STT</th>
-                                <th class="info-text">Tên người dùng</th>
-                                <th class="info-number">Số điện thoại</th>   
-                                <th class="info-text">Địa chỉ</th>
-                                <th class="info-text">Giới tính</th>
-                                <th class="info-text">Email</th>
-                                <th class="info-text">Chức vụ</th>
-                                <th class="info-number-icon">Hành động</th>
-                            </thead>
-    
-                            <tbody>
-                                <tr >
-                                    <td class="info-number-icon">{{data.id}}</td>
-                                    <td class="info-text">{{data.username}}</td>
-                                    <td class="info-number">{{data.phone}}</td>
-                                    <td class="info-text">{{data.address}}</td>
-                                    <td class="info-text">{{data.gender}}</td>
-                                    <td class="info-text">{{data.email}}</td>
-                                    <td class="info-text">{{data.position}}</td>
-                                    <td class="info-number-icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
-                                        <img (click)="openModalEdit(data)" class = "edit" src="./assets/images/sso/edit.png" alt="">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="col-8">
+                           <!-- infor domain -->
+                        <div class="info-user">
+                            <div class="user-container">
+                                <div class="user-header">
+                                    <h4>Danh sách domain tham gia</h4>
+                                </div>
+                                
+                                <div class="button">
+                                    <div class="btn-search">
+                                        <button class=" btn btn-success btn-sm" type="button" (click)="openModalUserDomain(dataUser.id)">
+                                            <span class="bx bx-plus-medical"></span>
+                                            <span>Thêm mới</span>
+                                        </button>
+
+                                        <button class=" btn btn-primary btn-sm delete" type="button" (click)="deleteDomain()" >
+                                            <span class="">
+                                                <i class="bx bx-trash"></i>
+                                            </span>
+                                            <span>Xóa</span> 
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table id="data-table" class = "table table-striped mb-0">
+                                        <thead>
+                                            <th class="info-number-icon"></th>
+                                            <th class="info-text">Tên domain</th>
+                                            <th class="info-number">Key</th>   
+                                            <th class="info-text">Miêu tả</th>
+                                            <th class="info-text">Ngày tạo</th>
+                                            <th class="info-text">Trạng thái</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let dataDomain of listDomain">
+                                                <td class="info-number-icon">
+                                                    <input type="checkbox" value="dataDomain.id"  [(ngModel)]="dataDomain.isChecked" > 
+                                                </td>
+                                                <td class="info-text">{{dataDomain.domainName}}</td>
+                                                <td class="info-text">{{dataDomain.privateKey}}</td>
+                                                <td class="info-text">{{dataDomain.description}}</td>
+                                                <td class="info-date">{{dataDomain.createDates}}</td>
+                                                <td class="info-text" >
+                                                    <p *ngIf="dataDomain.status == 1">Mở khóa</p>
+                                                    <p *ngIf="dataDomain.status == 0">Đóng khóa</p>
+                
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                            </div>
+
+                        </div>
                     </div>
                 </div>
          
-            </div>
-            <!-- infor domain -->
-            <div class="info-user">
-                <div class="user-container">
-                    <div class="user-header">
-                        <h4>Danh sách domain tham gia</h4>
-                    </div>
-                    
-                    
-                    <div class="table-responsive">
-                        <table id="data-table" class = "table table-striped mb-0">
-                            <thead>
-                                <th class="info-number-icon">STT</th>
-                                <th class="info-text">Tên domain</th>
-                                <th class="info-number">Key</th>   
-                                <th class="info-text">Miêu tả</th>
-                                <th class="info-text">Ngày tạo</th>
-                                <th class="info-text">Trạng thái</th>
-                                <th class="info-number-icon">Hành động</th>
-                            </thead>
-                            <tbody>
-                            
-                            </tbody>
-                        </table>
-                    </div>
-                   
-                </div>
-
             </div>
 
         </div>

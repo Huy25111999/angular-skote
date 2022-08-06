@@ -9,3 +9,4 @@ export interface infor {
     gender : number,
     active: number
 }
+

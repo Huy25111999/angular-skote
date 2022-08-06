@@ -55,5 +55,6 @@ export class AccountAuthenticationService {
     localStorage.removeItem('auth');
     this.currentUserSubject.next(null);
     void this.router.navigate(['/account/login']);
+    
   }
 }

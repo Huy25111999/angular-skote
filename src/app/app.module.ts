@@ -91,6 +91,7 @@ export function createTranslateLoader(http: HttpClient): any {
       multi: true,
       deps: [ConfigIpService]
     }
+
     // LoaderService,
     // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
   ],

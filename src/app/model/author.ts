@@ -3,3 +3,4 @@ export interface author {
   password?: string,
   domainCode?: string
 }
+

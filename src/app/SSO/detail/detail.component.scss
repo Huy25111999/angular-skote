@@ -27,14 +27,10 @@
 .info-user
 {
     width: 100%;
-    border: 1px solid #DFE0EB;
+    // border: 1px solid #DFE0EB;
     border-radius: 8px;
     background: #FFFFFF;
     margin-bottom: 18px;
-}
-
- .user-container {
-    margin: 0 16px;
 }
 
 .user-header h4 {
@@ -43,6 +39,60 @@
     color: #f0058a;
 }
 
+.user-header p {
+    font-size: 17px;
+    margin: 16px 0;
+    color: #f0058a;
+}
+
+.user{
+    background: #CECECE;
+    border: 1px solid #DFE0EB;
+}
+
+.user-infor div img {
+    border-radius: 50% !important;
+}
+
+.user-infor.row {
+    margin-top: 28px;
+}
+
+.col-6.user-left {
+    position: relative;
+    margin-top: -40px;
+}
+
+.img-feature{
+    margin-bottom: 12px;
+}
+
+button.btn.btn-success span, .btn.btn-primary span {
+    padding: 0 8px;
+}
+
+.user-container.row .col-8 {
+    border: 1px solid #DFE0EB;
+}
+
+.img-feature img {
+    margin-top: -15px;
+}
+
+.btn-search {
+    text-align: center;
+    margin: 16px 0;
+ }
+ .btn-search button {
+     border-radius: 4px;
+     color: #FFFFFF;
+     margin-right: 40px;
+     border: 0;
+ }
+
+ button.btn.btn-success.btn-sm {
+    background: #00b74a;
+}
 // Table
 .table-responsive {
     margin: 18px 0;
@@ -69,4 +119,12 @@ img.edit
  .info-number-icon
 {
     text-align: center;
+}
+.delete{
+    background-color: #ef0615;
+}
+
+h6 i.bx {
+    color: #c75948;
+    padding: 3px;
 }

@@ -11,19 +11,41 @@
         <div class="input-form">
             <form class="form" [formGroup]="editForm" (ngSubmit)="onSubmit()">
                 <div class="row mb-4" >
-                    <label class="col-sm-3" >Tên domain</label>
+                    <label class="col-sm-3" >Tên domain (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
                         <input type="text" disabled class="form-control" formControlName = 'domainName'>
+                        <div *ngIf="f.domainName.invalid && (f.domainName.dirty || f.domainName.touched)">
+                            <div *ngIf="f.domainName.errors">
+                                <div [hidden]="!f.domainName.errors.required">
+                                    <small>Tên domain không được để trống</small>
+                                </div>
+                                <div *ngIf="f.domainName.errors.maxlength">
+                                    <small>Tên domain không được vượt quá 100 ký tự</small>
+                                </div>
+                            
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
                 <div class="row mb-4" >
-                    <label class="col-sm-3" >Mã code</label>
+                    <label class="col-sm-3" >Mã code (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" formControlName = 'domainCode'>
+                        <div *ngIf="f.domainCode.invalid && (f.domainCode.dirty || f.domainCode.touched)">
+                            <div *ngIf="f.domainCode.errors">
+                                <div [hidden]="!f.domainCode.errors.required">
+                                    <small>Domain code không được để trống</small>
+                                </div>
+                                <div *ngIf="f.domainCode.errors.maxlength">
+                                    <small>Domain code không được vượt quá 100 ký tự</small>
+                                </div>
+                            
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -32,17 +54,33 @@
                     <label class="col-sm-3" >Trạng thái</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" formControlName = 'status'>
+                        <!-- <input type="text" class="form-control" formControlName = 'status'> -->
+                        <select name="" id="" class="form-select" formControlName = 'status' aria-placeholder="Active">
+                            Action
+                            <option value="0">Khóa</option>
+                            <option value="1">Mở khóa</option>
+                        </select>
                     </div>
 
                 </div>
 
 
                 <div class="row mb-4" >
-                    <label class="col-sm-3" >Key</label>
+                    <label class="col-sm-3" >Key (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" formControlName = 'privateKey'>
+                        <div *ngIf="f.privateKey.invalid && (f.privateKey.dirty || f.privateKey.touched)">
+                            <div *ngIf="f.privateKey.errors">
+                                <div [hidden]="!f.privateKey.errors.required">
+                                    <small>Key domain không được để trống</small>
+                                </div>
+                                <div *ngIf="f.privateKey.errors.maxlength">
+                                    <small>Key domain không được vượt quá 100 ký tự</small>
+                                </div>
+                            
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -52,6 +90,17 @@
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" formControlName = 'description'>
+                        <div *ngIf="f.description.invalid && (f.description.dirty || f.description.touched)">
+                            <div *ngIf="f.description.errors">
+                                <div [hidden]="!f.description.errors.required">
+                                    <small>Miêu tả không được để trống</small>
+                                </div>
+                                <div *ngIf="f.description.errors.maxlength">
+                                    <small>Key domain không được vượt quá 200 ký tự</small>
+                                </div>
+                            
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -62,22 +111,27 @@
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" formControlName = 'hook'>
+                        <div *ngIf="f.hook.invalid && (f.hook.dirty || f.hook.touched)">
+                            <div *ngIf="f.hook.errors">
+                                <div [hidden]="!f.hook.errors.required">
+                                    <small>Địa chỉ hook không được để trống</small>
+                                </div>
+                                <div *ngIf="f.hook.errors.maxlength">
+                                    <small>Địa chỉ hook không được vượt quá 100 ký tự</small>
+                                </div>
+                            
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <div class="btn-footer">
-                        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')"><i class="mdi mdi-close"></i></button>
-                        <button type="submit" class="btn btn-primary w-md" [disabled]="!editForm.valid"><i class="fas fa-check"></i></button>
+                        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Đóng</button>
+                        <button type="submit" class="btn btn-primary w-xs" [disabled]="!editForm.valid">Lưu</button>
                     </div>
                 </div>
-<!-- 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-                    <button type="submit" class="btn btn-primary w-md" [disabled]="!formData.valid">Lưu</button>
-                  </div> -->
                
-
             </form>
         </div>
 

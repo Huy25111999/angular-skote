@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ManagementComponent } from './management/management.component';
 import { SSORoutingModule } from './SSO-routing.modules';
-import { ModalAddComponent } from './modal-add/modal-add.component';
-import { ModalEditComponent } from './modal-edit/modal-edit.component';
+import { ModalAddComponent } from './management/modal-add/modal-add.component';
+import { ModalEditComponent } from './management/modal-edit/modal-edit.component';
 import { DetailComponent } from './detail/detail.component';
 import { DomainComponent } from './managementDomain/domain/domain.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,8 +17,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2CompleterModule } from 'ng2-completer';
 import {SharedModule} from "../shared/shared.module";
-
-
+import { ModalUserDomainComponent } from './modal-user-domain/modal-user-domain.component';
+import { AuthInterceptor } from './service/AuthInterceptor';
+import {NgxTrimModule} from 'ngx-trim';
 @NgModule({
   declarations: [
     ManagementComponent,
@@ -29,6 +30,7 @@ import {SharedModule} from "../shared/shared.module";
     AddDomainComponent,
     EditDomainComponent,
     SearchfilterPipe,
+    ModalUserDomainComponent,
   ],
   imports: [
     CommonModule,
@@ -42,7 +44,12 @@ import {SharedModule} from "../shared/shared.module";
     FormsModule,
     NgbModule,
     SharedModule,
+    FormsModule,
+    NgxTrimModule
     // BrowserModule
+  ],
+  providers: [
+    ManagementComponent
   ],
   bootstrap: [AppComponent]
 })
