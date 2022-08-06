@@ -27,9 +27,7 @@
         <ngb-pagination [collectionSize]="collectionSize" [page]="page" [pageSize]="pageSize" [ellipses]="true"
                         (pageChange)="onPageChange($event)"
                         [rotate]="true"
-                        [maxSize]="5"
-                        [boundaryLinks]="true"
-                        [size]="''">
+                        [maxSize]="5" [size]="'sm'">
           <ng-template ngbPaginationPrevious>
             <a class="page-link" href="javascript: void(0);" aria-label="Previous">
               <i class="mdi mdi-chevron-left"></i>

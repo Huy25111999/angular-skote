@@ -29,7 +29,6 @@ import {ConfigIP, ConfigIpService} from "./config-ip.service";
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {HomeComponent} from "./home/home.component";
 // import { HomeComponent } from './home/home.component';
-import { AuthInterceptor } from './SSO/service/AuthInterceptor';
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
@@ -91,16 +90,9 @@ export function createTranslateLoader(http: HttpClient): any {
       useFactory: appInitializerFn,
       multi: true,
       deps: [ConfigIpService]
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    }
     // LoaderService,
     // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
   ],
 })
 export class AppModule { }
-
-   

@@ -24,21 +24,16 @@ export class AddDomainComponent implements OnInit {
 
   oneDoMain : domain[]= [];
   modalRef: any ;
-  formData:FormGroup; 
-
-  get f(){
-    return this.formData.controls;
-  }
-
+  
+  public formData:FormGroup = new FormGroup({
+    domainName: new FormControl(''),
+    privateKey: new FormControl(''),
+    description: new FormControl(''),
+    status: new FormControl(''),
+    domainCode: new FormControl(''),
+    hook: new FormControl(''),
+  })
   ngOnInit(): void {
-    this.formData = new FormGroup({
-      domainName: new FormControl('',[Validators.required,Validators.maxLength(100)]),
-      privateKey: new FormControl('',[Validators.required,Validators.maxLength(100)]),
-      description: new FormControl('',[Validators.required,Validators.maxLength(200)]),
-      status: new FormControl('',[Validators.required,Validators.maxLength(10)]),
-      domainCode: new FormControl('',[Validators.required]),
-      hook: new FormControl('',[Validators.required, Validators.maxLength(100)]),
-    })
   }
 
   onSubmit()

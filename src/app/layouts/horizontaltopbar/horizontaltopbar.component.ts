@@ -12,8 +12,6 @@ import { DOCUMENT } from '@angular/common';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { environment } from '../../../environments/environment';
-import { ManagementComponent } from 'src/app/SSO/management/management.component';
-
 
 @Component({
   selector: 'app-horizontaltopbar',
@@ -31,7 +29,6 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
   flagvalue;
   countryName;
   valueset;
-  user;
 
   menuItems = [];
 
@@ -48,9 +45,7 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
     private authFackservice: AccountAuthenticationService,
     public languageService: LanguageService,
     // tslint:disable-next-line: variable-name
-    public _cookiesService: CookieService,
-    public mana: ManagementComponent
-    ) {
+    public _cookiesService: CookieService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.activateMenu();
@@ -61,10 +56,8 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.element = document.documentElement;
 
-    this.user = this.mana.viewText;
-
     this.initialize();
-    
+
     this.cookieValue = this._cookiesService.get('lang');
     const val = this.listLang.filter(x => x.lang === this.cookieValue);
     this.countryName = val.map(element => element.text);

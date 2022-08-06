@@ -46,16 +46,12 @@
     border-radius: 4px;
     color: #FFFFFF;
     margin-right: 40px;
-    border: 0;
 }
 
 button.btn.btn-primary span, button.btn.btn-success span {
     padding: 0 8px;
 }
 
-button.btn.btn-success.btn-sm {
-    background: #00b74a;
-}
 //Form-table-info
 
 .info-user
@@ -102,13 +98,3 @@ td.info-number-icon i {
     margin: 0 8px;
 }
 
-.bx-lock-alt{
-    color: #ec148e;
-}
-
-.bx-lock-open-alt{
-    color: rgb(41, 179, 119);
-}
-i.bx.bx.bx-show-alt {
-    color: #1306ec;
-}

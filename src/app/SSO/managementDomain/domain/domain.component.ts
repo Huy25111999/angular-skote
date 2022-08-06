@@ -5,8 +5,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDomainComponent } from '../add-domain/add-domain.component';
 import { EditDomainComponent } from '../edit-domain/edit-domain.component';
 import Swal from 'sweetalert2';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-domain',
@@ -17,22 +15,22 @@ export class DomainComponent implements OnInit {
 
   p: number = 1;
   count: number = 0;
-  page: number = 1;
-  domainName:any;
-  pageSize = 10;
   listDomain : domain[]= [];
-  totalSize:number;
- 
 
   constructor(
     private postService: PostService, 
     private modalService : NgbModal,
-    private route: Router
     ) { }
 
-
+  // dtOptions: DataTables.Settings = {};
   ngOnInit(): void {
-    this.onSearch(false);
+    // this.dtOptions = {
+    //   pagingType: 'full_numbers',
+    //   pageLength: 5,
+    //   lengthMenu : [5, 10, 25],
+    //   processing: true
+    // };
+    this.getListDomain();
   }
 
   getListDomain()
@@ -72,51 +70,27 @@ export class DomainComponent implements OnInit {
     })
   }
 
-//pagination
-
-  public formData:FormGroup = new FormGroup({
-    domainName: new FormControl(''),
-  })
-
-
-  onSearch(flag)
-  {
-    console.log(this.formData.value);
-    this.postService.searchDomain( {
-      ...this.formData.value, page: this.page, pageSize: this.pageSize
-    }).subscribe(data => {
-      this.listDomain = data.data.content;
-      console.log('list doamin : ',this.listDomain)
-      // this.page = data.data.totalElements;
-      this.totalSize = data.data.totalElements;
-      console.log('_________', this.totalSize)
-    }, error => {
-      console.log(error);
-    })
-
-  }
- 
-  onPageChange(event: any) {
-    this.page = event;
-    this.onSearch(true);
-  }
-
-  pageChangeEvent(event: any) {
-    this.page = 1;
-    this.pageSize = event;
-    this.onSearch(true);
-  }
-
-
-
   // Lock / unclock domain
+
+  // getIdUser(id)
+  // {
+  //   this.postService.getID(id).subscribe(data => {
+  //     console.log(id);
+  //     this.listDomain = data;
+  //     console.log('list: ',this.listDomain)
+  //   }, error => {
+  //     console.log(error);
+  //   })
+  //   console.log('user: ',id);
+  //   console.log('----------',this.listDomain);
+    
+  // }
   
   lockDomain(id)
   {
     this.postService.lockDomain(id).subscribe(data => {
       console.log("success: lock", id);
          console.log('----------',this.listDomain);
-         this.onSearch(true);
     }, error => {
       console.log(error);
     })
@@ -126,48 +100,92 @@ export class DomainComponent implements OnInit {
     this.postService.unlockDomain(id).subscribe(data => {
       console.log("success: Unclock", id);
       console.log('----------',this.listDomain);
-      this.onSearch(true);
     }, err => {
       console.log(err);
       
     })
   }
 
-  unlockOneDomain(id){
-    Swal.fire({
-      title:'Mở khóa người dùng',
-      text: 'Bạn có chắc chắn muốn mở khóa user này không!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#34c38f',
-      cancelButtonColor: '#f46a6a',
-      confirmButtonText: 'Đồng ý!'
-      
-    }).then(result => {
-      if (result.value) {
-        Swal.fire('Mở khóa!', 'Bạn vừa mở khóa thành công.','success');
-        this.unlockDomain(id);
-       
-      }
+  lockOneDomain(id) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger ms-2'
+      },
+      buttonsStyling: false
     });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: 'Khóa domain',
+        text: 'Bạn có chắc chắn muốn khóa domain này không!',
+        icon: 'warning',
+        confirmButtonText: 'Yes, lock it!',
+        cancelButtonText: 'No, cancel!',
+        showCancelButton: true
+      })
+      .then(result => {
+        if (result.value) {
+          swalWithBootstrapButtons.fire(
+            'Khóa!',
+            'Bạn vừa khóa thành công.',
+            'success'
+          );
+          this.lockDomain(id);
+
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Khóa domain thất bại:)',
+            'error'
+          );
+        }
+      });
   }
 
-  lockOneDomain(id){
-    Swal.fire({
-      title: 'Khóa người dùng',
-      text: 'Bạn có chắc chắn muốn khóa user này không!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#34c38f',
-      cancelButtonColor: '#f46a6a',
-      confirmButtonText:  'Đồng ý',
-      
-    }).then(result => {
-      if (result.value) {
-        Swal.fire('Khóa!','Bạn vừa khóa thành công.','success');
-        this.lockDomain(id);
-      }
+  
+  unlockOneDomain(id) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger ms-2'
+      },
+      buttonsStyling: false
     });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: 'Mở khóa domain',
+        text: 'Bạn có chắc chắn muốn mở khóa domain này không!',
+        icon: 'warning',
+        confirmButtonText: 'Yes, unlock it!',
+        cancelButtonText: 'No, cancel!',
+        showCancelButton: true
+      })
+      .then(result => {
+        if (result.value) {
+          swalWithBootstrapButtons.fire(
+            'Mở khóa!',
+            'Bạn vừa mở khóa thành công.',
+            'success'
+          );
+          
+          this.unlockDomain(id);
+
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Mở khóa thất bại',
+            'error'
+          );
+        }
+      });
   }
 
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 import { EventService } from '../core/services/event.service';
-import { AuthService } from '../services/auth.service';
 
 import {
   LAYOUT_VERTICAL, LAYOUT_HORIZONTAL, LAYOUT_WIDTH, TOPBAR
@@ -20,10 +19,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   layoutwidth: string;
   topbar: string;
 
-  constructor(
-    private eventService: EventService,
-    public authService: AuthService
-    ) { }
+  constructor(private eventService: EventService) { }
 
   ngOnInit() {
     // default settings

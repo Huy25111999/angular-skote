@@ -28,10 +28,7 @@
                             <div class = 'search-info row' >
                                 <label class = "col-md-2">Domain</label>
                                 <div class="col-md-10">
-                                    <form action=""  [formGroup]="formData" >
-                                         <input  type="text" ngxTrim class="form-control" formControlName = 'domainName' placeholder="Nhập tên domain">
-                                    </form>
-                                   
+                                    <input  type="text" class="form-control">
                                 </div>
 
                             </div>
@@ -39,7 +36,7 @@
 
                         <div class="button">
                             <div class="btn-search">
-                                <button class=" btn btn-primary btn-sm" type="button" (click)=" onSearch(false)" >
+                                <button class=" btn btn-primary btn-sm" type="button" >
                                     <span class="bx bx-search-alt-2"></span>
                                     <span>Tìm kiếm</span>
                                 </button>
@@ -62,65 +59,44 @@
                         <div class="search-header">
                             <h4>Thông tin Domain</h4>
                         </div>
-        
-                   <div class="table-responsive">
-                    <table id="data-table" class = "table table-striped mb-0">
-                        <thead>
-                            <th class="info-number-icon">STT</th>
-                            <th class="info-text">Tên domain</th>
-                            <th class="info-text">Key</th>
-                            <th class="info-text">Miêu tả</th>
-                            <th class="info-date">Ngày tạo</th>
-                            <th class="info-text">Trạng thái</th>
-                            <th class="info-number-icon">Hành động</th>
-                        </thead>
-                        <tbody>
+                        <div class="table-responsive">
+                            <table id="data-table" class = "table table-striped mb-0">
+                                <thead>
+                                    <th class="info-number-icon">STT</th>
+                                    <th class="info-text">Domain</th>
+                                    <th class="info-text">Private key</th>
+                                    <th class="info-text">Description</th>
+                                    <th class="info-date">Created date</th>
+                                    <th class="info-text">Status</th>
+                                    <th class="info-number-icon">Action</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dataDomain of listDomain">
+                                        <td class="info-number-icon">{{listDomain.indexOf(dataDomain)+1}}</td>
+                                        <td class="info-text">{{dataDomain.domainName}}</td>
+                                        <td class="info-text">{{dataDomain.privateKey}}</td>
+                                        <td class="info-text">{{dataDomain.description}}</td>
+                                        <td class="info-date">{{dataDomain.createDates}}</td>
+                                        <td class="info-text">{{dataDomain.status}}</td>
+                                        <td class="info-number-icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  >
+                                            <i (click)="openModalEdit(dataDomain)">
+                                                <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                                            </i>
 
-                            
-                            <tr *ngFor="let dataDomain of listDomain">
-                                <td class="info-number-icon">{{listDomain.indexOf(dataDomain)+1}}</td>
-                                <td class="info-text">{{dataDomain.domainName}}</td>
-                                <td class="info-text">{{dataDomain.privateKey}}</td>
-                                <td class="info-text">{{dataDomain.description}}</td>
-                                <td class="info-date">{{dataDomain.createDates}}</td>
-                                <td class="info-text" >
-                                    <p *ngIf="dataDomain.status == 1">Mở khóa</p>
-                                    <p *ngIf="dataDomain.status == 0">Đóng khóa</p>
+                                            <i  *ngIf="dataDomain.status == 1" class="bx bx-lock-alt" (click)="lockOneDomain(dataDomain.id)"></i>
+                                            <i *ngIf="dataDomain.status == 0" class="bx bx-lock-open-alt" (click)="unlockOneDomain(dataDomain.id)"></i>
 
-                                </td>
-                                <td class="info-number-icon" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  >
-                                    <i (click)="openModalEdit(dataDomain)">
-                                        <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
-                                    </i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="page">
+                                <div class="page-right">
 
-                                    <i  *ngIf="!dataDomain.status" class="bx bx-lock-open-alt" (click)="unlockOneDomain(dataDomain.id)"></i>
-                                    <i *ngIf="dataDomain.status" class="bx bx-lock-alt" (click)="lockOneDomain(dataDomain.id)"></i>
+                                </div>
 
-                                </td>
-                            </tr>
-                            
-
-                        </tbody>
-                    </table>
-
-                    <!--Pagination-->
-                      
-                    <app-pagination *ngIf="listDomain.length"
-                                    [page]="page"
-                                    [pageSize]="pageSize"
-                                    [collectionSize]="totalSize"
-                                    (pageChange)="onPageChange($event)"
-                                    (pageSizeChange)="pageChangeEvent($event)"
-                    >
-
-                    </app-pagination>
-                    
-              
-                </div>
-                   
-                
-                
-                
+                            </div>
+                        </div>
                     </div>
                 </div>
 

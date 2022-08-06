@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit {
   password: string;
   domainCode: string;
   service: string;
-  count:number = 0;
   formData: FormGroup = this.fb.group({
     username: new FormControl(''),
     password: new FormControl(''),
@@ -35,8 +34,7 @@ export class HomeComponent implements OnInit {
       if (params) {
         this.service = params.service;
         this.formData.get('domainCode').setValue(params.domainCode);
-        console.log('Error', this.service);
-        console.log(params);
+
       }
     })
 
@@ -44,9 +42,7 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.goPage();
   }
-
 
   onLogin() {
     this.message = '';
@@ -59,30 +55,13 @@ export class HomeComponent implements OnInit {
       this.message = 'Mật khẩu không được để trống!';
       return;
     }
-    
-
     this.postService.getAuthor(formValue).subscribe(res =>{
       if(res && res.token && res.token.length){
         const service = this.service + `?token=${res.token}`
-         location.replace(service);
-         console.log('Token: ',res.token);
-         
+        location.replace(service);
       }
     }, error => {
-      this.count +=1; 
-      if(this.count >= 5)
-      {
-        console.log(this.count);
-        this.message = 'Tài khoản của bạn đã bị khóa do nhập sai quá 5 lần ';
-        return ;
-      }else
-      {
-        console.log('--------: ',this.count);
-         this.message = 'Tài khoản hoặc mật khẩu không chính xác!';
-         console.log('Lỗi 403: Tài khoản hoặc mật khẩu của bạn không chính xác!');
-         return;
-      }
-     
+
     })
   }
 

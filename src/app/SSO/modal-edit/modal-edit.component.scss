@@ -1,0 +1,25 @@
+.modal-header, .input-form {
+    padding-left: 64px;
+    padding-right: 64px;
+}
+
+.modal-body {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+div.btn-footer {
+    padding-right: 44px;
+}
+
+.btn-footer button {
+    margin-left: 18px;
+}
+
+div.modal-footer {
+    border-top: 1px solid #ccc!important;
+}
+
+form.form.ng-untouched.ng-pristine.ng-valid div.mb-4 {
+    margin: 0 48px;
+}

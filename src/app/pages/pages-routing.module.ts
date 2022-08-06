@@ -8,7 +8,7 @@ import { FilemanagerComponent } from './filemanager/filemanager.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard' },
-  // { path: 'dashboard', loadChildren: () => import('./dashboards/dashboards.module').then(m =>m.DashboardsModule)},
+  { path: 'dashboard', loadChildren: () => import('./dashboards/dashboards.module').then(m =>m.DashboardsModule)},
   { path: 'calendar', component: CalendarComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'filemanager', component: FilemanagerComponent },

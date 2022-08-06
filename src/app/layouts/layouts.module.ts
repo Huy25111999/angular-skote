@@ -17,7 +17,6 @@ import { VerticalComponent } from './vertical/vertical.component';
 import { HorizontaltopbarComponent } from './horizontaltopbar/horizontaltopbar.component';
 import { LanguageService } from '../core/services/language.service';
 import { TranslateModule } from '@ngx-translate/core';
-// import { ManagementComponent } from '../SSO/management/management.component';
 
 @NgModule({
     // tslint:disable-next-line: max-line-length
@@ -31,7 +30,6 @@ import { TranslateModule } from '@ngx-translate/core';
         UIModule,
         SimplebarAngularModule,
         NgbTooltipModule
-        
     ],
     exports: [
         FooterComponent

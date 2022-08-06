@@ -14,8 +14,8 @@ export class PostService {
   user!: infor[];
   main!: domain[];
   auth!:author[];
-  private API:string = "http://192.168.0.101:8224/api" ;
-  //private API:string = "http://192.168.3.41:8224/api" ;
+   private API:string = "http://192.168.0.101:8224/api" ;
+   //private API:string = "http://192.168.3.41:8224/api" ;
   constructor(private http: HttpClient) {}
 
   // User
@@ -50,11 +50,9 @@ export class PostService {
     return this.http.put<any>(this.API +'/users/unlock-user/' + id, null );
   }
 
-  search(paramSearch:any):Observable<any>
+  search(username:any,phone:any,email:any,pageNumber:number):Observable<any>
   {
-    return  this.http.get<any>(this.API + '/users/', {
-      params: paramSearch
-    });
+    return  this.http.get<any>(this.API + '/users/'+'?username='+username+'&phone='+phone+'&email='+email+'&pageNumber='+pageNumber);
   }
 
 // Domain
@@ -87,49 +85,12 @@ export class PostService {
   {
     return this.http.put<any>(this.API +'/domain/unlock-domain/' + id, null );
   }
-  searchDomain(paramSearch:any):Observable<any>
-  {
-    return  this.http.get<any>(this.API + '/domain/', {
-      params: paramSearch
-    });
-  }
 
   //Author
-  // Xác thực
   getAuthor(auth:author):Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/text')
     return this.http.post<any>(this.API +'/auth/signin',auth, {headers: headers, observe: 'body'});
   }
 
-// login
-  login(auth:author):Observable<any> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/text')
-    return this.http.post<any>(this.API +'/auth/sso/signin',auth, {headers: headers, observe: 'body'});
-  }
-
-  // User-domain join
-  getUserDomain(id:number)
-  {
-    return this.http.get<any>(this.API + '/user-domain/'+id);
-  }
-
-  getListUserDomainJoin(id:number)
-  {
-    return this.http.get<any>(this.API + '/user-domain/join-domain/'+id);
-  }
-
-  
-  updateListUserDomainJoin(id:number,domainId:any)
-  {
-    return this.http.post<any>(this.API + '/user-domain/'+id,domainId);
-   
-  }
-
-  deleteListUserDomainJoin(id:number,domainId:any): Observable<any>
-  {
-    return this.http.post<any>(this.API + '/user-domain/update/'+id,domainId);
-   
-  }
 }
