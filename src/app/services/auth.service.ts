@@ -38,5 +38,3 @@ export class AuthService {
     
   }
 }
-
-// eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb3Zhbmh1eSIsImlhdCI6MTY1OTY3NTY0OCwiZXhwIjoxNjU5Njc5MjQ4fQ.No_FcyUnXJDwj5PlzbEtYIJ5VhuDIjsVEKr_vJouS-Eu3ybRICbOdEvj3ecH8PLF6gTDdQz2XyY115JjgdLkbQ

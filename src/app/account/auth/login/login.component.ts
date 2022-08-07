@@ -25,12 +25,10 @@ import { TopbarComponent } from 'src/app/layouts/topbar/topbar.component';
  */
 export class LoginComponent implements OnInit {
 
-  @Input() childMessage = "test";
-  child:string="demo" ;
   @Output() voteSize = new EventEmitter();
   counter: number = 0;
-
-  parentMessage: string = "Message from parent";
+  message: string ;
+ 
   loginForm: FormGroup;
   submitted = false;
   error = '';
@@ -101,13 +99,26 @@ export class LoginComponent implements OnInit {
 
   onSubmitLogin()
   {
-    if (this.formData.invalid){
+    this.message = '' ;
+    const formValue = this.formData.getRawValue();
+    if (!formValue.username || !formValue.username.length){
+      this.message = 'Tên đăng nhập không được để trống!';
+      return;
+    }
+    if (!formValue.password || !formValue.password.length){
+      this.message = 'Mật khẩu không được để trống!';
       return;
     }
 
-    this.authService.login(this.formData.value).subscribe(data => {  
+    this.authService.login(formValue).subscribe(data => {  
     console.log('---------token:',data);
     this.router.navigate(['/management']);
+    },error =>{
+        this.message = error ; 
+        console.log(this.message);
+        console.log(error);
+        return ;
+      
     })
   }
 

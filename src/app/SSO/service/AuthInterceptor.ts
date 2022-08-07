@@ -12,13 +12,12 @@ const TOKEN_HEADER_KEY = 'Authorization';
   providedIn: 'any',
 })
 export class AuthInterceptor implements HttpInterceptor {
-
   constructor(private authService: AuthService) {
   }
 
   intercept(req:  HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.token;
-    console.log("aaaaaa: ",token);
+    console.log("token: ",token);
     if (token) {
       req = req.clone({
         setHeaders: {

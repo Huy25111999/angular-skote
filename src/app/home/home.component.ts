@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   password: string;
   domainCode: string;
   service: string;
+  count:number = 0;
   formData: FormGroup = this.fb.group({
     username: new FormControl(''),
     password: new FormControl(''),
@@ -61,7 +62,19 @@ export class HomeComponent implements OnInit {
         location.replace(service);
       }
     }, error => {
-
+      this.count +=1; 
+      if(this.count >= 5)
+      {
+        console.log(this.count);
+        this.message = 'Tài khoản của bạn đã bị khóa do nhập sai quá 5 lần ';
+        return ;
+      }else
+      {
+        this.message = error ; 
+        console.log(this.message);
+         this.message = 'Tài khoản hoặc mật khẩu không chính xác!';
+         return;
+      }
     })
   }
 
