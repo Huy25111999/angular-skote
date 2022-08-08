@@ -89,6 +89,22 @@ export class ModalEditComponent implements OnInit {
 
   }
 
+  closeModal(){
+    Swal.fire({
+      text: 'Dữ liệu nhập chưa được lưu lại, bạn có muốn đóng tab không?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText:  'Đồng ý',
+
+    }).then(result => {
+      if (result.value) {
+          this.activeModal.close('Close click'); 
+      }
+    });
+  }
+  
   success() {
     Swal.fire({
       position: 'top-end',

@@ -26,11 +26,7 @@ export class ManagementComponent implements OnInit
   count: number = 0;
   tableSize: number = 3;
   tableSizes: any = [3, 6, 9, 12];
-  // collectionSize = 0;
-  //Search
-  // username: any;
-  // phone: any;
-  // email: any
+
   username:string = '';
   phone:string = '';
   email:string = '';
@@ -57,7 +53,6 @@ export class ManagementComponent implements OnInit
     ) {}
 
   ngOnInit(): void {
-    // this.getListUsers();
     this.onSearch(false);
     this.getToken()
   }
@@ -77,7 +72,7 @@ export class ManagementComponent implements OnInit
 
     },(reason)=>{
       data = reason;
-      this.getListUsers ;
+      this.onSearch(true) ;
     })
   }
 
@@ -87,11 +82,9 @@ export class ManagementComponent implements OnInit
     const modalRef = this.modalService.open(ModalEditComponent, {size : 'lg'})
     modalRef.componentInstance.dtUser = data;
     modalRef.result.then((data) => {
-
-
     }, (reason) => {
       data = reason;
-      this.getListUsers()
+      this.onSearch(true) ;
     })
 
   }
@@ -105,21 +98,17 @@ export class ManagementComponent implements OnInit
 
 
   // Get all user
-  getListUsers()
-  {
-    this.postService.getAllUsers().subscribe(data => {
-      console.log(data);
-      this.listUsers = data.data.content;
-      console.log('list: ',this.listUsers);
-      // this.collectionSize = this.listUsers.length ;
-      // console.log('collect:',  this.collectionSize);
+  // getListUsers()
+  // {
+  //   this.postService.getAllUsers().subscribe(data => {
+  //     console.log(data);
+  //     this.listUsers = data.data.content;
+  //     console.log('list: ',this.listUsers);
+  //   }, error => {
+  //     console.log(error);
 
-
-    }, error => {
-      console.log(error);
-
-    })
-  }
+  //   })
+  // }
 
 // ___________Tim kiếm phân trang
 
@@ -155,7 +144,6 @@ export class ManagementComponent implements OnInit
     }, error => {
 
       this.router.navigate(['/account/login']);
-      console.log('Lỗi 403: Bạn ko có quyền truy cập vào');
 
     })
 

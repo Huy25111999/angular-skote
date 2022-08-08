@@ -63,6 +63,8 @@ export class HomeComponent implements OnInit {
       }
     }, error => {
       this.count +=1; 
+      console.log(error);
+      
       if(this.count >= 5)
       {
         console.log(this.count);
@@ -72,8 +74,7 @@ export class HomeComponent implements OnInit {
       {
         this.message = error ; 
         console.log(this.message);
-         this.message = 'Tài khoản hoặc mật khẩu không chính xác!';
-         return;
+        return ;
       }
     })
   }

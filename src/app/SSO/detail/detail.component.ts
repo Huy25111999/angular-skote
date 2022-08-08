@@ -92,6 +92,7 @@ export class DetailComponent implements OnInit {
       this.listDomain = data.data;
       console.log("User-domain",this.listDomain);
     }, error => {
+      
       console.log(error);
       
     })

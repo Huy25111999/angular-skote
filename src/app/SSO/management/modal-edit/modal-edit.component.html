@@ -4,7 +4,7 @@
     <div id="modal-edit">
         <div class="modal-header">
                 <h5 class="modal-title">Sửa người dùng</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="activeModal.close('Close click')"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
             
         </div>
         <form class="form" [formGroup]="editForm" (ngSubmit)="onSubmit()">
@@ -15,7 +15,7 @@
                         <label class="col-sm-3" >Tên đăng nhập (<i>*</i>)</label>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-8">
-                            <input type="text" disabled class="form-control" formControlName = 'username'>
+                            <input type="text" ngxTrim disabled class="form-control" formControlName = 'username'>
                             <!-- <div *ngIf = "!formData.controls.name.valid"></div> -->
                         </div>
                         
@@ -25,7 +25,7 @@
                         <label class="col-sm-3" >Mật khẩu (<i>*</i>)</label>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" formControlName = 'password'>
+                            <input type="password" ngxTrim class="form-control" formControlName = 'password'>
                             <div *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)">
                                 <div *ngIf="f.password.errors">
                                     <div *ngIf="f.password.errors.required">
@@ -46,7 +46,7 @@
                         <label class="col-sm-3" >Email (<i>*</i>)</label>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" formControlName = 'email'>
+                            <input type="text" ngxTrim class="form-control" formControlName = 'email'>
                             <!-- <div *ngIf = "!formData.controls.name.valid"></div> -->
                              
                             <div *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
@@ -69,7 +69,7 @@
                         <label class="col-sm-3" >Số điện thoại</label>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" formControlName = 'phone'>
+                            <input type="text" ngxTrim class="form-control" formControlName = 'phone'>
                             <!-- <div *ngIf = "!formData.controls.name.valid"></div> -->
                             <div *ngIf="f.phone.invalid && (f.phone.dirty || f.phone.touched)">
                                 <div *ngIf="f.phone.errors">
@@ -90,7 +90,7 @@
                         <label class="col-sm-3" >Địa chỉ</label>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" formControlName = 'address'>
+                            <input type="text" ngxTrim class="form-control" formControlName = 'address'>
                             <!-- <div *ngIf = "!formData.controls.name.valid"></div> -->
                             <div *ngIf="f.address.invalid && (f.address.dirty || f.address.touched)">
                                 <div *ngIf="f.address.errors">
@@ -134,7 +134,7 @@
                         <label class="col-sm-3" >Chức vụ</label>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-8" >
-                            <input type="text" class="form-control" formControlName = 'position'>
+                            <input type="text" ngxTrim class="form-control" formControlName = 'position'>
                             <div *ngIf="f.position.invalid && (f.position.dirty || f.position.touched)">
                                 <div *ngIf="f.position.errors">
                                     <div *ngIf="f.position.errors.required">
@@ -154,7 +154,7 @@
             
             <div class="modal-footer">
                 <div class="btn-footer">
-                    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Đóng</button>
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Đóng</button>
                     <button type="submit" class="btn btn-primary w-xs" [disabled]="!editForm.valid">Lưu</button>
                 </div>
             </div>  

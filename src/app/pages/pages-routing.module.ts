@@ -7,7 +7,8 @@ import { DefaultComponent } from './dashboards/default/default.component';
 import { FilemanagerComponent } from './filemanager/filemanager.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard' },
+  // { path: '', redirectTo: 'dashboard' },
+  { path: '', redirectTo: 'SSO' },
   { path: 'dashboard', loadChildren: () => import('./dashboards/dashboards.module').then(m =>m.DashboardsModule)},
   { path: 'calendar', component: CalendarComponent },
   { path: 'chat', component: ChatComponent },

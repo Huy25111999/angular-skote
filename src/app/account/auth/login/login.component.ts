@@ -13,6 +13,7 @@ import {HttpClient} from "@angular/common/http";
 import { AuthService } from 'src/app/services/auth.service';
 //----------------
 import { TopbarComponent } from 'src/app/layouts/topbar/topbar.component';
+import { AuthInterceptor } from 'src/app/SSO/service/AuthInterceptor';
 
 @Component({
   selector: 'app-login',
@@ -111,12 +112,15 @@ export class LoginComponent implements OnInit {
     }
 
     this.authService.login(formValue).subscribe(data => {  
-    console.log('---------token:',data);
-    this.router.navigate(['/management']);
+      console.log('---------token:',data);
+      //this.router.navigate(['/management']);
+      //location.replace('http://192.168.0.101:8084/sso/management');
+      location.replace('SSO/management');
+      
     },error =>{
+        console.log(error);
         this.message = error ; 
         console.log(this.message);
-        console.log(error);
         return ;
       
     })
@@ -124,3 +128,5 @@ export class LoginComponent implements OnInit {
 
 }
 
+
+    // AuthInterceptor.accessToken = data.token;

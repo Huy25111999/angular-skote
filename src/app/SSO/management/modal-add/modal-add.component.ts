@@ -18,6 +18,8 @@ export class ModalAddComponent implements OnInit {
   edit:  infor[]= [];
   modalRef: any ;
   submitted = false;
+  message: string ; 
+  err: boolean = false;
   formData:FormGroup;
   // public formData:FormGroup = new FormGroup({
   //   username: new FormControl(''),
@@ -64,30 +66,27 @@ export class ModalAddComponent implements OnInit {
       event.preventDefault();
     }
   }
-  // forbiddenUsername(users = []) {
-  //   return (c: AbstractControl) => {
-  //     return (users.includes(c.value)) ? {
-  //       invalidusername: true
-  //     } : null;
-  //   };
-  // }
   
   onSubmit()
   {
+     this.message = '' ;
+     this.err = false ; 
      this.formData.value.gender = parseInt(this.formData.value.gender)
      this.postService.addUser(this.formData.value).subscribe(data => {
       console.log(this.listUsers);
       console.log ("submit:", this.formData.value);
+      this.activeModal.dismiss(this.formData.value);
       this.activeModal.close('Close click');  
       this.success();
       this.route.navigate(['/management'])  
-      console.log(this.formData); 
       
     }, error => {
-      console.log(error);
-      
-      this.activeModal.close('Close click');  
-      this.error();
+      this.err = true ; 
+      this.message = error ; 
+      console.log(this.message);
+      return ;
+      // this.activeModal.close('Close click');  
+      //this.error();
     })
   }
 
@@ -108,6 +107,22 @@ export class ModalAddComponent implements OnInit {
       title: 'Tạo mới thất bại',
       showConfirmButton: false,
       timer: 1500
+    });
+  }
+
+  closeModal(){
+    Swal.fire({
+      text: 'Dữ liệu nhập chưa được lưu lại, bạn có muốn đóng tab không?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText:  'Đồng ý',
+
+    }).then(result => {
+      if (result.value) {
+          this.activeModal.close('Close click'); 
+      }
     });
   }
 

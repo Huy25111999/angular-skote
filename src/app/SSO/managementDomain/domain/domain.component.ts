@@ -27,7 +27,7 @@ export class DomainComponent implements OnInit {
   constructor(
     private postService: PostService, 
     private modalService : NgbModal,
-    private route: Router
+    private router: Router
     ) { }
 
 
@@ -91,6 +91,7 @@ export class DomainComponent implements OnInit {
       this.totalSize = data.data.totalElements;
       console.log('_________', this.totalSize)
     }, error => {
+      this.router.navigate(['/account/login']);
       console.log(error);
     })
 
@@ -135,8 +136,8 @@ export class DomainComponent implements OnInit {
 
   unlockOneDomain(id){
     Swal.fire({
-      title:'Mở khóa người dùng',
-      text: 'Bạn có chắc chắn muốn mở khóa user này không!',
+      title:'Mở khóa domain',
+      text: 'Bạn có chắc chắn muốn mở khóa domain này không!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#34c38f',
@@ -155,7 +156,7 @@ export class DomainComponent implements OnInit {
   lockOneDomain(id){
     Swal.fire({
       title: 'Khóa người dùng',
-      text: 'Bạn có chắc chắn muốn khóa user này không!',
+      text: 'Bạn có chắc chắn muốn khóa domain này không!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#34c38f',

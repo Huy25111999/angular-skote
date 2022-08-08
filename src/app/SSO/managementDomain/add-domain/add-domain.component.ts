@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-domain.component.scss']
 })
 export class AddDomainComponent implements OnInit {
-
+  message: string ; 
   constructor(
     private common: PostService, 
     private formBuilder: FormBuilder,
@@ -25,6 +25,7 @@ export class AddDomainComponent implements OnInit {
   oneDoMain : domain[]= [];
   modalRef: any ;
   formData:FormGroup; 
+  err: boolean = false;
 
   get f(){
     return this.formData.controls;
@@ -43,21 +44,41 @@ export class AddDomainComponent implements OnInit {
 
   onSubmit()
   {
-
+    this.message = '' ;
+    this.err = false ; 
     this.postService.addDomain(this.formData.value).subscribe(data => {
      console.log(this.oneDoMain);
      console.log ("submit:", this.formData.value);
      this.activeModal.close('Close click');  
+     this.activeModal.dismiss(this.formData.value);
      this.success();
      this.route.navigate(['/domain'])     
    }, error => {
-     console.log(error);
-     
-     this.activeModal.close('Close click');  
-     this.error();
+      this.err = true ;   
+      this.message = error ; 
+      console.log(this.message);
+      return ;
+
+    //  this.activeModal.close('Close click');  
+    //  this.error();
    })
   }
 
+  closeModal(){
+    Swal.fire({
+      text: 'Dữ liệu nhập chưa được lưu lại, bạn có muốn đóng tab không?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText:  'Đồng ý',
+
+    }).then(result => {
+      if (result.value) {
+          this.activeModal.close('Close click'); 
+      }
+    });
+  }
   
   success() {
     Swal.fire({

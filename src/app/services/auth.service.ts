@@ -19,9 +19,8 @@ export class AuthService {
     private http: HttpClient
   ) {
     this.token = localStorage.getItem('auth');
-    this._isLoggedIn$.next(!!this.token);
-
-    
+    this._isLoggedIn$.next(!!this.token)
+  
    }
 
   login(auth:author)
