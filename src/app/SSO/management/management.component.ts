@@ -143,7 +143,7 @@ export class ManagementComponent implements OnInit
       this.totalElements = data.data.totalElements;
     }, error => {
 
-      this.router.navigate(['/account/login']);
+    //  this.router.navigate(['/account/login']);
 
     })
 

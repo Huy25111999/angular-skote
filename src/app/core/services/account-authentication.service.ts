@@ -52,7 +52,7 @@ export class AccountAuthenticationService {
 
   logout() {
     // localStorage.removeItem('currentUser');
-    localStorage.removeItem('auth');
+    localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
     void this.router.navigate(['/account/login']);

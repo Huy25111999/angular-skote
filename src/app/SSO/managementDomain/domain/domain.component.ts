@@ -91,7 +91,7 @@ export class DomainComponent implements OnInit {
       this.totalSize = data.data.totalElements;
       console.log('_________', this.totalSize)
     }, error => {
-      this.router.navigate(['/account/login']);
+      // this.router.navigate(['/account/login']);
       console.log(error);
     })
 

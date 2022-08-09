@@ -45,12 +45,11 @@
                     <input type="password" class="form-control" formControlName="password" placeholder="Nhập mật khẩu"
                       [ngClass]="{ 'is-invalid': submitted && f.password.errors }" aria-label="Password"
                       aria-describedby="password-addon">
-
-                    <button class="btn btn-light ms-0" type="button" id="password-addon"><i
-                        class="mdi mdi-eye-outline"></i></button>
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <!-- <button class="btn btn-light ms-0" type="button" id="password-addon"><i
+                        class="mdi mdi-eye-outline"></i></button> -->
+                    <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                       <span *ngIf="f.password.errors.required">Password is required</span>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
 

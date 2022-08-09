@@ -1,6 +1,6 @@
 
 import {HTTP_INTERCEPTORS, HttpEvent, HttpHeaders, HttpErrorResponse, HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
 // import {} from "./Account.service.";
 
@@ -15,9 +15,11 @@ const TOKEN_HEADER_KEY = 'Authorization';
 export class AuthInterceptor implements HttpInterceptor {
  // static accessToken = '';
 //  accessToken:any ;
+  authreq;
   refresh= false;
   constructor(private authService: AuthService,
-              private http: HttpClient
+              private http: HttpClient,
+              private inject: Injector
     ) {
   }
 
@@ -25,7 +27,10 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = this.authService.token;
     console.log("token: ",token);
 
+
     if (token) {
+      // this.authreq = req;
+      // this.authreq = this.addTokenHeader(req,token);
       req = req.clone({
         setHeaders: {
           Authorization: 'Bearer '+ token,
@@ -41,28 +46,27 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       });
     }
-    return next.handle(req) ;
-    
-    // return next.handle(req).pipe(catchError((err: HttpErrorResponse) =>{
-    //   if (err.status === 401 && !this.refresh){
-    //     this.refresh = true;
-    //      return this.http.post ('http://192.168.3.41:8224/api/auth/verify-refresh-token',{}).pipe(
-    //       switchMap((res:any)=>{
-    //         const accessToken = this.authService.token;
-    //         return next.handle(req.clone({
-    //           setHeaders: {
-    //             Authorization: 'Bearer '+ accessToken,
-    //             'isSlide': 'true',
-    //             'Accept-language': 'vi'
-    //           }
-    //         }));
-    //       })
-    //   )}
-    //   this.refresh = false;
-    //   return throwError(() =>err);
-    // }));
+     return next.handle(req) ;
+    // return next.handle(this.authreq).pipe(catchError(errorData =>{
+    //   if (errorData.status === 401)
+    //   {
+    //     // this.authService.logout();
+    //     this.handleRefreshToken(req, next);
+    //   }
+    //   return throwError(errorData);
+    // })) ;
+  }
+
+  handleRefreshToken(req:  HttpRequest<any>, next: HttpHandler)
+  {
 
   }
+
+  addTokenHeader(request: HttpRequest<any>,token:any)
+  {
+    return request.clone({headers:request.headers.set('Authorization','Bearer'+token)});
+  }
+
 }
 
 export const httpInterceptorProviders = [

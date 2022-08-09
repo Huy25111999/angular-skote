@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   error = '';
   returnUrl: string;
+  responsedata: any;
 
   // set the currenr year
   year: number = new Date().getFullYear();
@@ -111,22 +112,19 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authService.login(formValue).subscribe(data => {  
-      console.log('---------token:',data);
-      //this.router.navigate(['/management']);
-      //location.replace('http://192.168.0.101:8084/sso/management');
-      location.replace('SSO/management');
-      
-    },error =>{
-        console.log(error);
+    if (this.formData.valid){
+      this.authService.login(formValue).subscribe(result =>{
+        if (result != null){
+          this.responsedata = result
+          // localStorage.setItem('token',this.responsedata.token);
+          location.replace('SSO/management');
+        }
+      },error =>{
         this.message = error ; 
         console.log(this.message);
         return ;
-      
-    })
+      })
+    }
   }
 
 }
-
-
-    // AuthInterceptor.accessToken = data.token;
