@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { ModalAddComponent } from './modal-add/modal-add.component';
 import { ModalEditComponent } from './modal-edit/modal-edit.component';
 import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PostService } from '../service/post.service';
+import { UserService } from '../service/user.service';
 import { infor } from '../../model/infor';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -45,8 +45,11 @@ export class ManagementComponent implements OnInit
   searchText: any;
   viewText : string="Quản lý user";
 
+  selectApp: any[];
+  selectGroupRole: any[];
+
   constructor(
-    private postService: PostService,
+    private userService: UserService,
     private modalService : NgbModal,
     private formBuilder: FormBuilder,
     private router:Router
@@ -54,13 +57,14 @@ export class ManagementComponent implements OnInit
 
   ngOnInit(): void {
     this.onSearch(false);
-    this.getToken()
+    this.getToken();
+    this.getNameApp();
+    this.getGroupRole();
   }
 
   getToken(){
     this.token = localStorage.getItem('auth');
     console.log("token: ",this.token);
-
   }
 
   //Open modal
@@ -93,7 +97,9 @@ export class ManagementComponent implements OnInit
   public formData:FormGroup = new FormGroup({
     username: new FormControl(''),
     phone: new FormControl(''),
-    email: new FormControl('')
+    email: new FormControl(''),
+    pageNumber: new FormControl(''),
+    pageSize: new FormControl('')
   })
 
 
@@ -134,20 +140,19 @@ export class ManagementComponent implements OnInit
 
   onSearch(flag)
   {
+    this.formData.value.pageNumber = this.page;
+    this.formData.value.pageSize = this.pageSize;
     console.log(this.formData.value);
-    this.postService.search( {
-      ...this.formData.value, page: this.page, pageSize: this.pageSize
-    }).subscribe(data => {
+    this.userService.search(this.formData.value).subscribe(data => {
       this.listUsers = data.data.content;
       console.log('list user : ',this.listUsers)
       this.totalElements = data.data.totalElements;
     }, error => {
-
-    //  this.router.navigate(['/account/login']);
-
+ //     this.router.navigate(['/account/login']);
     })
 
   }
+  
 
   onPageChange(event: any) {
     this.page = event;
@@ -160,11 +165,31 @@ export class ManagementComponent implements OnInit
     this.onSearch(true);
   }
 
+  // ---------select 
+  // get name app
+  getNameApp()
+  {
+    this.userService.getNameApp().subscribe(data => {
+      this.selectApp = data;
+      console.log('Infor user : ',this.oneUser)
+    }, error => {
+      console.log(error);
+    })
+  }
+  getGroupRole()
+  {
+    this.userService.getNameApp().subscribe(data => {
+      this.selectApp = data;
+      console.log('Infor user : ',this.oneUser)
+    }, error => {
+      console.log(error);
+    })
+  }
 
   // View chi tiết
   getOneUser(id)
   {
-    this.postService.getID(id).subscribe(data => {
+    this.userService.getID(id).subscribe(data => {
       this.oneUser = data;
       console.log('Infor user : ',this.oneUser)
     }, error => {
@@ -174,9 +199,10 @@ export class ManagementComponent implements OnInit
   }
 
   // Lock - unlock user
+  
   getIdUser(id)
   {
-    this.postService.getID(id).subscribe(data => {
+    this.userService.getID(id).subscribe(data => {
       console.log(id);
       this.listUsers = data;
       console.log('list: ',this.listUsers)
@@ -189,7 +215,7 @@ export class ManagementComponent implements OnInit
 
   lockUser(id)
   {
-    this.postService.lockUser(id).subscribe(data => {
+    this.userService.lockUser(id).subscribe(data => {
       console.log("success: lock", id);
          console.log('----------',this.listUsers);
          this.onSearch(true);
@@ -199,7 +225,7 @@ export class ManagementComponent implements OnInit
   }
 
   unlockUser(id){
-    this.postService.unlockUser(id).subscribe(data => {
+    this.userService.unlockUser(id).subscribe(data => {
       console.log("success: Unclock", id);
       console.log('----------',this.listUsers);
       this.onSearch(true);

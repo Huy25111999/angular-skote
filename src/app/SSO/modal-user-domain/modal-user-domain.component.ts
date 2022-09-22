@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PostService } from '../service/post.service';
+import { UserService } from '../service/user.service';
 import { domain } from '../../model/domain';
 import { ActivatedRoute } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +24,7 @@ export class ModalUserDomainComponent implements OnInit {
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private route: ActivatedRoute,
-    private postService: PostService,
+    private userService: UserService,
     private rt:Router
 
   ) { }
@@ -43,7 +43,7 @@ export class ModalUserDomainComponent implements OnInit {
   //User-domain
   getListUserDomainJoin(idUser)
   {
-    this.postService.getListUserDomainJoin(idUser).subscribe(data => {
+    this.userService.getListUserDomainJoin(idUser).subscribe(data => {
       console.log(data);
       this.userDomainJoin = data.data;
      
@@ -67,7 +67,7 @@ export class ModalUserDomainComponent implements OnInit {
       console.log(domainId);
       // console.log(listSelected.map(e => e.id));
       console.log('---',domainId)
-      this.postService.updateListUserDomainJoin(this.idUser,domainId).subscribe(data => {
+      this.userService.updateListUserDomainJoin(this.idUser,domainId).subscribe(data => {
         // this.getListUserDomainJoin(this.idUser);
         this.activeModal.dismiss( domainId);
         this.activeModal.close('Close click');    

@@ -30,6 +30,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {HomeComponent} from "./home/home.component";
 // import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './SSO/service/AuthInterceptor';
+import { TreeviewModule } from 'ngx-treeview';
 
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
@@ -75,7 +76,8 @@ export function createTranslateLoader(http: HttpClient): any {
     NgbTooltipModule,
     SharedModule,
     ScrollToModule.forRoot(),
-    NgbModule
+    NgbModule,
+    TreeviewModule.forRoot(),
   ],
   bootstrap: [AppComponent],
   providers: [

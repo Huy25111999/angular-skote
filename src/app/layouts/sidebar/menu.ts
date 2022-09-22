@@ -1,12 +1,12 @@
 import { MenuItem } from './menu.model';
 
 export const MENU: MenuItem[] = [
+  
   {
     id: 1,
     label: 'MENUITEMS.MENU.TEXT',
     isTitle: true
   },
-  /*
   {
     id: 2,
     label: 'MENUITEMS.DASHBOARDS.TEXT',
@@ -826,18 +826,29 @@ export const MENU: MenuItem[] = [
     ]
   },
   
-  */
   {
     id: 130,
     label: 'User management',
     icon: 'bx-task',
     link: '/SSO/management',
   },
+  // {
+  //   id: 131,
+  //   label: 'Domain management',
+  //   icon: 'bx-list-ul',
+  //   link: '/SSO/domain'
+  // },
+  // {
+  //   id: 132,
+  //   label: 'Role management',
+  //   icon: 'bx-task',
+  //   link: '/SSO/role',
+  // },
   {
-    id: 131,
-    label: 'Domain management',
+    id: 133,
+    label: 'App Management',
     icon: 'bx-list-ul',
-    link: '/SSO/domain'
+    link: '/SSO/group-role'
   }
 ];
 

@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/core/models/auth.models';
 import { infor } from 'src/app/model/infor';
-import { PostService } from '../../service/post.service';
+import { UserService } from '../../service/user.service';
 import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { GroupRoleService } from '../../service/group-role.service';
 
 @Component({
   selector: 'app-modal-add',
@@ -21,6 +22,11 @@ export class ModalAddComponent implements OnInit {
   message: string ; 
   err: boolean = false;
   formData:FormGroup;
+  appRole: FormGroup;
+  idApp: number;
+
+  selectApp: any[] ;
+  selectGroupRole: any[];
   // public formData:FormGroup = new FormGroup({
   //   username: new FormControl(''),
   //   password: new FormControl(''),
@@ -33,13 +39,17 @@ export class ModalAddComponent implements OnInit {
   // })
   name = '';
   constructor( 
-    private common: PostService, 
     private fb: FormBuilder,
-    private postService: PostService,
+    private userService: UserService,
+    private groupRoleService: GroupRoleService,
     private modalService : NgbModal,
     public activeModal: NgbActiveModal,
     private route:Router
-    ) {}
+    ) {
+      this.appRole = this.fb.group({
+        roleUser: this.fb.array([]),
+      });
+    }
 
     
   ngOnInit(): void {
@@ -48,15 +58,57 @@ export class ModalAddComponent implements OnInit {
       username:['',[Validators.required,Validators.maxLength(100)]],
       password:['',[Validators.required,Validators.minLength(6)]],
       email:['',[Validators.required, Validators.email]],
-      phone:['',[Validators.required, Validators.maxLength(10), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-      address:['',[Validators.required, Validators.maxLength(100)]],
-      gender:['',[Validators.required]],
-      position:['',[Validators.required, Validators.maxLength(10)]]
+      status:['',[Validators.required]],
+      role:['',[Validators.required, Validators.maxLength(10)]]
     })
+
+    this.searchApp();
+
+    this.getNameApp();
+
   }
   get f(){
     return this.formData.controls;
   }
+
+  getNameApp()
+  {
+    this.userService.getNameApp().subscribe(data => {
+    this.selectApp = data;
+    console.log ('select app:',this.selectApp)
+    }, error => {
+      console.log(error);
+    })
+  }
+
+  getGroupRole(id)
+  {
+    this.groupRoleService.getAllGroupRole(id).subscribe(data => {
+      this.selectGroupRole = data;
+    }, error => {
+      console.log(error);
+    })
+  }
+
+
+  //------------
+  appGroupRole(): FormArray {
+    return this.appRole.get('roleUser') as FormArray;
+  }
+  addPhone(): FormGroup {
+    return this.fb.group({
+      app: '',
+      groupRole:''
+    });
+  }
+
+  addApp() {
+    this.appGroupRole().push(this.addPhone());
+  }
+  deleteApp(i: number) {
+    this.appGroupRole().removeAt(i);
+  }
+
 
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
@@ -67,12 +119,22 @@ export class ModalAddComponent implements OnInit {
     }
   }
   
+  searchApp()
+  {
+    console.log(this.formData.value);
+    this.groupRoleService.getAllApp( this.formData.value).subscribe(data => {
+      console.log('app',data);
+    }, error => {
+      console.log(error);
+    })
+  }
+  
   onSubmit()
   {
      this.message = '' ;
      this.err = false ; 
      this.formData.value.gender = parseInt(this.formData.value.gender)
-     this.postService.addUser(this.formData.value).subscribe(data => {
+     this.userService.addUser(this.formData.value).subscribe(data => {
       console.log(this.listUsers);
       console.log ("submit:", this.formData.value);
       this.activeModal.dismiss(this.formData.value);

@@ -1,0 +1,61 @@
+
+<div  id= "modal-add">
+
+        <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Thêm user role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal-Add" aria-label="Close" (click)="closeModal()" ></button>
+        </div>
+       
+        <div class="modal-body">
+            <div class="table-responsive">
+                <table id="data-table" class = "table table-striped mb-0">
+                    <thead>
+                        <th class="info-number-icon"></th>
+                        <th class="info-number-icon">STT</th>
+                        <th class="info-text">Tên người dùng</th>
+                        <th class="info-text">Email đăng nhập</th>
+                        <th class="info-text">Phone</th>
+                        <th class="info-text">Ngày tạo</th>
+                        <th class="info-text">Người tạo</th>
+                        <th class="info-text">Trạng thái</th>
+                        <th class="info-text">Vị trí</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dataUser of listUsers ; let i = index">
+<!-- 
+                            <td class="info-number-icon">{{listUsers.indexOf(dataUser)+1}}</td> -->
+                            <td class="info-number-icon">
+                                <span class="bx bx-plus-medical" (click)="onSubmit(dataUser.id)"></span>
+                                <!-- <input type="checkbox" value="dataDomain.id"  [(ngModel)]="dataUser.isChecked"  >  -->
+                            </td>
+                            <td class="info-number-icon">{{i}}</td>
+                            <td class="info-text">{{dataUser.username}}</td>
+                            <td class="info-text">{{dataUser.email}}</td>
+                            <td class="info-text">{{dataUser.phone}}</td>
+                            <td class="info-number">{{dataUser.createdTime}}</td>
+                            <td class="info-number">{{dataUser.createdBy}}</td>
+                            <td class="info-text">{{dataUser.status}}</td>
+                            <td class="info-text">{{dataUser.position}}</td>
+                      
+                        </tr>
+                        
+
+                    </tbody>
+                </table>
+
+                
+          
+            </div>
+        </div>
+            
+        <!-- <div class="modal-footer">
+            <div class="btn-footer" >
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Đóng</button>
+                <button type="submit" (click)="onSubmit()" class="btn btn-primary w-xs">Lưu</button> 
+            </div>
+        </div> -->
+</div>
+
+
+     
+

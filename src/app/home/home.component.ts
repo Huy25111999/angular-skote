@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PostService} from '../SSO/service/post.service';
+import {UserService} from '../SSO/service/user.service';
 import {infor} from '../model/infor';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   message = '';
   year: number = new Date().getFullYear();
   constructor(
-    private postService: PostService,
+    private userService: UserService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
       this.message = 'Mật khẩu không được để trống!';
       return;
     }
-    this.postService.getAuthor(formValue).subscribe(res =>{
+    this.userService.getAuthor(formValue).subscribe(res =>{
       if(res && res.token && res.token.length){
         const service = this.service + `?token=${res.token}`
         location.replace(service);

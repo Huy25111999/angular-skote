@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { domain } from 'src/app/model/domain';
-import { PostService } from '../../service/post.service';
+import { UserService } from '../../service/user.service';
 import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -12,55 +12,53 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-domain.component.scss']
 })
 export class AddDomainComponent implements OnInit {
-  message: string ; 
+
   constructor(
-    private common: PostService, 
+    private fb: FormBuilder,
     private formBuilder: FormBuilder,
-    private postService: PostService,
+    private userService: UserService,
     private modalService : NgbModal,
     public activeModal: NgbActiveModal,
     private route: Router
   ) { }
 
-  oneDoMain : domain[]= [];
+  oneApp : domain[]= [];
   modalRef: any ;
-  formData:FormGroup; 
   err: boolean = false;
+
+
+  ngOnInit(): void {
+    
+  }
+  
+  formData:FormGroup = this.fb.group({
+    id:[''],
+    app:['',[Validators.required]],
+    appCode:['',[Validators.required]],
+    privateKey:['',[Validators.required]],
+    status:['',[Validators.required]],
+    description:['',[Validators.required]],
+    hook: ['',[Validators.required]],
+  })
 
   get f(){
     return this.formData.controls;
   }
 
-  ngOnInit(): void {
-    this.formData = new FormGroup({
-      domainName: new FormControl('',[Validators.required,Validators.maxLength(100)]),
-      privateKey: new FormControl('',[Validators.required,Validators.maxLength(100)]),
-      description: new FormControl('',[Validators.required,Validators.maxLength(200)]),
-      status: new FormControl('',[Validators.required,Validators.maxLength(10)]),
-      domainCode: new FormControl('',[Validators.required]),
-      hook: new FormControl('',[Validators.required, Validators.maxLength(100)]),
-    })
-  }
-
   onSubmit()
   {
-    this.message = '' ;
-    this.err = false ; 
-    this.postService.addDomain(this.formData.value).subscribe(data => {
-     console.log(this.oneDoMain);
+    console.log ("submit:", this.formData.value);
+    this.userService.addDomain(this.formData.value).subscribe(data => {
+     console.log(this.oneApp);
      console.log ("submit:", this.formData.value);
      this.activeModal.close('Close click');  
      this.activeModal.dismiss(this.formData.value);
      this.success();
-     this.route.navigate(['/domain'])     
+    // this.route.navigate(['/domain'])     
    }, error => {
       this.err = true ;   
-      this.message = error ; 
-      console.log(this.message);
-      return ;
 
-    //  this.activeModal.close('Close click');  
-    //  this.error();
+
    })
   }
 

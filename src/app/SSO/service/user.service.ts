@@ -10,7 +10,7 @@ import { author } from 'src/app/model/author';
   providedIn: 'root'
 })
 
-export class PostService {
+export class UserService {
   user!: infor[];
   main!: domain[];
   auth!:author[];
@@ -20,9 +20,12 @@ export class PostService {
 
   // User
   getAllUsers(): Observable<any> {
-    return this.http.get<any>(this.API + '/users');
+    return this.http.get<any>(this.API + '/group-role/get-user/31111111');
   }
 
+  connectUserRole(req: any):Observable<any> {
+    return this.http.post<any>(this.API + '/group-role/add-user',req);
+  }
 
   addUser(user:infor):Observable<any> {
     return this.http.post<any>(this.API + '/users',user);
@@ -50,14 +53,18 @@ export class PostService {
     return this.http.put<any>(this.API +'/users/unlock-user/' + id, null );
   }
 
-  search(paramSearch:any):Observable<any>
+  search(req:any):Observable<any>
   {
-    return  this.http.get<any>(this.API + '/users/', {
-      params: paramSearch
-    });
+    return  this.http.post<any>(this.API + '/users/search', req);
   }
 
 // Domain
+ 
+  getNameApp():Observable<any>
+  {
+    return this.http.get<any>(this.API + '/app/get-all');
+  }
+
   getAllDomain():Observable<any>
   {
     return this.http.get<any>(this.API + '/domain');
@@ -65,17 +72,22 @@ export class PostService {
 
   addDomain(main:domain):Observable<any>
   {
-    return this.http.post<any>(this.API + '/domain',main );
+    return this.http.post<any>(this.API + '/app',main );
   }
 
-  editDomain(main:domain):Observable<any>
+  editApp(main:domain):Observable<any>
   {
-    return this.http.put<any>(this.API+'/domain',main);
+    return this.http.put<any>(this.API+'/app',main);
   }
 
-  getDomainByID(id:number)
+  // getDomainByID(id:number)
+  // {
+  //   return this.http.get<any>(this.API + '/domain/'+id);
+  // }
+
+  getAppByID(id:number)
   {
-    return this.http.get<any>(this.API + '/domain/'+id);
+    return this.http.get<any>(this.API + '/app/'+id);
   }
 
   lockDomain(id:number):Observable<any>
@@ -89,7 +101,7 @@ export class PostService {
   }
   searchDomain(paramSearch:any):Observable<any>
   {
-    return  this.http.get<any>(this.API + '/domain/', {
+    return  this.http.get<any>(this.API + '/app/', {
       params: paramSearch
     });
   }

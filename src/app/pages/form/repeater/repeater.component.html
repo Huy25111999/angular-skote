@@ -75,6 +75,8 @@
                   <div class="mb-3" [formGroup]="phoneData">
                     <div formArrayName="phoneValue">
                       <label>Phone no :</label>
+
+
                       <div class="inner mb-3 row" *ngFor="let data1 of  phonedata().controls; let i=index;"
                         [formGroupName]="i">
                         <div class="col-md-10 col-8">
@@ -87,6 +89,7 @@
                           </div>
                         </div>
                       </div>
+                      
                     </div>
                   </div>
                   <input type="button" class="btn btn-success inner" value="Add Number" (click)="addPhone()">

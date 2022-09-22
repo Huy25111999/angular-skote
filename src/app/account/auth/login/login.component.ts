@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first, tap } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
-import { PostService } from 'src/app/SSO/service/post.service';
+import { UserService } from 'src/app/SSO/service/user.service';
 import {HttpClient} from "@angular/common/http";
 import { AuthService } from 'src/app/services/auth.service';
 //----------------

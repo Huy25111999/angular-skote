@@ -35,13 +35,6 @@
                                 
                                 </div>
 
-                                <div class = 'search-info col-md-4' >  
-                                
-                            
-                                        <p>Số điện thoại</p>
-                                        <input type="text" ngxTrim class="form-control"  formControlName = 'phone' placeholder="Nhập số điện thoại">
-                                
-                                </div>
 
                                 <div class = 'search-info col-md-4' > 
                                 
@@ -51,6 +44,17 @@
                             
 
                                 </div>
+
+                                <div class = 'search-info col-md-4' > 
+                                
+                            
+                                    <p>Email</p>
+                                    <input type="text" ngxTrim class="form-control" formControlName = 'phone' placeholder="Nhập email">
+                        
+
+                            </div>
+
+
                            </form>
                         </div>
 
@@ -86,10 +90,15 @@
                                 <thead>
                                     <th class="info-number-icon">STT</th>
                                     <th class="info-text">Tên người dùng</th>
-                                    <th class="info-text">Số điện thoại</th>
-                                    <th class="info-text">Email</th>
-                                    <th class="info-text">Chức vụ</th>
-                                    <th class="info-number-icon">Hành động</th>
+                                    <th class="info-text">Email đăng nhập</th>
+                                    <th class="info-text">Phone</th>
+                                    <th class="info-text">Ngày tạo</th>
+                                    <th class="info-text">Người tạo</th>
+                                    <th class="info-text">Trạng thái</th>
+                                    <th class="info-text">Vị trí</th>
+                                    <!-- <th class="info-text">App</th>
+                                    <th class="info-text">Nhóm quyền</th> -->
+                                    <th class="info-number-icon">Thao tác</th>
                                 </thead>
                                 <tbody>
 
@@ -104,8 +113,11 @@
                                         <td class="info-number-icon">{{listUsers.indexOf(dataUser)+1}}</td> -->
                                         <td class="info-number-icon">{{(page-1)*pageSize + (i+1)}}</td>
                                         <td class="info-text">{{dataUser.username}}</td>
-                                        <td class="info-number">{{dataUser.phone}}</td>
                                         <td class="info-text">{{dataUser.email}}</td>
+                                        <td class="info-text">{{dataUser.phone}}</td>
+                                        <td class="info-number">{{dataUser.createdTime}}</td>
+                                        <td class="info-number">{{dataUser.createdBy}}</td>
+                                        <td class="info-text">{{dataUser.active}}</td>
                                         <td class="info-text">{{dataUser.position}}</td>
                                         
                                         <td class="info-number-icon" >

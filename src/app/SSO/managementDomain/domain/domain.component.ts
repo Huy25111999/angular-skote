@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from '../../service/post.service';
+import { UserService } from '../../service/user.service';
 import { domain } from '../../../model/domain';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDomainComponent } from '../add-domain/add-domain.component';
@@ -25,7 +25,7 @@ export class DomainComponent implements OnInit {
  
 
   constructor(
-    private postService: PostService, 
+    private userService: UserService, 
     private modalService : NgbModal,
     private router: Router
     ) { }
@@ -37,7 +37,7 @@ export class DomainComponent implements OnInit {
 
   getListDomain()
   {
-    this.postService.getAllDomain().subscribe(data => {
+    this.userService.getAllDomain().subscribe(data => {
       console.log(data);
       this.listDomain = data.data.content;
       console.log("Domain",this.listDomain);
@@ -45,6 +45,7 @@ export class DomainComponent implements OnInit {
       console.log(error);
       
     })
+    
   }
 
   openModalAdd(data)
@@ -82,7 +83,7 @@ export class DomainComponent implements OnInit {
   onSearch(flag)
   {
     console.log(this.formData.value);
-    this.postService.searchDomain( {
+    this.userService.searchDomain( {
       ...this.formData.value, page: this.page, pageSize: this.pageSize
     }).subscribe(data => {
       this.listDomain = data.data.content;
@@ -91,7 +92,6 @@ export class DomainComponent implements OnInit {
       this.totalSize = data.data.totalElements;
       console.log('_________', this.totalSize)
     }, error => {
-      // this.router.navigate(['/account/login']);
       console.log(error);
     })
 
@@ -114,7 +114,7 @@ export class DomainComponent implements OnInit {
   
   lockDomain(id)
   {
-    this.postService.lockDomain(id).subscribe(data => {
+    this.userService.lockDomain(id).subscribe(data => {
       console.log("success: lock", id);
          console.log('----------',this.listDomain);
          this.onSearch(true);
@@ -124,7 +124,7 @@ export class DomainComponent implements OnInit {
   }
 
   unlockDomain(id){
-    this.postService.unlockDomain(id).subscribe(data => {
+    this.userService.unlockDomain(id).subscribe(data => {
       console.log("success: Unclock", id);
       console.log('----------',this.listDomain);
       this.onSearch(true);

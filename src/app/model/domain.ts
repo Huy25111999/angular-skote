@@ -1,10 +1,9 @@
 export interface domain {
     id : number,
-    domainName : string,
-    domainCode: string,
+    app : string,
+    appCode: string,
+    hook: string,
     privateKey : string,
     description : string,
-    createDate: string,
-    status:number,
-    hook: string
+    status:number, 
 }

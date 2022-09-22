@@ -1,0 +1,158 @@
+<div class="containers" id = "containers">
+    <div class="row">
+
+            <!-- <div class = 'side-bar'>
+
+                <div class="title-right">
+                    <ul>
+                        <li><a href="">SSO</a></li>
+                        <li><a href="">/  role</a></li>
+                    </ul>
+
+
+                </div>
+
+            </div> -->
+
+            <!-- Author -->
+            <div class="content">
+
+                <!-- seach    -->
+                <div class="search">
+                    <div class="search-container">
+                        <div class="search-header">
+                            <h4>Thông tin tìm kiếm</h4>
+                        </div>
+
+                        <div class="">
+                            <form class="form" action="" [formGroup]="formData" >
+                            <div class="row">
+                                <div class = 'search-info col-md-6' >  
+                                
+                                    
+                                        <p>Tên quyền</p>
+                                        <input type="text" maxlength="200" ngxTrim class="form-control"  formControlName = 'roleName' placeholder="Nhập tên quyền">
+
+                                </div>
+
+                                <div class = 'search-info col-md-6' >  
+                                
+                                    
+                                        <p>Mã quyền</p>
+                                        <input type="text" maxlength="100" ngxTrim class="form-control"  formControlName = 'roleCode' placeholder="Nhập mã quyền">
+                                   
+                                </div>
+                            </div>
+                            <div class= row>
+                                <div class = 'search-info col-md-6' > 
+                                
+                            
+                                        <p>Trạng thái</p>
+                                        <ng-select formControlName="status" [items]="selectValue"
+                                                    bindLabel="name"
+                                                    bindValue="id"
+                                                    placeholder="--Chọn trạng thái--"
+                                        ></ng-select>
+
+                                </div>
+                                
+                                <div class = 'search-info col-md-6' > 
+                                
+                            
+                                    <p>Mô tả</p>
+                                    <input type="text" maxlength="500" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả">
+                        
+
+                                </div>
+                            </div>
+                           </form>
+                        </div>
+
+
+                        <div class="button">
+                            <div class="btn-search">
+                                <button class=" btn btn-primary btn-sm" type="button" (click)=" onSearch(false)" >
+                                    <span class="bx bx-search-alt-2"></span>
+                                    <span>Tìm kiếm</span> 
+                                </button>
+                                <button class=" btn btn-success btn-sm" type="button"  (click)="openModalAdd(listRole)" >
+                                    <span class="bx bx-plus-medical"></span>
+                                    <span>Thêm mới</span>
+                                </button>
+                                <button class=" btn btn-secondary" type="button" (click)="onReset()">
+                                    <span>Nhập lại</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- <app-modal-add *></app-modal-add> -->
+
+                    </div>
+
+                </div>
+
+                <!-- info user -->
+                <div class="info-user">
+                    <div class="user-container">
+                        <div class="search-header">
+                            <h4>Danh sách quyền</h4>
+                        </div>
+                        
+                    
+                        <div class="table-responsive">
+                            <table id="data-table" class = "table table-striped mb-0">
+                                <thead>
+                                    <th class="info-number-icon">
+                                        <input type="checkbox" value="dataDomain.id" > 
+                                    </th>
+                                    <th class="info-text">STT</th>
+                                    <th class="info-text">Tên quyền</th>
+                                    <th class="info-number">Mã code</th>   
+                                    <th class="info-text">Miêu tả</th>                                    
+                                    <th class="info-text">Trạng thái</th>
+                                    <th class="info-text">Hành động</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let role of listRole">
+                                        <td class="info-number-icon">
+                                            <input type="checkbox" value="dataDomain.id" > 
+                                        </td>
+                                        <td class="info-text">{{role.id}}</td>
+                                        <td class="info-text">{{role.role}}</td>
+                                        <td class="info-text">{{role.roleCode}}</td>
+                                        <td class="info-text">{{role.description}}</td>
+                                        <td class="info-date">{{role.status}}</td>
+                                        <td class="info-text" >
+                                            <i (click)="openModalEdit(role)">
+                                                <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+
+                                            </i>
+                                            <i class="bx bx-trash"></i>
+        
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        <!--Pagination-->
+                                                    
+                        <app-pagination *ngIf="listRole.length"
+                        [page]="page"
+                        [pageSize]="pageSize"
+                        [collectionSize]="totalElements"
+                        (pageChange)="onPageChange($event)"
+                        (pageSizeChange)="pageChangeEvent($event)"
+                        >
+
+                        </app-pagination>
+
+                            
+                        </div>
+                    
+                    </div>
+
+                </div>
+        
+            </div>
+    </div>
+</div>
+

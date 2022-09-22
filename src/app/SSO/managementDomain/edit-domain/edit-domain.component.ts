@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {  FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { PostService } from '../../service/post.service';
+import { UserService } from '../../service/user.service';
 import { domain } from 'src/app/model/domain';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
@@ -13,13 +13,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./edit-domain.component.scss']
 })
 export class EditDomainComponent implements OnInit {
-  @Input() dtDomain: any ;
+  @Input() dtApp: any ;
+  
   oneDomain: domain[] = [];
   inforDomain: any;
   public subcription: Subscription ; 
   
   constructor(
-    private postService: PostService,
+    private userService: UserService,
     public activeModal: NgbActiveModal,
     private formBuilder:FormBuilder,
     private route: Router
@@ -27,11 +28,12 @@ export class EditDomainComponent implements OnInit {
   ) { }
 
   editForm:FormGroup = this.formBuilder.group({
-    domainName: new FormControl('',[Validators.required,Validators.maxLength(100)]),
+
+    app: new FormControl('',[Validators.required,Validators.maxLength(100)]),
     privateKey: new FormControl('',[Validators.required,Validators.maxLength(100)]),
     description: new FormControl('',[Validators.required,Validators.maxLength(200)]),
     status: new FormControl('',[Validators.required,Validators.maxLength(10)]),
-    domainCode: new FormControl('',[Validators.required]),
+    appCode: new FormControl('',[Validators.required]),
     hook: new FormControl('',[Validators.required, Validators.maxLength(100)]),
     id:null,
   })
@@ -41,8 +43,8 @@ export class EditDomainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.dtDomain);
-    this.postService.getDomainByID(this.dtDomain.id).subscribe(data =>{
+    console.log(this.dtApp);
+    this.userService.getAppByID(this.dtApp.id).subscribe(data =>{
       console.log('------',data.data);
       this.inforDomain = data.data;
       console.log("Infor a domain : ", this.inforDomain)
@@ -52,25 +54,28 @@ export class EditDomainComponent implements OnInit {
     })
   }
 
-  loadData()
-  {
-    this.postService.getAllDomain().subscribe(data => {
-      console.log(data);
-      this.oneDomain = data.data.content;
-      console.log('list: ',this.oneDomain);
-    }, error => {
-      console.log(error);
-    })
-  }
+  
+  // loadData()
+  // {
+  //   this.postService.getAllDomain().subscribe(data => {
+  //     console.log(data);
+  //     this.oneDomain = data.data.content;
+  //     console.log('list: ',this.oneDomain);
+  //   }, error => {
+  //     console.log(error);
+  //   })
+  // }
 
   onSubmit()
   {
+    const id = 2536;
       this.editForm.value.status = parseInt(this.editForm.value.status);
-      this.postService.editDomain(this.editForm.value).subscribe(data => {
+      this.editForm.value.id = id;
+      this.userService.editApp(this.editForm.value).subscribe(data => {
       this.activeModal.dismiss(this.editForm.value);
       this.activeModal.close('Close click');
       this.success();
-      this.route.navigate(['/domain'])     
+      //this.route.navigate(['/domain'])     
       }, error => {
         console.log(error);
         this.activeModal.close('Close click'); 

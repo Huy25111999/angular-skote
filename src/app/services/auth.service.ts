@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PostService } from '../SSO/service/post.service';
+import { UserService } from '../SSO/service/user.service';
 import { author } from 'src/app/model/author';
 import { tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
@@ -19,7 +19,7 @@ export class AuthService {
   _extractedToken;
   apiurl = 'http://192.168.3.41:8224/api/auth/verify-refresh-token';
   constructor(
-    private postService: PostService,
+    private userService: UserService,
     private http: HttpClient,
     private router:Router
   ) {
@@ -30,7 +30,7 @@ export class AuthService {
 
   login(auth:author)
   {
-    return this.postService.login(auth).pipe(
+    return this.userService.login(auth).pipe(
       tap((response: any) =>{
         localStorage.setItem('token',`${response.token}`);
         localStorage.setItem('user',`${response.user.username}`);

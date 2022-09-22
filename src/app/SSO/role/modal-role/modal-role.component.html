@@ -1,0 +1,118 @@
+
+<div  id= "modal-add">
+    <form class="form" [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Thêm mới quyền</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal-Add" aria-label="Close" (click)="closeModal()" ></button>
+        </div>
+       
+        <div class="modal-body">
+            <div class="input-form">
+                <ngb-alert type="danger" *ngIf="message && message.length" [dismissible]="false">{{ message }}</ngb-alert>
+               
+                <div class="row mb-4" >
+                    <label class="col-sm-3" >Tên quyền (<i>*</i>)</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <input ngxTrim type="text" maxlength="200" class="form-control" formControlName = 'role' placeholder="Nhập tên quyền"> 
+
+                        <div *ngIf="f.role.invalid && (f.role.dirty || f.role.touched)">
+                            <div *ngIf="f.role.errors">
+                                <div [hidden]="!f.role.errors.required">
+                                    <small>Trường Tên quyền không được phép để trống</small>
+                                </div>           
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+    
+                <div class="row mb-4" >
+                    <label class="col-sm-3" >Mã quyền (<i>*</i>)</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <input type="text" maxlength="30" ngxTrim class="form-control" formControlName = 'roleCode' placeholder="Nhập mã quyền">
+                        <div *ngIf="f.roleCode.invalid && (f.roleCode.dirty || f.roleCode.touched)">
+                            <div *ngIf="f.roleCode.errors">
+                                <div *ngIf="f.roleCode.errors.required">
+                                    <small>Trường Mã quyền không được phép để trống</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-4" >
+                    <label class="col-sm-3" >Trạng thái (<i>*</i>)</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="status"  
+                        [items]="selectStatus"
+                        bindLabel="name"
+                        bindValue="id"
+                >           </ng-select>
+                    </div>
+                  
+
+                </div>
+
+                <div class="row mb-4" >
+                    <label class="col-sm-3" >Danh mục (<i>*</i>)</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <ng-select formControlName="systemParamId"  
+                        [items]="selectParamId"
+                        bindLabel="systemParam"
+                        bindValue="id"
+                        placeholder="--Lựa chọn--"
+                        notFoundText="Không tìm thấy"
+                >           </ng-select>
+                    </div>
+
+                </div>
+
+                <div class="row mb-4">
+                    <label class="col-sm-3" >Mô tả</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8" >
+                        <input type="text" maxlength="500" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả">
+                    </div>
+                    
+                </div>
+
+                <!-- <div class="row mb-4" >
+                    <label class="col-sm-3" >Chọn nhóm quyền (<i>*</i>)</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8 list-group-role">
+                        <ngx-treeview #treeView [items]="items"
+                        [config]="config"
+                        (filterChange)="onFilterChange($event)" 
+                        (selectedChange)="values = $event"
+                        >
+                        </ngx-treeview>
+                    </div> -->
+                    <!-- <ngx-treeview #treeView [items]="items"
+                        [config]="config" [headerTemplate]="headerTemplate"
+                         [itemTemplate]="itemTemplate"
+                        (selectedChange)="onSelectedChange($event)"
+                        (filterChange)="onFilterChange($event)" 
+                        >
+                        </ngx-treeview> -->
+
+                <!-- </div> -->
+            </div>  
+        </div>
+            
+        <div class="modal-footer">
+            <div class="btn-footer" >
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Đóng</button>
+                <button type="submit" class="btn btn-primary w-xs" [disabled]="!formData.valid">Lưu</button> 
+            </div>
+        </div>
+    </form>
+</div>
+
+
+     
+

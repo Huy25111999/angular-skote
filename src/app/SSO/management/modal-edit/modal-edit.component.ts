@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/core/models/auth.models';
 import { infor } from 'src/app/model/infor';
-import { PostService } from '../../service/post.service';
+import { UserService } from '../../service/user.service';
 import { NgbActiveModal,NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ export class ModalEditComponent implements OnInit {
   listUsers : infor[]= [];
   constructor(   
     private formBuilder: FormBuilder,
-    private postService: PostService,
+    private userService: UserService,
     public activeModal: NgbActiveModal,
     private route : Router,
     
@@ -48,7 +48,7 @@ export class ModalEditComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.dtUser);
     
-    this.postService.getID(this.dtUser.id).subscribe(data => {
+    this.userService.getID(this.dtUser.id).subscribe(data => {
       console.log(data);
       this.inforUser = data.data;
       console.log("Id edit: ",this.inforUser);
@@ -63,7 +63,7 @@ export class ModalEditComponent implements OnInit {
 
   loadData()
   {
-    this.postService.getAllUsers().subscribe(data => {
+    this.userService.getAllUsers().subscribe(data => {
       console.log(data);
       this.listUsers = data.data.content;
       console.log('list: ',this.listUsers);
@@ -76,7 +76,7 @@ export class ModalEditComponent implements OnInit {
     this.editForm.value.gender = parseInt(this.editForm.value.gender);
     this.editForm.value.active = parseInt(this.editForm.value.active);
    
-    this.postService.editUser(this.editForm.value).subscribe(data => {
+    this.userService.editUser(this.editForm.value).subscribe(data => {
     this.activeModal.dismiss(this.editForm.value);
     this.activeModal.close('Close click');
     this.success();

@@ -1,0 +1,34 @@
+.modal-header, .input-form {
+    padding-left: 64px;
+    padding-right: 64px;
+}
+
+.modal-body {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 32px;
+}
+
+.btn-footer {
+    padding-right: 50px;
+}
+
+.btn-footer button {
+    margin-left: 18px;
+}
+
+label.col-sm-3 i {
+    color: #de0344ee;
+}
+
+small{
+    color: #de0344ee;
+}
+
+.error{
+    border: 1px solid #e40b0b;
+}
+
+.col-sm-8.list-group-role {
+    border: 1px solid aqua;
+}

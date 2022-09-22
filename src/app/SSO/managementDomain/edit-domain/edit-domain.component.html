@@ -14,13 +14,15 @@
                     <label class="col-sm-3" >Tên domain (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
-                        <input type="text" ngxTrim disabled class="form-control" formControlName = 'domainName'>
-                        <div *ngIf="f.domainName.invalid && (f.domainName.dirty || f.domainName.touched)">
-                            <div *ngIf="f.domainName.errors">
-                                <div [hidden]="!f.domainName.errors.required">
+                        <!-- <input type="text" ngxTrim disabled class="form-control" formControlName = 'app'> -->
+                        <input type="text" ngxTrim class="form-control" formControlName = 'app'>
+
+                        <div *ngIf="f.app.invalid && (f.app.dirty || f.app.touched)">
+                            <div *ngIf="f.app.errors">
+                                <div [hidden]="!f.app.errors.required">
                                     <small>Tên domain không được để trống</small>
                                 </div>
-                                <div *ngIf="f.domainName.errors.maxlength">
+                                <div *ngIf="f.app.errors.maxlength">
                                     <small>Tên domain không được vượt quá 100 ký tự</small>
                                 </div>
                             
@@ -34,13 +36,13 @@
                     <label class="col-sm-3" >Mã code (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
-                        <input type="text" ngxTrim class="form-control" formControlName = 'domainCode'>
-                        <div *ngIf="f.domainCode.invalid && (f.domainCode.dirty || f.domainCode.touched)">
-                            <div *ngIf="f.domainCode.errors">
-                                <div [hidden]="!f.domainCode.errors.required">
+                        <input type="text" ngxTrim class="form-control" formControlName = 'appCode'>
+                        <div *ngIf="f.appCode.invalid && (f.appCode.dirty || f.appCode.touched)">
+                            <div *ngIf="f.appCode.errors">
+                                <div [hidden]="!f.appCode.errors.required">
                                     <small>Domain code không được để trống</small>
                                 </div>
-                                <div *ngIf="f.domainCode.errors.maxlength">
+                                <div *ngIf="f.appCode.errors.maxlength">
                                     <small>Domain code không được vượt quá 100 ký tự</small>
                                 </div>
                             
@@ -60,6 +62,14 @@
                             <option value="0">Khóa</option>
                             <option value="1">Hoạt động</option>
                         </select>
+                        <div *ngIf="f.status.invalid && (f.status.dirty || f.status.touched)">
+                            <div *ngIf="f.status.errors">
+                                <div [hidden]="!f.status.errors.required">
+                                    <small>Vui lòng chọn trạng thái</small>
+                                </div>
+                            
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -90,7 +100,7 @@
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
                         <input type="text" ngxTrim class="form-control" formControlName = 'description'>
-                        <div *ngIf="f.description.invalid && (f.description.dirty || f.description.touched)">
+                        <!-- <div *ngIf="f.description.invalid && (f.description.dirty || f.description.touched)">
                             <div *ngIf="f.description.errors">
                                 <div [hidden]="!f.description.errors.required">
                                     <small>Miêu tả không được để trống</small>
@@ -100,7 +110,7 @@
                                 </div>
                             
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
