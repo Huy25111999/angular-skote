@@ -1,0 +1,31 @@
+label {
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.bi {
+  cursor: pointer;
+  margin-right: 0.3rem;
+}
+
+.icon-dropdown {
+  z-index: 1;
+  fill: red;
+  cursor: pointer;
+  position: absolute !important;
+  right: 30px;
+}
+
+.dropdown-treeview-select > .dropdown > button {
+  color: black !important;
+  font-weight: 510 !important;
+}
+.active {
+  background-color: #90b3ff;
+}
+.disable {
+  color: #b1b1b1;
+  //cursor: not-allowed;
+}
+
+

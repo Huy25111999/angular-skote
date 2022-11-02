@@ -28,10 +28,17 @@
     box-sizing: border-box;
 }
 
+.search-info{
+    padding-bottom: 16px;
+}
+.button {
+    margin-top: -16px;
+}
+
 .search-header h4 {
     font-size: 20px;
     margin: 16px 0;
-    color: #f0058a;
+    color: #0062ae;
 }
 
 .search-container, .user-container {
@@ -53,9 +60,18 @@ button.btn.btn-primary span, button.btn.btn-success span {
     padding: 0 8px;
 }
 
-button.btn.btn-success.btn-sm {
-    background: #00b74a;
+
+button.btn.btn-success {
+    background: #00963c; 
 }
+.btn-primary {
+    color: #fff;
+    background-color: #1d10aa;
+}
+button.btn.btn-secondary {
+    background: #521212;
+}
+
 //Form-table-info
 
 .info-user
@@ -67,6 +83,14 @@ button.btn.btn-success.btn-sm {
     margin-top: 38px;
 }
 
+ng-select ::ng-deep{
+    .ng-select-container {
+        padding: 22px 0;
+    }
+}
+input {
+    height: 46px;
+}
 
 // Table
 
@@ -93,7 +117,7 @@ img.edit, button img
     margin: 16px 0;
 }
 
- .info-number-icon
+ .info-number-icon,  .info-number-date
 {
     text-align: center;
 }
@@ -111,4 +135,27 @@ td.info-number-icon i {
 }
 i.bx.bx.bx-show-alt {
     color: #1306ec;
+}
+
+td.info-number-icon i:hover {
+    color: #0062ae;
+}
+td {
+    padding-top: 18px !important;
+}
+
+i.bx.bx-trash {
+    color: red;
+}
+i.bx.bxs-edit-alt {
+    color: #1909f2;
+}
+// no data
+.no-container {
+    text-align: center;
+}
+
+.no-container img {
+    width: 300px;
+    height: 200px;
 }

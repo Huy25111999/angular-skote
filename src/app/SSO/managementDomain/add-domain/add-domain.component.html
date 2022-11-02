@@ -1,5 +1,7 @@
 
 
+
+
   <div  id= "modal-add">
     
     <div class="modal-header">
@@ -14,14 +16,14 @@
                     <label class="col-sm-3" >Tên app (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
-                        <input type="text" ngxTrim class="form-control" formControlName = 'app' placeholder="Nhập tên app">
+                        <input type="text" ngxTrim class="form-control" formControlName = 'appName' placeholder="Nhập tên app">
 
-                        <div *ngIf="f.app.invalid && (f.app.dirty || f.app.touched)">
-                            <div *ngIf="f.app.errors">
-                                <div [hidden]="!f.app.errors.required">
+                        <div *ngIf="f.appName.invalid && (f.appName.dirty || f.appName.touched)">
+                            <div *ngIf="f.appName.errors">
+                                <div [hidden]="!f.appName.errors.required">
                                     <small>Tên domain không được để trống</small>
                                 </div>
-                                <div *ngIf="f.app.errors.maxlength">
+                                <div *ngIf="f.appName.errors.maxlength">
                                     <small>Tên domain không được vượt quá 100 ký tự</small>
                                 </div>
                             

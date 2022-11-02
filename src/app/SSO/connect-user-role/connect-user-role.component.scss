@@ -1,0 +1,48 @@
+.no-container {
+    text-align: center;
+}
+
+.no-container img {
+    width: 300px;
+    height: 200px;
+}
+
+.modal-header, .input-form {
+    padding-left: 28px;
+   // padding-right: 64px;
+}
+
+.modal-body {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 32px;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    padding-left: 8px !important;
+}
+
+.btn-footer {
+    padding-right: 28px;
+}
+
+.btn-footer button {
+    margin-left: 18px;
+}
+
+label.col-sm-3 i {
+    color: #de0344ee;
+}
+
+small{
+    color: #de0344ee;
+}
+
+.error{
+    border: 1px solid #e40b0b;
+}
+.input-error {
+    border: #de0344ee 1px solid;
+}

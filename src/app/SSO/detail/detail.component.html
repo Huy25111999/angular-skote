@@ -61,7 +61,7 @@
                         <div class="info-user">
                             <div class="user-container">
                                 <div class="user-header">
-                                    <h4>Danh sách domain tham gia</h4>
+                                    <h4>Danh sách các app tham gia</h4>
                                 </div>
                                 
                                 <div class="button">
@@ -83,25 +83,29 @@
                                 <div class="table-responsive">
                                     <table id="data-table" class = "table table-striped mb-0">
                                         <thead>
-                                            <th class="info-number-icon"></th>
-                                            <th class="info-text">Tên domain</th>
-                                            <th class="info-number">Key</th>   
-                                            <th class="info-text">Miêu tả</th>
+                                            <!-- <th class="info-number-icon"></th> -->
+                                            <th class="info-text">Họ và tên</th>
+                                            <th class="info-text">Email</th>   
+                                            <th class="info-text">Địa chỉ</th>   
+                                            <th class="info-text">Tên app</th>
+                                            <th class="info-text">Tên nhóm quyền</th>
                                             <th class="info-text">Ngày tạo</th>
                                             <th class="info-text">Trạng thái</th>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let dataDomain of listDomain">
-                                                <td class="info-number-icon">
+                                            <tr >
+                                                <!-- <td class="info-number-icon">
                                                     <input type="checkbox" value="dataDomain.id"  [(ngModel)]="dataDomain.isChecked" > 
-                                                </td>
-                                                <td class="info-text">{{dataDomain.domainName}}</td>
-                                                <td class="info-text">{{dataDomain.privateKey}}</td>
-                                                <td class="info-text">{{dataDomain.description}}</td>
-                                                <td class="info-date">{{dataDomain.createDates}}</td>
+                                                </td> -->
+                                                <td class="info-text">{{fullName}}</td>
+                                                <td class="info-text">{{email}}</td>
+                                                <td class="info-text">{{address}}</td>
+                                                <td class="info-text">{{appName}}</td>
+                                                <td class="info-date">{{groupRole}}</td>
+                                                <td class="info-date">{{createdTime}}</td>
                                                 <td class="info-text" >
-                                                    <p *ngIf="dataDomain.status == 1">Hoạt động</p>
-                                                    <p *ngIf="dataDomain.status == 0">Khóa</p>
+                                                    <p *ngIf="status == 1">Hoạt động</p>
+                                                    <p *ngIf="status == 0">Khóa</p>
                 
                                                 </td>
                                             </tr>

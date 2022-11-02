@@ -28,3 +28,40 @@ small{
 .error{
     border: 1px solid #e40b0b;
 }
+
+.dropdown-menu.show {
+    display: contents;
+    z-index: 9999999;
+}
+
+.treeview-container{
+    max-height: 350px !important;
+    padding-left: 16px !important;
+    display: contents !important;
+}
+.treeview-header {
+    width: 400px !important;
+}
+
+.dropdown-container {
+    z-index: 99999999;
+    width: 400px !important;
+}
+.input-error {
+    border: #de0344ee 1px solid;
+}
+
+ngx-dropdown-treeview ::ng-deep{
+
+    .dropdown button:first-child {
+        border: 1px solid #ccc !important;
+    }
+
+    .dropdown-menu.show {
+        width: 100%;
+    }
+
+   ngx-treeview-item {
+        padding-left: 8px !important;
+    }
+}

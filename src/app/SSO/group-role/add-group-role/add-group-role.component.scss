@@ -28,3 +28,22 @@ small{
 .error{
     border: 1px solid #e40b0b;
 }
+
+.input-error {
+    border: #de0344ee 1px solid;
+}
+
+ngx-dropdown-treeview ::ng-deep{
+
+    .dropdown button:first-child {
+        border: 1px solid #ccc !important;
+    }
+    
+    .dropdown-menu.show {
+        width: 100%;
+    }
+
+   ngx-treeview-item {
+        padding-left: 8px !important;
+    }
+}

@@ -29,7 +29,7 @@ export class EditDomainComponent implements OnInit {
 
   editForm:FormGroup = this.formBuilder.group({
 
-    app: new FormControl('',[Validators.required,Validators.maxLength(100)]),
+    appName: new FormControl('',[Validators.required,Validators.maxLength(100)]),
     privateKey: new FormControl('',[Validators.required,Validators.maxLength(100)]),
     description: new FormControl('',[Validators.required,Validators.maxLength(200)]),
     status: new FormControl('',[Validators.required,Validators.maxLength(10)]),
@@ -43,8 +43,8 @@ export class EditDomainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.dtApp);
-    this.userService.getAppByID(this.dtApp.id).subscribe(data =>{
+    console.log('infor app',this.dtApp);
+    this.userService.getAppByID(this.dtApp.appId).subscribe(data =>{
       console.log('------',data.data);
       this.inforDomain = data.data;
       console.log("Infor a domain : ", this.inforDomain)
@@ -68,9 +68,8 @@ export class EditDomainComponent implements OnInit {
 
   onSubmit()
   {
-    const id = 2536;
       this.editForm.value.status = parseInt(this.editForm.value.status);
-      this.editForm.value.id = id;
+      console.log('edit :',this.editForm.value );
       this.userService.editApp(this.editForm.value).subscribe(data => {
       this.activeModal.dismiss(this.editForm.value);
       this.activeModal.close('Close click');

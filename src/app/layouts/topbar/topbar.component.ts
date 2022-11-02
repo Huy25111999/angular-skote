@@ -13,6 +13,7 @@ import { ManagementComponent } from 'src/app/SSO/management/management.component
 import { LoginComponent } from 'src/app/account/auth/login/login.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { UserService } from 'src/app/SSO/service/user.service';
 
 
 @Component({
@@ -26,8 +27,8 @@ import { FormControl, FormGroup } from '@angular/forms';
  */
 export class TopbarComponent implements OnInit {
   @Input() name: string;
-
   user : any;
+  userId: any;
   element;
   cookieValue;
   flagvalue;
@@ -43,7 +44,8 @@ export class TopbarComponent implements OnInit {
               public translate: TranslateService,
               private shareDataService: ShareDataService,
               public _cookiesService: CookieService,
-              private auth: AuthService 
+              private auth: AuthService ,
+              private userService: UserService,
               // private mana:ManagementComponent,
               // private domain: DomainComponent
               ) {
@@ -68,8 +70,8 @@ export class TopbarComponent implements OnInit {
   ngOnInit() {
     //_____-______
     this.user = localStorage.getItem('user')
-    console.log(this.user);
-    
+    this.userId = localStorage.getItem('userId');
+    console.log('userId', this.userId);
     this.openMobileMenu = false;
     this.element = document.documentElement;
 
@@ -84,11 +86,6 @@ export class TopbarComponent implements OnInit {
    
   }
   
-  // getUser(){
-  //   this.user = localStorage.getItem('user');
-  //   console.log(this.user);
-    
-  // }
 
   setLanguage(text: string, lang: string, flag: string) {
     this.countryName = text;

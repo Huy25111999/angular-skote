@@ -1,128 +1,124 @@
 <div class="containers" id = "containers">
     <div class="row">
-
-            <div class = 'side-bar'>
-
-                <div class="title-right">
-                    <ul>
-                        <li><a href="">SSO</a></li>
-                        <li><a href="">/  role</a></li>
-                    </ul>
-
-
-                </div>
-
-            </div>
-
-            <!-- Author -->
             <div class="content">
 
                 <!-- seach    -->
                 <div class="search">
                     <div class="search-container">
                         <div class="search-header">
-                            <h4>Thông tin tìm kiếm</h4>
+                            <h4>Thông tin nhóm quyền</h4>
                         </div>
 
                         <div class="">
                             <form class="form" action="" [formGroup]="formData" >
-                            <div class="row">
-                                <div class = 'search-info col-md-6' >  
-                                    <p>Tên nhóm quyền</p>
-                                    <input type="text" maxlength="200" ngxTrim class="form-control"  formControlName = 'groupName' placeholder="Nhập tên nhóm quyền">
-                            </div>
-                                <div class = 'search-info col-md-6' >                                                           
-                                        <p>Trạng thái</p>
-                                        <ng-select formControlName="groupStatus" [items]="selectStatus"
+                                <div class="row">
+                                    <div class = 'search-info col-md-6' >  
+                                    
+                                        
+                                            <label class="col-sm-3" >Tên nhóm quyền (<i>*</i>)</label>
+                                            <input ngxTrim type="text" class="form-control" formControlName = 'groupRole' placeholder="Nhập tên nhóm quyền" maxlength="200"> 
+
+                                            <div *ngIf="f.groupRole.invalid && (f.groupRole.dirty || f.groupRole.touched)">
+                                                <div *ngIf="f.groupRole.errors">
+                                                    <div [hidden]="!f.groupRole.errors.required">
+                                                        <small>Trường tên Nhóm quyền không được phép để trống</small>
+                                                    </div>           
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                    <div class = 'search-info col-md-6' >  
+                                    
+                                        <label class="col-sm-3" >Mô tả</label>
+                                        <input type="text" maxlength="500" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả">
+                            
+                                    </div>
+                                </div>
+                                <div class= row>
+                                    <div class = 'search-info col-md-6' > 
+                                    
+                                
+                                            <p>Trạng thái</p>
+                                            <ng-select formControlName="status"  
+                                            [items]="selectStatus"
                                             bindLabel="name"
                                             bindValue="id"
-                                            placeholder="--Chọn trạng thái--"
-                                        ></ng-select>
+                                    >           </ng-select>
+
+                                    </div>
+                                    
+                                    <div class = 'search-info col-md-6' >  
+                                    
+                                        
+                                        <label class="col-sm-3" >Phân quyền (<i>*</i>)</label>
+                                        <ngx-dropdown-treeview [items]="items"
+                                        [config]="config"
+                                        (selectedChange)="onSelectedChange($event)"
+                                        (filterChange)="onFilterChange($event)">
+                                        >
+                                        </ngx-dropdown-treeview>
+                                    </div>
+
+                                    
                                 </div>
-                            </div>           
-                           </form>
+
+
+                            </form>
                         </div>
 
 
                         <div class="button">
                             <div class="btn-search">
-                                <button class=" btn btn-primary btn-sm" type="button" (click)=" onSearch(false)" >
-                                    <span class="bx bx-search-alt-2"></span>
-                                    <span>Tìm kiếm</span> 
+                                     
+                                <button class=" btn btn-primary btn-sm" type="button" (click)="onSubmit()" >                                 
+                                    <span>Thêm mới</span> 
                                 </button>
-                                <button class=" btn btn-success btn-sm" type="button" (click)="openAddGroupRole(listGroupRole)" >
-                                    <span class="bx bx-plus-medical"></span>
-                                    <span>Thêm mới</span>
+                                
+                                <button class=" btn btn-primary btn-sm" type="button" (click)="saveCreatGrouprole()" >                                 
+                                    <span>Lưu</span> 
                                 </button>
-                                <button class=" btn btn-secondary" type="button" (click)="onReset()">
+                                
+                                <button class=" btn btn-secondary" type="button" >
                                     <span>Nhập lại</span>
                                 </button>
                             </div>
                         </div>
                         <!-- <app-modal-add *></app-modal-add> -->
 
-                    </div>
-
-                </div>
-
-                <!-- info user -->
-                <div class="info-user">
-                    <div class="user-container">
-                        <div class="search-header">
-                            <h4>Danh sách nhóm quyền</h4>
-                        </div>
                         
-                    
-                        <div class="table-responsive">
-                            <table id="data-table" class = "table table-striped mb-0">
-                                <thead>
-                                    <th class="info-number-icon">
-                                        <input type="checkbox" value="dataDomain.id" > 
-                                    </th>
-                                    <th class="info-text">STT</th>
-                                    <th class="info-text">Tên nhóm quyền quyền</th>
-                                    <th class="info-number">Mô tả</th>                                    
-                                    <th class="info-text">Trạng thái</th>
-                                    <th class="info-text">Hành động</th>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let role of listGroupRole">
-                                        <td class="info-number-icon">
-                                            <input type="checkbox" value="dataDomain.id" > 
-                                        </td>
-                                        <td class="info-text">{{role.id}}</td>
-                                        <td class="info-text">{{role.groupName}}</td>
-                                        <td class="info-text">{{role.description}}</td>
-                                        <td class="info-date">{{role.status}}</td>
-                                        <td class="info-text" >
-                                            <i >
-                                                <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                <div class="table-responsive">
+                    <table id="data-table" class = "table table-striped mb-0">
+                        <thead>
+                            <th class="info-text">STT</th>
+                            <th class="info-text">Tên nhóm quyền</th> 
+                            <th class="info-text">Miêu tả</th>                                    
+                            <th class="info-text">Trạng thái</th>
+                            <th class="info-text">Hành động</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let role of listGroupRole; let i = index">
+                                <td class="info-text">{{i+1}}</td>
+                                <td class="info-text">{{role.groupRole}}</td>
+                                <td class="info-text">{{role.description}}</td>
+                                <td class="info-date">{{role.status}}</td>
+                                <td class="info-text" >
+                                    <i >
+                                        <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
 
-                                            </i>
-                                            <i class="bx bx-trash"></i>
-        
-                                        </td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                               <!--Pagination-->
-                                                    
-                        <app-pagination *ngIf="listGroupRole.length"
-                        [page]="page"
-                        [pageSize]="pageSize"
-                        [collectionSize]="totalElements"
-                        (pageChange)="onPageChange($event)"
-                        (pageSizeChange)="pageChangeEvent($event)"
-                        >
+                                    </i>
+                                    <i class="bx bx-trash"></i>
+                                    <span class="bx bx-plus-medical"  (click)="connectRoleUser(role.groupRoleId)" ></span>
 
-                        </app-pagination>
-                        </div>
-                    
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>    
+                </div>
                     </div>
 
                 </div>
-        
+
             </div>
     </div>
 </div>

@@ -10,12 +10,14 @@ import { ManagementUserComponent } from './user/management-user/management-user.
 import { ManagementRoleComponent } from './role/management-role/management-role.component';
 import { GroupRoleComponent } from './group-role/group-role.component';
 import { ManagementGroupRoleComponent } from './management-group-role/management-group-role.component';
+import { CreatAppComponent } from './creat-app/creat-app.component';
+import { EditAppComponent } from './edit-app/edit-app.component';
 
 const routes: Routes = [
     {
-        path: 'management',
+        path: 'user',
         component: ManagementComponent,
-        canActivate:[AuthGuard]
+     //   canActivate:[AuthGuard]
     },
     {
         path: 'detail/:id',
@@ -27,26 +29,47 @@ const routes: Routes = [
     //     component: DomainComponent,
     //     canActivate:[AuthGuard]
     // },
-    {
-        path: 'user',
-        component: ManagementUserComponent,
-        canActivate:[AuthGuard]
-    },
+    // {
+    //     path: 'user',
+    //     component: ManagementUserComponent,
+    //     canActivate:[AuthGuard]
+    // },
     {
         path: 'role',
         component: ManagementRoleComponent,
     },
     {
+        path: 'create-app',
+        component: CreatAppComponent,
+        canActivate:[AuthGuard]
+    },
+    {
+        path: 'edit-app/:id',
+        component: EditAppComponent,
+        canActivate:[AuthGuard]
+    },
+    
+    {
         path: 'role/:id',
         component: ManagementRoleComponent,
+    },
+    {
+        path: 'group-role/:id',
+        component: GroupRoleComponent,
     },
     // {
     //     path: 'group-role',
     //     component: GroupRoleComponent,
     // },
     {
-        path: 'group-role',
+        path: 'creat-app',
+        component: CreatAppComponent,
+        canActivate:[AuthGuard]
+    },
+    {
+        path: 'app',
         component: ManagementGroupRoleComponent,
+        canActivate:[AuthGuard]
     },
     {
         path:'',

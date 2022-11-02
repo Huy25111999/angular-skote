@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "392744f9-bef5-4b73-995c-5eca0f79a2cc",
+		"name": "user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17686352"
+	},
+	"item": [
+		{
+			"name": "search user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"\",\r\n    \"email\": \"\",\r\n    \"appId\":\"\",\r\n    \"groupRoleId\":\"\",\r\n    \"pageSize\": 10,\r\n    \"pageNumber\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8224/api/users/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8224",
+					"path": [
+						"api",
+						"users",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all app",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8224/api/app/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8224",
+					"path": [
+						"api",
+						"app",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "thêm mới user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb3Zhbmh1eSIsInVzZXIiOnsiaWQiOm51bGwsInVzZXJuYW1lIjoiZG92YW5odXkiLCJwYXNzd29yZCI6IiQyYSQxMCRYUnZhTFRET05QWnJMQzk5NURJaXhlNlgwTkdhNjJsaFB1LnVWUHlwbTI2RUIxajAubGRtSyIsImVtYWlsIjoiZG92YW5odXkyMDEwQGdtYWlsLmNvbSIsInBob25lIjoiMDM2NDg4NzExMSIsImFkZHJlc3MiOiJCYWMgR2lhbmciLCJhY3RpdmUiOjEsImdlbmRlciI6MSwicG9zaXRpb24iOiJUVFMgSkFWQSIsInVzZXJBcHBEdG8iOm51bGx9LCJpYXQiOjE2NjQyNDUxMTcsImV4cCI6MTY2NDI1MjMxN30.-095-8OAykvNuTDQ_4Puw2t66Ekzlj8v0qJOKsDoctjxMDsW6YIzuubdyGGLi4ov84O-e8dXcTc5gcCyX_acfA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"huydv\",\r\n    \"password\": \"123456aA@\",\r\n    \"email\": \"huydv@techasians.com\",\r\n    \"phone\": \"0123598754\",\r\n    \"address\": \"BG\",\r\n    \"active\": 1,\r\n    \"gender\": 1,\r\n    \"position\": \"TTS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8224/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8224",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb3Zhbmh1eSIsInVzZXIiOnsiaWQiOm51bGwsInVzZXJuYW1lIjoiZG92YW5odXkiLCJwYXNzd29yZCI6IiQyYSQxMCRYUnZhTFRET05QWnJMQzk5NURJaXhlNlgwTkdhNjJsaFB1LnVWUHlwbTI2RUIxajAubGRtSyIsImVtYWlsIjoiZG92YW5odXkyMDEwQGdtYWlsLmNvbSIsInBob25lIjoiMDM2NDg4NzExMSIsImFkZHJlc3MiOiJCYWMgR2lhbmciLCJhY3RpdmUiOjEsImdlbmRlciI6MSwicG9zaXRpb24iOiJUVFMgSkFWQSIsInVzZXJBcHBEdG8iOm51bGx9LCJpYXQiOjE2NjQyNDUxMTcsImV4cCI6MTY2NDI1MjMxN30.-095-8OAykvNuTDQ_4Puw2t66Ekzlj8v0qJOKsDoctjxMDsW6YIzuubdyGGLi4ov84O-e8dXcTc5gcCyX_acfA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"4231\",\r\n    \"username\": \"huydv\",\r\n    \"password\": \"123456aA@\",\r\n    \"email\": \"huydv@techasians.com\",\r\n    \"phone\": \"0123456789\",\r\n    \"address\": \"HN\",\r\n    \"active\": 1,\r\n    \"gender\": 1,\r\n    \"position\": \"TTS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8224/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8224",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8224/api/users/453456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8224",
+					"path": [
+						"api",
+						"users",
+						"453456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user by id {}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb3Zhbmh1eSIsInVzZXIiOnsiaWQiOm51bGwsInVzZXJuYW1lIjoiZG92YW5odXkiLCJwYXNzd29yZCI6IiQyYSQxMCRYUnZhTFRET05QWnJMQzk5NURJaXhlNlgwTkdhNjJsaFB1LnVWUHlwbTI2RUIxajAubGRtSyIsImVtYWlsIjoiZG92YW5odXkyMDEwQGdtYWlsLmNvbSIsInBob25lIjoiMDM2NDg4NzExMSIsImFkZHJlc3MiOiJCYWMgR2lhbmciLCJhY3RpdmUiOjEsImdlbmRlciI6MSwicG9zaXRpb24iOiJUVFMgSkFWQSIsInVzZXJBcHBEdG8iOm51bGx9LCJpYXQiOjE2NjQyNDUxMTcsImV4cCI6MTY2NDI1MjMxN30.-095-8OAykvNuTDQ_4Puw2t66Ekzlj8v0qJOKsDoctjxMDsW6YIzuubdyGGLi4ov84O-e8dXcTc5gcCyX_acfA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8224/api/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8224",
+					"path": [
+						"api",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

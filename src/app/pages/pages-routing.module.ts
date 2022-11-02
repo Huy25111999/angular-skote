@@ -8,7 +8,7 @@ import { FilemanagerComponent } from './filemanager/filemanager.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: 'dashboard' },
-  { path: '', redirectTo: 'SSO' },
+//  { path: '', redirectTo: 'app' },
   { path: 'dashboard', loadChildren: () => import('./dashboards/dashboards.module').then(m =>m.DashboardsModule)},
   { path: 'calendar', component: CalendarComponent },
   { path: 'chat', component: ChatComponent },
@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'icons', loadChildren: () => import('./icons/icons.module').then(m => m.IconsModule) },
   { path: 'charts', loadChildren: () => import('./chart/chart.module').then(m => m.ChartModule) },
   { path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule) },
-  { path: 'SSO', loadChildren: () => import('../SSO/SSO.module').then(m => m.SSOModule)}
+  { path: '', loadChildren: () => import('../SSO/SSO.module').then(m => m.SSOModule)}
 ];
 
 @NgModule({

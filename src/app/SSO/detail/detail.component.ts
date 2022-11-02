@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
 export class DetailComponent implements OnInit {
   dataUser:any;
   index:any;
+  listUsers : infor[]= [];
   listDomain : domain[]= [];
 
   username;
@@ -25,6 +26,11 @@ export class DetailComponent implements OnInit {
   address;
   phone;
   gender;
+  appName;
+  groupRole;
+  fullName;
+  status;
+  createdTime;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,12 +50,19 @@ export class DetailComponent implements OnInit {
   getDetailUser(id){
     this.userService.getID(id).subscribe((res)=>{
       this.dataUser = res.data;
+      this.listUsers = res.data;
+      console.log('user',this.listUsers);
       console.log('detail : ',this.dataUser);
       this.username = this.dataUser.username;
       this.email = this.dataUser.email;
       this.address = this.dataUser.address;
       this.phone = this.dataUser.phone ;
       this.gender = this.dataUser.gender ; 
+      this.appName= this.dataUser.appName;
+      this.groupRole = this.dataUser.groupRole;
+      this.fullName = this.dataUser.fullName;
+      this.status = this.dataUser.status;
+      this.createdTime = this.dataUser.createdTime;
     });   
      
   }

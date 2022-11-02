@@ -1,7 +1,7 @@
 import { MenuItem } from './menu.model';
 
 export const MENU: MenuItem[] = [
-  
+  /*
   {
     id: 1,
     label: 'MENUITEMS.MENU.TEXT',
@@ -825,12 +825,12 @@ export const MENU: MenuItem[] = [
       },
     ]
   },
-  
+  */
   {
     id: 130,
     label: 'User management',
     icon: 'bx-task',
-    link: '/SSO/management',
+    link: '/user',
   },
   // {
   //   id: 131,
@@ -848,7 +848,7 @@ export const MENU: MenuItem[] = [
     id: 133,
     label: 'App Management',
     icon: 'bx-list-ul',
-    link: '/SSO/group-role'
+    link: '/app'
   }
 ];
 

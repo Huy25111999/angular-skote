@@ -32,8 +32,7 @@ export class AddDomainComponent implements OnInit {
   }
   
   formData:FormGroup = this.fb.group({
-    id:[''],
-    app:['',[Validators.required]],
+    appName:['',[Validators.required]],
     appCode:['',[Validators.required]],
     privateKey:['',[Validators.required]],
     status:['',[Validators.required]],

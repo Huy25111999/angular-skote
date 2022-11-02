@@ -37,12 +37,12 @@
     
                             <div class="button">
                                 <div class="btn-search">
-                                    <button class=" btn btn-primary btn-sm" type="button" (click)=" searchApp(false)" >
+                                    <button class=" btn btn-primary" type="button" (click)=" searchApp(false)" >
                                         <span class="bx bx-search-alt-2"></span>
                                         <span>Tìm kiếm</span>
                                     </button>
                                     
-                                    <button class=" btn btn-success btn-sm" type="button" (click)="openAddApp(listApp)">
+                                    <button class=" btn btn-success" type="button" (click)="creatApp()">
                                         <span class="bx bx-plus-medical"></span>
                                         <span>Thêm mới</span>
                                     </button>
@@ -59,32 +59,39 @@
                                     <th class="info-text">Tên app</th>
                                     <th class="info-text">Private key</th>
                                     <th class="info-text">Miêu tả</th>
-                                    <th class="info-date">Ngày tạo</th>
+                                    <th class="info-number-date">Ngày tạo</th>
                                     <th class="info-date">Người tạo</th>  
                                     <th class="info-text">Trạng thái</th>
-                                    <th class="info-text">Thao tác</th>
+                                    <th class="info-number-date">Thao tác</th>
                                 </thead>
                                 <tbody>
 
                                     
-                                    <tr *ngFor="let dataDomain of listDomain">
-                                        <td class="info-number-icon">{{listDomain.indexOf(dataDomain)+1}}</td>
+                                    <tr *ngFor="let dataDomain of listDomain;  let i = index">
+                                        <td class="info-number-icon">{{(page-1)*pageSize + (i+1)}}</td>
                                         <td class="info-text">{{dataDomain.app}}</td>
                                         <td class="info-text">{{dataDomain.privateKey}}</td>
                                         <td class="info-text">{{dataDomain.description}}</td>
-                                        <td class="info-date">{{dataDomain.createdTime}}</td>
+                                        <td class="info-number-date">
+                                            {{convertDateTime(dataDomain.createdTime)}}
+                                        </td>
                                         <td class="info-text">{{dataDomain.createdBy}}</td>
                                         <td class="info-text" >
-                                            <p *ngIf="dataDomain.status == 1">Hoạt động</p>
-                                            <p *ngIf="dataDomain.status == 0">Khóa</p>
+                                            <p *ngIf="dataDomain.status == 1">Kích hoạt</p>
+                                            <p *ngIf="dataDomain.status == 0">Không kích hoạt</p>
                                         </td>
-                                        <td class="info-text" >
-                                            <i (click)="openEditApp(dataDomain)">
+                                        <td class="info-number-icon" >
+                                            <!-- <i  routerLink='../edit-app/{{dataDomain.appId}}' routerLinkActive="active">
                                                 <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                                                
 
-                                            </i>
+                                            </i> -->
+                                            <i routerLink='../edit-app/{{dataDomain.appId}}' routerLinkActive="active" class="bx bxs-edit-alt"></i>
                                             <i class="bx bx-trash" (click)="deleteApp(dataDomain.appId,dataDomain.app)"></i>
-                                            <i class="bx bx bx-show-alt" (click)="view(dataDomain.appId)"></i>
+                                            <i  *ngIf="dataDomain.status == 0" class="bx bx-lock-alt" (click)="unlockOneDomain(dataDomain.appId)"></i>
+                                            <i *ngIf="dataDomain.status == 1" class="bx bx-lock-open-alt" (click)="lockOneDomain(dataDomain.appId)"></i>
+
+                                            <!-- <i class="bx bx bx-show-alt" routerLink='./edit114/{{dataDomain.appId}}' routerLinkActive="active" ></i> -->
                                         </td>
                                         
                                     </tr>
@@ -92,12 +99,16 @@
 
                                 </tbody>
                             </table>
-
+                            <ng-container *ngIf="this.listDomain.length == 0">
+                                <div class="no-container">
+                                    <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
+                                </div>
+                            </ng-container> 
                             <!--Pagination-->                               
                             <app-pagination *ngIf="listDomain.length"
                                             [page]="page"
                                             [pageSize]="pageSize"
-                                            [collectionSize]="totalSize"
+                                            [collectionSize]="totalElements"
                                             (pageChange)="onPageChangeApp($event)"
                                             (pageSizeChange)="pageChangeEventApp($event)"
                             >
@@ -107,8 +118,10 @@
                     </div>
 
                 </div>
+            </div>
 
                 <!-- Role -->
+                <!--
                 <div class="search-header row">
                     <div class="role-left col-md-6">
                         <div class="row">
@@ -130,58 +143,22 @@
                 </div>
                 <div class="info-user"  *ngIf="!isRoll">
                     <div class="user-container">
-                        <!-- <div class="search-header row">
-                            <div class="role-left col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4"> <h4>Quản lý quyền</h4></div>
-                               
-                                    <div class="view-role col-md-8">
-                                        <div *ngIf="isRoll">
-                                            <span class="bx bx-plus-medical" (click)="showListRole()"></span>
-                                        </div>
-                                        <div *ngIf="!isRoll">
-                                            <i class="fas far fa-window-minimize" (click)="showListRole()"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                           
-                            
-                        </div> -->
+                     
 
                         <div >
-                            <!-- <div class="role-right col-md-6">
-                                <div class="row">
-                                    <div class="view-role">
-                                        <button class=" btn btn-primary btn-sm" type="button" (click)="openAddRole()">
-                                            <span class="bx bx-plus-medical"></span>
-                                            <span>Thêm mới</span>
-                                        </button>
-                                    </div>
-                                    <div class="view-role">
-                                        <button class=" btn btn-success btn-sm" type="button" (click)="createRole()">
-                                        <span class="bx bx-plus-medical"></span>
-                                        <span>Lưu</span>
-                                    </button>
-                                    </div>
-                                    
-                                </div>
-                                
-                               
-                            </div> -->
+                       
                             
                             <div class="button">
                                 <div class="btn-search">
-                                    <button class=" btn btn-primary btn-sm" type="button" (click)=" createRole()" >
+                                    <button class=" btn btn-primary" type="button" (click)=" createRole()" >
                                         <span class=""></span>
                                         <span>Lưu Add</span> 
                                     </button>
-                                    <button class=" btn btn-success btn-sm" type="button" (click)="openAddRole()">
+                                    <button class=" btn btn-success" type="button" (click)="openAddRole()">
                                         <span class="bx bx-plus-medical"></span>
                                         <span>Thêm mới</span>
                                     </button>
-                                    <button class=" btn btn-success btn-sm" type="button"  (click)=" editRole()">
+                                    <button class=" btn btn-success" type="button"  (click)=" editRole()">
                                         <span class="bx"></span>
                                         <span>Edit</span>
                                     </button>
@@ -200,13 +177,13 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let role of listRole; let i = index">
-                                            <td class="info-text">{{role.id}}</td>
+                                            <td class="info-text">{{i}}</td>
                                             <td class="info-text">{{role.role}}</td>
                                             <td class="info-text">{{role.roleCode}}</td>
                                             <td class="info-text">{{role.description}}</td>
                                             <td class="info-date">{{role.status}}</td>
                                             <td class="info-text" >
-                                                <i (click)="openEditRole(role)">
+                                                <i (click)="openEditRole(i)">
                                                     <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
 
                                                 </i>
@@ -223,7 +200,7 @@
                     </div>
 
                 </div>
-<!-- Group role -->
+
                     <div class="search-header row">
                         <div class="role-left col-md-6">
                             <div class="row">
@@ -241,105 +218,104 @@
                             
                         </div>
                     </div>      
-                   
-                      <!-- info user -->
-                      <div class="info-user" *ngIf="!isGroupRoll">
-                        <div class="user-container">
- 
-                        <div *ngIf="!isGroupRoll" class="table-responsive">                   
-                            <div class="button">
-                                <div class="btn-search">
-                                    <button class=" btn btn-primary btn-sm" type="button" (click)=" openAddGroupRole()" >
-                                        <span class="bx bx-plus-medical"></span>
-                                        <span>Thêm mới</span> 
-                                    </button>
-                                    <button class=" btn btn-success btn-sm" type="button" (click)="createGroupRole()">
-                                        <!-- <span class="bx bx-search-alt-2"></span> -->
-                                        <span>Lưu</span>
-                                    </button>
-                                    <button class=" btn btn-success btn-sm" type="button" (click)="editGroupRole()">
-                                        <span>Edit</span>
-                                    </button>
+               
+                    <div class="info-user" *ngIf="!isGroupRoll">
+                    <div class="user-container">
 
-                                </div>
-                            </div>
-                            
-                            <table id="data-table" class = "table table-striped mb-0">
-                                <thead>
-                                    <th class="info-text">STT</th>
-                                    <th class="info-text">Tên nhóm quyền</th> 
-                                    <th class="info-text">Miêu tả</th>                                    
-                                    <th class="info-text">Trạng thái</th>
-                                    <th class="info-text">Hành động</th>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let role of listGroupRole; let i = index">
-                                        <td class="info-text">{{i}}</td>
-                                        <td class="info-text">{{role.groupRole}}</td>
-                                        <td class="info-text">{{role.description}}</td>
-                                        <td class="info-date">{{role.status}}</td>
-                                        <td class="info-text" >
-                                            <i (click)="openEditGroupRole(i)">
-                                                <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
-
-                                            </i>
-                                            <i class="bx bx-trash"></i>
-                                            <span class="bx bx-plus-medical" (click)="connectRoleUser(role.groupRoleId)"></span>
-        
-                                        </td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                            <!-- <table id="data-table" class = "table table-striped mb-0">
-                                <thead>
-                                    <th class="info-number-icon"></th>
-                                    <th class="info-text">STT</th>
-                                    <th class="info-text">Tên quyền</th>
-                                    <th class="info-text">Mã code</th>
-                                    <th class="info-number">Mô tả</th>                                    
-                                    <th class="info-text">Trạng thái</th>
-                                    <th class="info-text">Hành động</th>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let role of listGroupRole ; let i =index">
-                                        <td class="info-number-icon">
-                                            <input type="checkbox" value="dataDomain.id"  [(ngModel)]="role.isChecked" > 
-                                        </td>
-                                        <td class="info-text">{{i}}</td>
-                                        <td class="info-text">{{role.role}}</td>
-                                        <td class="info-text">{{role.roleCode}}</td>
-                                        <td class="info-text">{{role.description}}</td>
-                                        <td class="info-date">{{role.status}}</td>
-                                        <td class="info-text" >
-                                            <i >
-                                                <img  class = "edit" src="./assets/images/sso/edit.png" alt="" (click)="openEdiByRole(role)">
-
-                                            </i>
-                                            <i class="bx bx-trash"></i>
-        
-                                        </td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table> -->
-                               <!--Pagination-->
-<!--                                                     
-                                <app-pagination *ngIf="listGroupRole.length"
-                                [page]="page"
-                                [pageSize]="pageSize"
-                                [collectionSize]="totalElements"
-                                (pageChange)="onPageChangeGroup($event)"
-                                (pageSizeChange)="pageChangeEventGroup($event)"
-                                >   
-                                </app-pagination> -->
-
+                    <div *ngIf="!isGroupRoll" class="table-responsive">                   
+                        <div class="button">
+                            <div class="btn-search">
+                                <button class=" btn btn-primary" type="button" (click)=" openAddGroupRole()" >
+                                    <span class="bx bx-plus-medical"></span>
+                                    <span>Thêm mới</span> 
+                                </button>
+                                <button class=" btn btn-success" type="button" (click)="createGroupRole()">
                                
+                                    <span>Lưu</span>
+                                </button>
+                                <button class=" btn btn-success" type="button" (click)="editGroupRole()">
+                                    <span>Edit</span>
+                                </button>
+
+                            </div>
                         </div>
+                        
+                        <table id="data-table" class = "table table-striped mb-0">
+                            <thead>
+                                <th class="info-text">STT</th>
+                                <th class="info-text">Tên nhóm quyền</th> 
+                                <th class="info-text">Miêu tả</th>                                    
+                                <th class="info-text">Trạng thái</th>
+                                <th class="info-text">Hành động</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let role of listGroupRole; let i = index">
+                                    <td class="info-text">{{i}}</td>
+                                    <td class="info-text">{{role.groupRole}}</td>
+                                    <td class="info-text">{{role.description}}</td>
+                                    <td class="info-date">{{role.status}}</td>
+                                    <td class="info-text" >
+                                        <i (click)="openEditGroupRole(i)">
+                                            <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+
+                                        </i>
+                                        <i class="bx bx-trash"></i>
+                                        <span class="bx bx-plus-medical" (click)="connectRoleUser(role.groupRoleId)"></span>
     
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                       <table id="data-table" class = "table table-striped mb-0">
+                            <thead>
+                                <th class="info-number-icon"></th>
+                                <th class="info-text">STT</th>
+                                <th class="info-text">Tên quyền</th>
+                                <th class="info-text">Mã code</th>
+                                <th class="info-number">Mô tả</th>                                    
+                                <th class="info-text">Trạng thái</th>
+                                <th class="info-text">Hành động</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let role of listGroupRole ; let i =index">
+                                    <td class="info-number-icon">
+                                        <input type="checkbox" value="dataDomain.id"  [(ngModel)]="role.isChecked" > 
+                                    </td>
+                                    <td class="info-text">{{i}}</td>
+                                    <td class="info-text">{{role.role}}</td>
+                                    <td class="info-text">{{role.roleCode}}</td>
+                                    <td class="info-text">{{role.description}}</td>
+                                    <td class="info-date">{{role.status}}</td>
+                                    <td class="info-text" >
+                                        <i >
+                                            <img  class = "edit" src="./assets/images/sso/edit.png" alt="" (click)="openEdiByRole(role)">
+
+                                        </i>
+                                        <i class="bx bx-trash"></i>
+    
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table> 
+                                                  
+                            <app-pagination *ngIf="listGroupRole.length"
+                            [page]="page"
+                            [pageSize]="pageSize"
+                            [collectionSize]="totalElements"
+                            (pageChange)="onPageChangeGroup($event)"
+                            (pageSizeChange)="pageChangeEventGroup($event)"
+                            >   
+                            </app-pagination> 
+
+                            
                     </div>
-        
-            </div>
+
+                </div>
+    
+                    </div>    
+                -->  
     </div>
 </div>
 

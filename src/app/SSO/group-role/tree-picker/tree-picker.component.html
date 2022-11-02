@@ -1,0 +1,17 @@
+<input nbInput fullWidth
+       [(ngModel)]="texts"
+       (click)="createOverlay()"
+       #inputElement
+       class="form-control"
+/>
+<ng-template #overlay class="tree-picker-area" >
+  <nb-card >
+    <ngx-treeview
+      [config]="config"
+      [items]="items"
+      (selectedChange)="onSelectedChange($event)"
+      (filterChange)="onFilterChange($event)"
+    >
+    </ngx-treeview>
+  </nb-card>
+</ng-template>

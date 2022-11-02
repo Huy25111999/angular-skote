@@ -1,0 +1,541 @@
+
+<div class="card-body">
+    <div class="containers">
+        <div class="row">
+            <div class="title-right">
+                <ul>
+                    <li><a href="" routerLink='/group-role' routerLinkActive="active">App</a></li>
+                    <li><a href="">/  Chỉnh sửa App</a></li>
+                </ul>
+
+
+            </div>
+            <!-- <div class="col-12">
+                <div class="card-header text-center">
+                    <div class="search-header">
+                        <h4>Chỉnh sửa  App</h4>
+                    </div> 
+                </div>
+            </div> -->
+            <div class="col-6">
+                <div class="row">
+                    <div  (click)="onTabClick('App')" [class.active]="activeTab == 'App'"  class=" ant-tabs-tab app col-md-3">
+                        <h4>App</h4>
+                    </div>
+                    <div (click)="onTabClick('Role')" [class.active]="activeTab == 'Role'"   class=" ant-tabs-tab role col-md-3">
+                        <h4>Quyền</h4>
+                    </div>
+                    <div (click)="onTabClick('GroupRole')" [class.active]="activeTab == 'GroupRole'"   class=" ant-tabs-tab groupRole col-md-3">
+                        <h4>Nhóm quyền</h4>
+                    </div>
+                
+                </div>
+        
+            </div>
+
+            <div class="containers" id = "containers">
+                <div class="row">
+                    <div *ngIf="activeTab == 'App'" class="w-100">
+                        <!-- seach    -->
+                        <div class="search">
+                            <div class="search-container">
+                                <div class="search-header">
+                                    <h4>Thông tin app</h4>
+                                </div>
+
+                                <div class="">
+                                    <form class="form" action="" [formGroup]="formData" >
+                                        <div class="row form">
+                                            <div class = 'search-info col-md-6' >  
+                                            
+                                                
+                                                    <label class="col-sm-4">Tên app (<i>*</i>)</label>
+                                                    <input type="text" maxlength="100" ngxTrim class="form-control"  formControlName = 'appName' placeholder="Nhập tên app"
+                                                    [ngClass]="{'input-error': f.appName.invalid && (f.appName.dirty || f.appName.touched)}" 
+
+                                                    >
+                                                    <div *ngIf="f.appName.invalid && (f.appName.dirty || f.appName.touched)">
+                                                        <div *ngIf="f.appName.errors">
+                                                            <div [hidden]="!f.appName.errors.required">
+                                                                <small>Tên app không được để trống</small>
+                                                            </div>
+                                                            <div *ngIf="f.appName.errors.maxlength">
+                                                                <small>Tên app không được vượt quá 100 ký tự</small>
+                                                            </div>
+                                                        
+                                                        </div>
+                                                    </div>
+                                            </div>
+
+                                            <div class = 'search-info col-md-6' >  
+                                            
+                                                
+                                                    <label class="col-sm-4">Mã Code (<i>*</i>)</label>
+                                                    <input type="text" maxlength="100" ngxTrim class="form-control"  formControlName = 'appCode' placeholder="Nhập mã code"
+                                                    [ngClass]="{'input-error': f.appCode.invalid && (f.appCode.dirty || f.appCode.touched)}" 
+
+                                                    >
+                                                    <div *ngIf="f.appCode.invalid && (f.appCode.dirty || f.appCode.touched)">
+                                                        <div *ngIf="f.appCode.errors">
+                                                            <div [hidden]="!f.appCode.errors.required">
+                                                                <small>Mã code không được để trống</small>
+                                                            </div>
+                                                            <div *ngIf="f.appCode.errors.maxlength">
+                                                                <small>Mã code không được vượt quá 100 ký tự</small>
+                                                            </div>
+                                                        
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class= "row form">
+                                            <div class = 'search-info col-md-6' > 
+                                            
+                                                    <label class="col-sm-4">Trạng thái (<i>*</i>)</label>
+                                                    <ng-select formControlName="status" [items]="selectStatus"
+                                                                [searchable]="false"  
+                                                                bindLabel="name"
+                                                                bindValue="id"
+                                                                placeholder="Chọn trạng thái"
+                                                                [ngClass]="{'input-error': f.status.invalid && (f.status.dirty || f.status.touched)}" 
+
+                                                    ></ng-select>
+
+                                                    <div *ngIf="f.status.invalid && (f.status.dirty || f.status.touched)">
+                                                        <div *ngIf="f.status.errors">
+                                                            <div *ngIf="f.status.errors.required">
+                                                                <small>Vui lòng chọn trạng thái</small>
+                                                            </div>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                    <!-- <select class="form-control" formControlName="status" name="" id="" placeholder = "Chọn trạng thái">
+                                                        <option value="1">Kích hoạt</option>
+                                                        <option value="0">Không kích hoạt</option>
+                                                    </select> -->
+
+                                            </div>
+                                            
+                                            <div class = 'search-info col-md-6' > 
+                                                                    
+                                                <label class="col-sm-4">Mô tả</label>
+                                                <input type="text" maxlength="200" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả">
+                                    
+                                            </div>
+
+                                            
+                                        </div>
+
+                                        <div class= "row form">
+                                            <div class = 'search-info col-md-6' >  
+                                            
+                                                
+                                                <label class="col-sm-4">Private key (<i>*</i>)</label>
+                                                <input type="text" maxlength="100" ngxTrim class="form-control"  formControlName = 'privateKey' placeholder="Nhập private key"
+                                                [ngClass]="{'input-error': f.privateKey.invalid && (f.privateKey.dirty || f.privateKey.touched)}" 
+
+                                                >
+                                                <div *ngIf="f.privateKey.invalid && (f.privateKey.dirty || f.privateKey.touched)">
+                                                    <div *ngIf="f.privateKey.errors">
+                                                        <div [hidden]="!f.privateKey.errors.required">
+                                                            <small>Private key không được để trống</small>
+                                                        </div>
+                                                        <div *ngIf="f.privateKey.errors.maxlength">
+                                                            <small>Private key không được vượt quá 100 ký tự</small>
+                                                        </div>
+                                                    
+                                                    </div>
+                                                </div>
+                                        </div>
+
+                                        <div class = 'search-info col-md-6' >  
+                                        
+                                            
+                                                <label class="col-sm-4">Địa chỉ Hook (<i>*</i>)</label>
+                                                <input type="text" maxlength="100" ngxTrim class="form-control"  formControlName = 'hook' placeholder="Nhập địa chỉ hook"
+                                                [ngClass]="{'input-error': f.hook.invalid && (f.hook.dirty || f.hook.touched)}" 
+
+                                                >
+                                                <div *ngIf="f.hook.invalid && (f.hook.dirty || f.hook.touched)">
+                                                    <div *ngIf="f.hook.errors">
+                                                        <div [hidden]="!f.hook.errors.required">
+                                                            <small>Địa chỉ hook không được để trống</small>
+                                                        </div>
+                                                        <div *ngIf="f.hook.errors.maxlength">
+                                                            <small>Địa chỉ hook không được vượt quá 100 ký tự</small>
+                                                        </div>
+                                                    
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
+                                <div class="button">
+                                    <div class="btn-search">
+                                        <button class=" btn btn-primary" type="button" [disabled]="!formData.valid"  (click)="onSubmit()"  >
+                                        
+                                            <span>Lưu</span> 
+                                        </button>
+                                        <button class=" btn btn-secondary" type="button" >
+                                            <span>Nhập lại</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- <app-modal-add *></app-modal-add> -->
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Role --> 
+                     <div *ngIf="activeTab == 'Role'" class="w-100">
+
+                        <!-- <div class="search-header row">
+                            <div class="role-left col-md-6"> -->
+                                <!-- <div class="row">
+                                    <div class="col-md-4"> <h4>Quản lý quyền</h4>
+                                    </div> -->
+                            
+                                    <!-- <div class="view-role col-md-8">
+                                        <div *ngIf="isRoll">
+                                            <span class="bx bx-plus-medical"  (click)="showListRole()"></span>
+                                        </div>
+                                        <div *ngIf="!isRoll">
+                                            <i class="fas far fa-window-minimize"  (click)="showListRole()"></i>
+                                        </div>
+                                    </div> -->
+                                <!-- </div> -->
+                                
+                            <!-- </div>
+                        
+                            
+                        </div> -->
+                        <div class="info-user" >
+                            <ngb-alert type="danger" *ngIf="message && message.length">{{ message }}</ngb-alert>
+
+                            <div class="user-container">
+                                <div class="search-header">
+                                    <h4>Quản lý quyền</h4>
+                                </div>
+                                <!--
+                                <div class="">
+                                    <form class="form" action="" [formGroup]="formRole" >
+                                        <div class="row form">
+                                            <div class = 'search-info col-md-6' >  
+                                            
+                                                
+                                                    <label class="col-sm-3" >Tên quyền (<i>*</i>)</label>
+                                                    <input type="text" maxlength="200" ngxTrim class="form-control"  formControlName = 'role' placeholder="Nhập tên quyền">
+                                                    <div *ngIf="fRole.role.invalid && (fRole.role.dirty || fRole.role.touched)">
+                                                        <div *ngIf="fRole.role.errors">
+                                                            <div [hidden]="!fRole.role.errors.required">
+                                                                <small>Trường Tên quyền không được phép để trống</small>
+                                                            </div>           
+                                                        </div>
+                                                    </div>
+                                            </div>
+            
+                                            <div class = 'search-info col-md-6' >  
+                                            
+                                                
+                                                <label class="col-sm-3" >Mã quyền (<i>*</i>)</label>
+            
+                                                <input type="text" maxlength="30" ngxTrim class="form-control" formControlName = 'roleCode' placeholder="Nhập mã quyền">
+                                                <div *ngIf="fRole.roleCode.invalid && (fRole.roleCode.dirty || fRole.roleCode.touched)">
+                                                    <div *ngIf="fRole.roleCode.errors">
+                                                        <div *ngIf="fRole.roleCode.errors.required">
+                                                            <small>Trường Mã quyền không được phép để trống</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class= "row form">
+                                            <div class = 'search-info col-md-6' > 
+                                            
+                                        
+                                                <label class="col-sm-3">Trạng thái</label>
+                                                <ng-select formControlName="status" [items]="selectStatus"
+                                                bindLabel="name"
+                                                bindValue="id"
+                                                placeholder="--Chọn trạng thái--"
+                                                ></ng-select>
+            
+                                            </div>
+                                            
+                                            <div class = 'search-info col-md-6' > 
+                                                                    
+                                                <label class="col-sm-3" >Mô tả</label>
+                                                <input type="text" maxlength="500" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả">
+                                    
+                                            </div>
+            
+                                            
+                                        </div>
+            
+                                        <div class= "row form">
+                                            <div class = 'search-info col-md-6' >  
+                                            
+                                                
+                                                <label class="col-sm-3" >Danh mục (<i>*</i>)</label>
+                                                <ng-select formControlName="systemParamId"  
+                                                [items]="selectParamId"
+                                                bindLabel="systemParam"
+                                                bindValue="id"
+                                                placeholder="--Lựa chọn--"
+                                                notFoundText="Không tìm thấy"
+                                        >           </ng-select>
+                                        </div>
+            
+                                        
+                                        </div>
+            
+                                    </form>
+                                </div>
+            -->
+
+                                <div  class="">
+                                    
+                                    <div class="button">
+                                        <div class="btn-search">
+                                            <button  class="btn btn-primary" type="button"  (click)="openAddRole()">
+                                                <span class="">Tạo mới</span>
+                                                <!-- <img  class = "edit" src="./assets/images/sso/saveas.png" alt=""> -->
+                                                <!-- <span>Sửa</span>  -->
+                                            </button>
+                                            <button  class=" btn btn-success" type="button" (click)="saveRole()">
+                                                <!-- <span class=""></span> -->
+                                                <span>Lưu</span> 
+                                            </button>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table id="data-table" class = "table table-striped mb-0">
+                                            <thead>
+                                                <th class="info-number-icon">STT</th>
+                                                <th class="info-text">Tên quyền</th>
+                                                <th class="info-number">Mã code</th>   
+                                                <th class="info-text">Mô tả</th>                                    
+                                                <th class="info-text">Trạng thái</th>
+                                                <th class="info-number-icon">Hành động</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let role of listRole; let i = index">
+                                                    <td class="info-number-icon">{{i + 1}}</td>
+                                                    <td class="info-text">{{role.role}}</td>
+                                                    <td class="info-text">{{role.roleCode}}</td>
+                                                    <td class="info-text">{{role.description}}</td>
+                                                    <td class="info-text">
+                                                            <span *ngIf="role.status == 1">Kích hoạt</span>
+                                                            <span *ngIf="role.status == 0">Không kích hoạt</span>
+                                                    </td>
+                                                    <td class="info-number-icon" >
+                                                        <!-- <i (click)="openEditRole(i)" >
+                                                            <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                                                        </i> -->
+                                                        <i  class="bx bxs-edit-alt"  (click)="openEditRole(i)" ></i>
+                                                        <i class="bx bx-trash" (click)="delRole(i,role.role)"></i>
+
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>    
+                                        <ng-container *ngIf="this.listRole.length == 0">
+                                            <div class="no-container">
+                                                <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
+                                            </div>
+                                        </ng-container>        
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nhóm quyền -->
+                    <div *ngIf="activeTab == 'GroupRole'" class="w-100">
+                        <!-- <div class="search-header row">
+                            <div class="role-left col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4"> <h4>Quản lý nhóm quyền</h4></div>
+                            
+                                    <div class="view-role col-md-8">
+                                        <div *ngIf="isGroupRoll">
+                                            <span class="bx bx-plus-medical" (click)="showListGroupRole()"></span>
+                                        </div>
+                                        <div *ngIf="!isGroupRoll">
+                                            <i class="fas far fa-window-minimize" (click)="showListGroupRole()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="content">
+                                
+                                <!-- <div  id="grouprole" class="search-header row">
+                                    <div class="role-left col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                    <h4>Quản lý nhóm quyền</h4>
+                                            </div> -->
+                                    
+                                            <!-- <div class="view-role col-md-8">
+                                                <div *ngIf="isGroupRoll">
+                                                    <span class="bx bx-plus-medical" (click)="showListGroupRole()"></span>
+                                                </div>
+                                                <div *ngIf="!isGroupRoll">
+                                                    <i class="fas far fa-window-minimize" (click)="showListGroupRole()"></i>
+                                                </div>
+                                            </div> -->
+                                        <!-- </div>
+                                        
+                                    </div>
+                                </div>    -->
+                                <div class="info-user" >
+                                    <ngb-alert type="danger" *ngIf="messageError && messageError.length">{{ messageError }}</ngb-alert>
+
+                                    <div class="user-container">
+                                        <div class="search-header">
+                                            <h4>Quản lý nhóm quyền</h4>
+                                        </div>
+<!--
+                                        <div class="">
+                                            <form class="form" action="" [formGroup]="formGroupRole" >
+                                                <div class="row form">
+                                                    <div class = 'search-info col-md-6' >  
+                                                    
+                                                        
+                                                            <label class="col-sm-4" >Tên nhóm quyền (<i>*</i>)</label>
+                                                            <input ngxTrim type="text" class="form-control" formControlName = 'groupRole' placeholder="Nhập tên nhóm quyền" maxlength="200"> 
+                
+                                                            <div *ngIf="fGroup.groupRole.invalid && (fGroup.groupRole.dirty || fGroup.groupRole.touched)">
+                                                                <div *ngIf="fGroup.groupRole.errors">
+                                                                    <div [hidden]="!fGroup.groupRole.errors.required">
+                                                                        <small>Trường tên Nhóm quyền không được phép để trống</small>
+                                                                    </div>           
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                
+                                                    <div class = 'search-info col-md-6' >  
+                                                    
+                                                        <label class="col-sm-4" >Mô tả</label>
+                                                        <input type="text" maxlength="500" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả">
+                                            
+                                                    </div>
+                                                </div>
+                                                <div class= "row form">
+                                                    <div class = 'search-info col-md-6' > 
+                                                    
+                                                
+                                                            <label class="col-sm-4">Trạng thái</label>
+                                                            <ng-select formControlName="status"  
+                                                            [items]="selectStatus"
+                                                            bindLabel="name"
+                                                            bindValue="id"
+                                                    >           </ng-select>
+                
+                                                    </div>
+                                                    
+                                                    <div class = 'search-info col-md-6' >  
+                                                    
+                                                        
+                                                        <label class="col-sm-4" >Phân quyền (<i>*</i>)</label>
+                          
+
+                                                    <ngx-dropdown-treeview
+                                                        formControlName="roleId"
+                                                        (value)="formGroupRole.value.roleId"
+                                                        [items]="items"
+                                                        [config]="config"
+                                                        (selectedChange)="onSelectedChange($event)"
+                                                        (filterChange)="onFilterChange($event)">
+                                                        >
+                                                        </ngx-dropdown-treeview>
+
+                                                    </div>
+                
+                                                    
+                                                </div>
+                                            </form>
+                                        </div>
+-->
+                                        <div class="button">
+                                            <div class="btn-search">
+                                                <button  class=" btn btn-primary" type="button" (click)="openAddGroupRole()">
+
+                                                <!-- <button  class=" btn btn-primary" type="button" [disabled]="!formGroupRole.valid"   (click)="submitGroupRole()"> -->
+                                                    <!-- <span class=""></span> -->
+                                                    <!-- <img  class = "edit" src="./assets/images/sso/saveas.png" alt=""> -->
+                                                    <span>Tạo mới</span>
+                                                    <!-- <span>Sửa</span>  -->
+                                                </button>
+                                                <button  class=" btn btn-success" type="button" (click)="saveGroupRole()">
+                                                    <!-- <span class=""></span> -->
+                                                    <span>Lưu</span> 
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">                          
+                                            <table id="data-table" class = "table table-striped mb-0"> 
+                                                <thead>
+                                                    <th class="info-number-icon">STT</th>
+                                                    <th class="info-text">Tên nhóm quyền</th> 
+                                                    <th class="info-text">Mã nhóm quyền</th> 
+                                                    <th class="info-text">Miêu tả</th>                                    
+                                                    <th class="info-text">Trạng thái</th>
+                                                    <th class="info-number-icon">Hành động</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let role of listGroupRole; let i = index">
+                                                        <td class="info-number-icon">{{i + 1}}</td>
+                                                        <td class="info-text">{{role.groupRole}}</td>
+                                                        <td class="info-text">{{role.groupRoleCode}}</td>
+                                                        <td class="info-text">{{role.description}}</td>
+                                                        <td class="info-text">
+                                                            <span *ngIf="role.status == 1">Kích hoạt</span>
+                                                            <span *ngIf="role.status == 0">Không kích hoạt</span>
+                                                        </td>
+                                                        <td class="info-number-icon" >
+                                                            <!-- <i (click)="openEditGroupRole(i)">
+                                                                <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+
+                                                            </i> -->
+                                                            <i  class="bx bxs-edit-alt" (click)="openEditGroupRole(i)" ></i>
+                                                            <i class="bx bx-trash" (click)="delGroupRole(i, role.groupRole)"></i>
+                                                            <span class="bx bx-plus-medical" (click)="connectRoleUser(role.groupRoleId)"></span>
+
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                            <ng-container *ngIf="this.listGroupRole.length == 0">
+                                                <div class="no-container">
+                                                    <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
+                                                </div>
+                                            </ng-container> 
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>  
+                        </div>  
+                    </div>
+
+                </div>
+            </div>
+
+        </div>  
+    </div>
+</div>

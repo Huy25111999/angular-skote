@@ -22,8 +22,8 @@ export class EditRoleComponent implements OnInit {
   err: boolean = false;
   selectValue: any[];
   inforRole: any;
-
   @Input() dtRole: any=[] ;
+  @Input() dtIdRole: any = [];
   
   selectParamId:any[];
   constructor(
@@ -31,15 +31,16 @@ export class EditRoleComponent implements OnInit {
     private roleService: RoleService,
     public activeModal: NgbActiveModal
   ) { 
-    console.log(this.dtRole);
   }
 
   formData:FormGroup = this.fb.group({
+    roleId:[''],
+    appId:[''],
     role:['',[Validators.required]],
     roleCode:['',[Validators.required]],
     status:['',[Validators.required]],
     description:[''],
-    systemParamId: ['',]
+    systemParamId: [null, Validators.required]
   })
 
   get f(){
@@ -53,7 +54,6 @@ export class EditRoleComponent implements OnInit {
       {id:0, name:'Không kích hoạt'}
     ]; 
      
-
      console.log('Infor role:',this.dtRole); 
      this.formData.patchValue(this.dtRole);
 
@@ -84,7 +84,6 @@ export class EditRoleComponent implements OnInit {
   onSubmit()
   {
     console.log(this.formData.value);
-    
     this.activeModal.close(this.formData.value);  
     //  this.message = '' ;
     //  this.err = false ; 

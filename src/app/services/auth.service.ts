@@ -5,6 +5,7 @@ import { author } from 'src/app/model/author';
 import { tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthInterceptor } from 'src/app/SSO/service/AuthInterceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class AuthService {
     private router:Router
   ) {
     this.token = localStorage.getItem('token');
+    console.log('token authservice-----:', this.token);
     this._isLoggedIn$.next(!!this.token)
   
    }
@@ -32,22 +34,27 @@ export class AuthService {
   {
     return this.userService.login(auth).pipe(
       tap((response: any) =>{
-        localStorage.setItem('token',`${response.token}`);
-        localStorage.setItem('user',`${response.user.username}`);
+        console.log('----',response);
+        localStorage.setItem('token',`${response.data.token}`);
+        localStorage.setItem('user',`${response.data.username}`);
+        
+        localStorage.setItem('userId',`${response.data.userId}`);
         this._isLoggedIn$.next(true);
-        console.log('----',response.token);
         console.log(response);   
+        // this.router.navigate(['app/management']);
       })
+      
     ); 
   }
 
-  generateRefreshToken(){
-    let input = {
-      'token': this.getToken() ,
-      'refreshToken': "getRefreshToken"
-    }
-    return this.http.post(this.apiurl, input )
-  }
+
+  // generateRefreshToken(){
+  //   let input = {
+  //     'token': this.getToken() ,
+  //     'refreshToken': "getRefreshToken"
+  //   }
+  //   return this.http.post(this.apiurl, input )
+  // }
 
   getToken(){
     return localStorage.getItem('token') || '';
@@ -81,6 +88,7 @@ export class AuthService {
     // localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('userId');
     void this.router.navigate(['/account/login']);   
   }
 

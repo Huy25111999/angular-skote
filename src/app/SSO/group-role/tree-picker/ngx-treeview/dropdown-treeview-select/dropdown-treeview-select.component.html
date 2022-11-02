@@ -1,0 +1,46 @@
+<ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand"
+             let-onCheckedChange="onCheckedChange">
+  <div class="text-nowrap row-item" [ngClass]="{'active': (value === item?.value || value === item?.value.id) , 'disable': item.value.isHidden}">
+    <i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true">
+      <svg *ngIf="item.collapsed" width="0.8rem" height="0.8rem" viewBox="0 0 16 16" class="bi bi-caret-right-fill"
+           fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+      </svg>
+      <svg *ngIf="!item.collapsed" width="0.8rem" height="0.8rem" viewBox="0 0 16 16" class="bi bi-caret-down-fill"
+           fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+      </svg>
+    </i>
+    <label class="form-check-label" (click)="select(item, item.value.isHidden)"><span title="{{ item.text }}"> {{ item.text }} </span></label>
+  </div>
+</ng-template>
+<ng-template #headerTemplate let-config="config" let-item="item" let-onCollapseExpand="onCollapseExpand"
+             let-onCheckedChange="onCheckedChange" let-onFilterTextChange="onFilterTextChange">
+  <div *ngIf="config.hasFilter" class="row row-filter">
+    <div class="col-12">
+      <input class="form-control" type="text" [placeholder]="i18n.getFilterPlaceholder()"
+             [(ngModel)]="filterText"
+             (ngModelChange)="onFilterTextChange($event)"/>
+    </div>
+  </div>
+  <div *ngIf="config.hasAllCheckBox || config.hasCollapseExpand" class="row">
+    <div class="col-12">
+      <label *ngIf="config.hasAllCheckBox" (click)="select(item, item.value.isHidden)">
+        <strong>{{ i18n.getAllCheckboxText() }}</strong>
+      </label>
+    </div>
+  </div>
+  <div *ngIf="config.hasDivider" class="dropdown-divider"></div>
+</ng-template>
+
+<div *ngIf="value != null" class="position-absolute text-right p-2 icon-dropdown" (click)="removeItem()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 18 18">
+    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/>
+  </svg>
+</div>
+<ngx-dropdown-treeview class="dropdown-treeview-select" [config]="config" [headerTemplate]="headerTemplate"
+                       [items]="items"
+                       [itemTemplate]="itemTemplate">
+</ngx-dropdown-treeview>

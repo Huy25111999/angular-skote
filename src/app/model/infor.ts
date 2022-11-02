@@ -1,5 +1,6 @@
 export interface infor {
-    id : number,
+    id: number;
+    userId : number,
     address : string,
     username : string,
     password : string,

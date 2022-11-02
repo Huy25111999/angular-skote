@@ -24,19 +24,16 @@ export class ModalAddComponent implements OnInit {
   formData:FormGroup;
   appRole: FormGroup;
   idApp: number;
+  idGroupRole: number;
 
-  selectApp: any[] ;
+  selectAppId: any[] ;
   selectGroupRole: any[];
-  // public formData:FormGroup = new FormGroup({
-  //   username: new FormControl(''),
-  //   password: new FormControl(''),
-  //   email: new FormControl(''),
-  //   phone: new FormControl(''),
-  //   address: new FormControl(''),
-  //   gender: new FormControl(''),
-  //   position: new FormControl('')
+  selectGroupRoleId: any [];
+  selectStatus: any[];
+  selectGender: any=[];
 
-  // })
+  defaultValue;
+
   name = '';
   constructor( 
     private fb: FormBuilder,
@@ -44,69 +41,111 @@ export class ModalAddComponent implements OnInit {
     private groupRoleService: GroupRoleService,
     private modalService : NgbModal,
     public activeModal: NgbActiveModal,
-    private route:Router
+    private route:Router,
     ) {
       this.appRole = this.fb.group({
-        roleUser: this.fb.array([]),
+        userAppDto: this.fb.array([]),
       });
     }
 
-    
   ngOnInit(): void {
+
+    this.selectStatus = [
+      {id:1, name:'Kích hoạt', selected: true},
+      {id:0, name:'Không kích hoạt'}
+    ];
+    
+    this.selectGender = [
+      {id:0, name:'Nữ'},
+      {id:1, name:'Nam'}
+    ];
+    this.defaultValue = 1
+
+    
+
     this.formData = this.fb.group({
-      // username:['',[Validators.required,this.forbiddenUsername(['admin', 'manager'])]],
+      fullName:['',[Validators.required,Validators.maxLength(100)]],
       username:['',[Validators.required,Validators.maxLength(100)]],
       password:['',[Validators.required,Validators.minLength(6)]],
-      email:['',[Validators.required, Validators.email]],
-      status:['',[Validators.required]],
-      role:['',[Validators.required, Validators.maxLength(10)]]
+      email:['',[Validators.required, Validators.email,  Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      active:[null,Validators.required],
+      phone:['',[Validators.required, Validators.maxLength(10),Validators.minLength(10), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      address:[''],
+      gender:null,
+      position:['',[Validators.required,Validators.maxLength(100)]]
     })
-
-    this.searchApp();
-
+   // Validators.pattern("^[0-9]*$"),
     this.getNameApp();
-
   }
+
+  addPhone(): FormGroup {
+    return this.fb.group({
+      userId:'',
+      appId: '',
+      groupRoleId:''
+    });
+  }
+
   get f(){
     return this.formData.controls;
   }
 
-  getNameApp()
-  {
-    this.userService.getNameApp().subscribe(data => {
-    this.selectApp = data;
-    console.log ('select app:',this.selectApp)
-    }, error => {
-      console.log(error);
-    })
-  }
-
-  getGroupRole(id)
-  {
-    this.groupRoleService.getAllGroupRole(id).subscribe(data => {
-      this.selectGroupRole = data;
-    }, error => {
-      console.log(error);
-    })
-  }
-
-
+  
   //------------
   appGroupRole(): FormArray {
-    return this.appRole.get('roleUser') as FormArray;
+    return this.appRole.get('userAppDto') as FormArray;
   }
-  addPhone(): FormGroup {
-    return this.fb.group({
-      app: '',
-      groupRole:''
-    });
-  }
-
+  
   addApp() {
     this.appGroupRole().push(this.addPhone());
   }
   deleteApp(i: number) {
     this.appGroupRole().removeAt(i);
+  }
+
+// --- get select
+  getNameApp()
+  {
+    this.userService.getNameApp().subscribe(data => {
+    this.selectAppId = data.data;
+    }, error => {
+      console.log(error);
+    })
+  }
+
+  nodeApp(event){
+    console.log(this.formData.value.appId);
+    console.log('Event',event)
+    this.idApp = event.id;
+    console.log('id app:',this.idApp);
+
+    this.formData.value.userAppDto.appId = this.idApp;
+ 
+ }
+
+
+ nodeGroupRole(event){
+  this.idGroupRole = event.groupRoleId;
+  console.log('id app:',this.idGroupRole);
+  
+  this.formData.value.userAppDto.groupRoleId = this.idGroupRole;
+
+}
+
+ listAppGroupRole()
+ {
+  console.log('id app----:',this.idApp);
+  this.getGroupRole(this.idApp);
+ }
+
+  getGroupRole(id)
+  {
+    this.groupRoleService.getAllGroupRole(id).subscribe(data => {
+      this.selectGroupRoleId = data.data;
+      console.log('---group role,',this.selectGroupRoleId)
+    }, error => {
+      console.log(error);
+    })
   }
 
 
@@ -119,36 +158,43 @@ export class ModalAddComponent implements OnInit {
     }
   }
   
-  searchApp()
-  {
-    console.log(this.formData.value);
-    this.groupRoleService.getAllApp( this.formData.value).subscribe(data => {
-      console.log('app',data);
-    }, error => {
-      console.log(error);
-    })
-  }
+  // searchApp()
+  // {
+  //   console.log(this.formData.value);
+  //   this.groupRoleService.getAllApp( this.formData.value).subscribe(data => {
+  //     console.log('app',data);
+  //   }, error => {
+  //     console.log(error);
+  //   })
+  // }
   
   onSubmit()
   {
      this.message = '' ;
      this.err = false ; 
-     this.formData.value.gender = parseInt(this.formData.value.gender)
+
+   //  this.formData.value.userAppDto = this.appRole.value.userAppDto;
+
+    //  this.formData.value.userAppDto[0].appId = this.idApp;
+    //  this.formData.value.userAppDto[0].groupRoleId = this.idGroupRole;
+
+     console.log(' this.formdata:', this.formData.value);
+     console.log('approle', this.appRole.value);
+     this.formData.value.active = parseInt(this.formData.value.active);
+     this.formData.value.gender = parseInt(this.formData.value.gender);
+
      this.userService.addUser(this.formData.value).subscribe(data => {
       console.log(this.listUsers);
-      console.log ("submit:", this.formData.value);
+      console.log ("submit:",data);
       this.activeModal.dismiss(this.formData.value);
       this.activeModal.close('Close click');  
-      this.success();
-      this.route.navigate(['/management'])  
+      this.success();  
       
     }, error => {
       this.err = true ; 
       this.message = error ; 
       console.log(this.message);
       return ;
-      // this.activeModal.close('Close click');  
-      //this.error();
     })
   }
 

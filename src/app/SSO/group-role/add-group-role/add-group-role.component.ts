@@ -15,15 +15,17 @@ export class AddGroupRoleComponent implements OnInit {
   items:any = [] ;
   config = TreeviewConfig.create({
     hasFilter: true,
-    hasCollapseExpand: true
+    hasCollapseExpand: true,
+    maxHeight: 300
   });
   
-  @Input() dtIdGroupRole: any ;
+  @Input() dtIdApp: any ;
   listRole: any=[];
   dataSource: any= [];
   values: number;
   paramItem:any;
-  
+
+  defaultValue;
   groupRoleId:any=[];
   roleId;
   arr:any= [] ;
@@ -43,13 +45,13 @@ export class AddGroupRoleComponent implements OnInit {
 
   ngOnInit(): void {
     
-    console.log('dtIdRole:', this.dtIdGroupRole);
+    console.log('dtIdRole:', this.dtIdApp);
     this.selectStatus = [
       {id:1, name:'Kích hoạt', active: true},
       {id:0, name:'Không kích hoạt'}
     ]; 
-    
-    this.getTreeRole(this.dtIdGroupRole);
+    this.defaultValue = 1
+    this.getTreeRole(this.dtIdApp);
   
     // this.items = [new TreeviewItem({
     //   text: "Quản trị hệ thống",
@@ -121,7 +123,6 @@ export class AddGroupRoleComponent implements OnInit {
        
     this.dataSource = this.listRole.map(e => {
       e.text = e.systemParam;
-      e.value = e.systemParamId;
       e.children = e.roleRes ?  e.roleRes.map(k => {
         return {
           text: k.role,
@@ -137,6 +138,22 @@ export class AddGroupRoleComponent implements OnInit {
     console.log('---',this.dataSource);
  
     this.items = this.getItems(this.dataSource);
+    this.items.forEach(e => { 
+      e.checked = false;
+      if (e.children)
+      {
+        e.children.forEach(item => { item.checked = false;
+          if(item.children){
+            item.children.forEach(k =>{
+              k.checked = false
+            })
+          }
+        })
+      }
+
+     })
+     console.log('tree',this.items);
+
     }, error => {
       console.log(error);
       
@@ -156,10 +173,11 @@ export class AddGroupRoleComponent implements OnInit {
   formData:FormGroup = this.fb.group({
     appId: '' ,
     groupRole:['',[Validators.required]],
-    status:['',[Validators.required]],
+    status:[null,Validators.required],
     description:[''],
     groupRoleId:[''],
-    roleId:['']
+    roleId:[''],
+    groupRoleCode:['',Validators.required] 
   })
 
   get f(){
@@ -171,23 +189,33 @@ export class AddGroupRoleComponent implements OnInit {
   }
 
   onSelectedChange(value: string): void {
-    this.groupRoleId = value;
-    console.log ('inđẽ tree',  this.groupRoleId )
-; 
+    let arr:any = [];
+    arr = value;
+    console.log('arr', arr);
+
+    let filterValueTree = arr.filter(e =>{
+      return e !== undefined
+    })
+
+    console.log(filterValueTree);
+    
+    this.groupRoleId = filterValueTree;
+    console.log ('inđẽ tree',  this.groupRoleId ); 
   }
 
   onSubmit()
   {
-   // const roleIdList = [];
-    // for (const item of this.groupRoleId) {
-    //   for (const childItem of item) {
-    //     roleIdList.push(childItem.roleId);
-    //   }
-    // }
+  //  const roleIdList = [];
+  //   for (const item of this.groupRoleId) {
+  //     for (const childItem of item) {
+  //       roleIdList.push(childItem.roleId);
+  //     }
+  //   }
    // this.roleId = this.groupRoleId.map(e=>e.roleId)
-   this.formData.value.appId = this.dtIdGroupRole ; 
+   this.formData.value.appId = this.dtIdApp ; 
     this.formData.value.roleId = this.groupRoleId;
     console.log('Group role',this.groupRoleId);
+    console.log('FORM grou-p role:',this.formData,'\n', this.formData.value)
      this.activeModal.close( this.formData.value );
   }
 

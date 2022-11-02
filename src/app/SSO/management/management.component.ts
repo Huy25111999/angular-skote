@@ -11,6 +11,9 @@ import { FilterModule } from 'ng2-smart-table/lib/components/filter/filter.modul
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 import { Router } from '@angular/router';
+import { GroupRoleService } from '../service/group-role.service';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-management',
@@ -27,8 +30,7 @@ export class ManagementComponent implements OnInit
   tableSize: number = 3;
   tableSizes: any = [3, 6, 9, 12];
 
-  username:string = '';
-  phone:string = '';
+  fullName:string = '';
   email:string = '';
   totalElements:number;
 
@@ -45,27 +47,38 @@ export class ManagementComponent implements OnInit
   searchText: any;
   viewText : string="Quản lý user";
 
-  selectApp: any[];
-  selectGroupRole: any[];
+  selectedApp: any[];
+  selectGroupRoleId: any[];
+  idApp: number;
+  idGroupRole: number;
+  selectStatus: any[];
 
   constructor(
     private userService: UserService,
+    private groupRoleService: GroupRoleService,
     private modalService : NgbModal,
     private formBuilder: FormBuilder,
     private router:Router
-    ) {}
+    ) {
+    }
 
   ngOnInit(): void {
+
+    this.selectStatus = [
+      {id:1, name:'Kích hoạt', active: true},
+      {id:0, name:'Không kích hoạt'}
+    ];
     this.onSearch(false);
-    this.getToken();
-    this.getNameApp();
-    this.getGroupRole();
+   // this.getToken();
+    this.getIdApp();
+   // this.getGroupRole();
+ 
   }
 
   getToken(){
     this.token = localStorage.getItem('auth');
-    console.log("token: ",this.token);
   }
+
 
   //Open modal
    openModalAdd(data)
@@ -95,13 +108,25 @@ export class ManagementComponent implements OnInit
 
 
   public formData:FormGroup = new FormGroup({
-    username: new FormControl(''),
-    phone: new FormControl(''),
+    fullName: new FormControl(''),
     email: new FormControl(''),
+    appId: new FormControl(null),
+    groupRoleId: new FormControl(null),
+    username: new FormControl(''),
+    phone: new FormControl('',[Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
+    status: new FormControl(null),
     pageNumber: new FormControl(''),
     pageSize: new FormControl('')
   })
 
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+   
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
 
   // Get all user
   // getListUsers()
@@ -140,17 +165,26 @@ export class ManagementComponent implements OnInit
 
   onSearch(flag)
   {
-    this.formData.value.pageNumber = this.page;
+    this.formData.value.pageNumber = this.page -1 ;
     this.formData.value.pageSize = this.pageSize;
-    console.log(this.formData.value);
+   
     this.userService.search(this.formData.value).subscribe(data => {
       this.listUsers = data.data.content;
-      console.log('list user : ',this.listUsers)
       this.totalElements = data.data.totalElements;
+
     }, error => {
- //     this.router.navigate(['/account/login']);
+      this.router.navigate(['/account/login']);
     })
 
+  }
+
+  convertDateTime(date)
+  {
+    // let now =moment(date);
+    // return now.format("YYYY/MM/DD hh:mm:ss");
+    let utcDate =moment.utc(date);
+    let localDate = moment(utcDate).local();
+    return localDate.format("YYYY/MM/DD HH:mm:ss");
   }
   
 
@@ -167,78 +201,100 @@ export class ManagementComponent implements OnInit
 
   // ---------select 
   // get name app
-  getNameApp()
+  getIdApp()
   {
     this.userService.getNameApp().subscribe(data => {
-      this.selectApp = data;
-      console.log('Infor user : ',this.oneUser)
+      this.selectedApp = data.data;
+      console.log('Infor user : ',this.selectedApp)
     }, error => {
       console.log(error);
     })
   }
-  getGroupRole()
+
+  nodeApp(event){
+    this.idApp = event.appId;
+ }
+
+ nodeGroupRole(event){
+  this.idGroupRole = event.groupRoleId;
+
+}
+
+ listAppGroupRole()
+ {
+  console.log('id app----:',this.idApp);
+  this.getGroupRole(this.idApp);
+ }
+
+  getGroupRole(id)
   {
-    this.userService.getNameApp().subscribe(data => {
-      this.selectApp = data;
-      console.log('Infor user : ',this.oneUser)
+    this.groupRoleService.getAllGroupRole(id).subscribe(data => {
+      this.selectGroupRoleId = data.data;
+      console.log('---group role---,',this.selectGroupRoleId)
     }, error => {
       console.log(error);
     })
   }
+
+  onReset()
+  {
+    this.formData.reset({
+      fullName:'',
+      email:'',
+      username:'',
+      phone:'',
+    })
+  }
+
+  // getGroupRole()
+  // {
+  //   this.userService.getNameApp().subscribe(data => {
+  //     this.selectAppId = data;
+  //     console.log('Infor user : ',this.oneUser)
+  //   }, error => {
+  //     console.log(error);
+  //   })
+  // }
 
   // View chi tiết
   getOneUser(id)
   {
     this.userService.getID(id).subscribe(data => {
       this.oneUser = data;
-      console.log('Infor user : ',this.oneUser)
     }, error => {
       console.log(error);
     })
     console.log('user: ',id);
   }
 
-  // Lock - unlock user
-  
-  getIdUser(id)
-  {
-    this.userService.getID(id).subscribe(data => {
-      console.log(id);
-      this.listUsers = data;
-      console.log('list: ',this.listUsers)
-    }, error => {
-      console.log(error);
-    })
-
-  }
-
-
-  lockUser(id)
-  {
-    this.userService.lockUser(id).subscribe(data => {
-      console.log("success: lock", id);
-         console.log('----------',this.listUsers);
-         this.onSearch(true);
-    }, error => {
-      console.log(error);
-    })
-  }
-
-  unlockUser(id){
-    this.userService.unlockUser(id).subscribe(data => {
-      console.log("success: Unclock", id);
-      console.log('----------',this.listUsers);
+  // delete user
+  delUser(id){
+    this.userService.deleteUser(id).subscribe(data => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Xóa người dùng thành công.',
+        showConfirmButton: false,
+        timer: 1500
+      });
       this.onSearch(true);
-    }, err => {
-      console.log(err);
-
+    }, error => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Xóa người dùng thất bại.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      console.log(error);
     })
   }
 
-  unlockOneUser(id){
+  
+  deleteUser(id,nameUser){
     Swal.fire({
-      title:'Mở khóa người dùng',
-      text: 'Bạn có chắc chắn muốn mở khóa user này không!',
+      title:'Xóa người dùng',
+      text: `Bạn có chắc chắn muốn xóa người dùng ${nameUser} không!`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#34c38f',
@@ -247,7 +303,87 @@ export class ManagementComponent implements OnInit
 
     }).then(result => {
       if (result.value) {
-        Swal.fire('Mở khóa!', 'Bạn vừa mở khóa thành công.','success');
+        this.delUser(id);
+
+      }
+    });
+  }
+
+  // Lock - unlock user
+  
+  getIdUser(id)
+  {
+    this.userService.getID(id).subscribe(data => {
+      this.listUsers = data;
+      console.log('list: ',this.listUsers)
+    }, error => {
+      console.log(error);
+    })
+
+  }
+
+  lockUser(id)
+  {
+    this.userService.lockUser(id).subscribe(data => {
+    //  Swal.fire('Khóa!','Bạn vừa khóa thành công.','success');
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Bạn vừa khóa thành công.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.onSearch(true);
+    }, error => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Khóa người dùng thất bại.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    //  Swal.fire('Khóa người dùng!', 'Khóa người dùng thất bại.','warning');
+      console.log(error);
+    })
+  }
+
+  unlockUser(id){
+    this.userService.unlockUser(id).subscribe(data => {
+    //  Swal.fire('Mở khóa!', 'Bạn vừa mở khóa thành công.','success');
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Bạn vừa mở khóa thành công.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      
+      this.onSearch(true);
+    }, err => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Mở khóa người dùng thất bại.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      console.log(err);
+
+    })
+  }
+
+  unlockOneUser(id){
+    Swal.fire({
+      title:'Mở khóa người dùng',
+      text: 'Bạn có chắc chắn muốn mở khóa người dùng này không!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Đồng ý!'
+
+    }).then(result => {
+      if (result.value) {
         this.unlockUser(id);
 
       }
@@ -257,7 +393,7 @@ export class ManagementComponent implements OnInit
   lockOneUser(id){
     Swal.fire({
       title: 'Khóa người dùng',
-      text: 'Bạn có chắc chắn muốn khóa user này không!',
+      text: 'Bạn có chắc chắn muốn khóa người dùng này không!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#34c38f',
@@ -266,7 +402,6 @@ export class ManagementComponent implements OnInit
 
     }).then(result => {
       if (result.value) {
-        Swal.fire('Khóa!','Bạn vừa khóa thành công.','success');
         this.lockUser(id);
 
       }

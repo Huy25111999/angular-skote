@@ -31,7 +31,7 @@
 .search-header h4 {
     font-size: 20px;
     margin: 16px 0;
-    color: #f0058a;
+    color: #0062ae;
 }
 
 .search-container, .user-container {
@@ -53,8 +53,17 @@ button.btn.btn-primary span, button.btn.btn-success span {
     padding: 0 8px;
 }
 
-button.btn.btn-success.btn-sm {
-    background: #00b74a;
+// button.btn.btn-success.btn-sm {
+//     background: #00b74a;
+// }
+button.btn.btn-success {
+    background: #00963c; 
+}
+
+
+.btn-primary {
+    color: #fff;
+    background-color: #1d10aa;
 }
 //Form-table-info
 
@@ -91,17 +100,30 @@ img.edit, button img
     margin: 16px 0;
 }
 
- .info-number-icon
+.info-number-icon,  .info-number-date
 {
     text-align: center;
 }
 td.info-number-icon i {
     margin: 0 8px;
 }
-td i {
-    padding-right: 16px;
+td.info-number-icon i:hover {
+    color: #041ac3;
 }
-//-------------
+td {
+    padding-top: 18px !important;
+}
+i.bx.bx-trash:hover {
+    color: red !important;
+}
+input {
+    height: 46px;
+}
+
+// td i {
+//     padding-right: 16px;
+// }
+// //-------------
 // .search-header {
 //     display: flex;
 //     justify-content: space-between;
@@ -113,4 +135,28 @@ td i {
 }
 .role-right.col-md-6 {
     padding-top: 13px;
+}
+
+// no data
+.no-container {
+    text-align: center;
+}
+
+.no-container img {
+    width: 300px;
+    height: 200px;
+}
+
+.bx-lock-alt{
+    color: #ec148e;
+}
+
+.bx-lock-open-alt{
+    color: rgb(41, 179, 119);
+}
+i.bx.bx-trash {
+    color: red;
+}
+i.bx.bxs-edit-alt {
+    color: #1909f2;
 }

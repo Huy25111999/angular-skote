@@ -28,6 +28,7 @@ export class ModalRoleComponent implements OnInit {
   err: boolean = false;
   selectStatus: any[];
   selectParamId: any[];
+  defaultValue;
 
   @Input() dtIdRole: any ;
   isRole:boolean = true;
@@ -44,16 +45,17 @@ export class ModalRoleComponent implements OnInit {
       {id:0, name:'Không kích hoạt'}
     ]; 
 
+    this.defaultValue = 1
     this.getParamRole();
   }
 
   formData:FormGroup = this.fb.group({
     appId:'',
-    role:['',[Validators.required]],
-    roleCode:['',[Validators.required]],
-    status:['',[Validators.required]],
+    role:['',[Validators.required,Validators.maxLength(200)]],
+    roleCode:['',[Validators.required,Validators.maxLength(30)]],
+    status:[null,Validators.required],
     description:[''],
-    systemParamId: ['']
+    systemParamId: [null,Validators.required]
   })
 
   get f(){
@@ -74,8 +76,8 @@ export class ModalRoleComponent implements OnInit {
 
   onSubmit()
   { 
-      this.formData.value.appId = this.dtIdRole ; 
-      this.activeModal.close(this.formData.value);  
+    this.formData.value.appId = this.dtIdRole ; 
+    this.activeModal.close(this.formData.value);  
   }
 
   closeModal(){

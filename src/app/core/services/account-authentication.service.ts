@@ -54,6 +54,7 @@ export class AccountAuthenticationService {
     // localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('userId');
     this.currentUserSubject.next(null);
     void this.router.navigate(['/account/login']);
     

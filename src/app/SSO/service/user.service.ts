@@ -19,12 +19,16 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   // User
-  getAllUsers(): Observable<any> {
-    return this.http.get<any>(this.API + '/group-role/get-user/31111111');
+  getAllUsers(id): Observable<any> {
+    return this.http.get<any>(this.API + '/group-role/get-user/'+id);
   }
 
-  connectUserRole(req: any):Observable<any> {
-    return this.http.post<any>(this.API + '/group-role/add-user',req);
+  getUserGroupRole(id): Observable<any> {
+    return this.http.get<any>(this.API + '/group-role/get-user-of-group-role/'+id);
+  }
+
+  connectUserRole(id,req: any):Observable<any> {
+    return this.http.put<any>(this.API + '/group-role/manager-user/'+id,req);
   }
 
   addUser(user:infor):Observable<any> {
@@ -57,6 +61,13 @@ export class UserService {
   {
     return  this.http.post<any>(this.API + '/users/search', req);
   }
+
+  deleteUser(id:number):Observable<any>
+  {
+    return  this.http.delete<any>(this.API + '/users/'+ id);
+  }
+
+
 
 // Domain
  
@@ -92,12 +103,12 @@ export class UserService {
 
   lockDomain(id:number):Observable<any>
   {
-    return this.http.put<any>(this.API +'/domain/lock-domain/' + id, null );
+    return this.http.put<any>(this.API +'/app/lock-app/' + id, null );
   }
 
   unlockDomain(id:number):Observable<any>
   {
-    return this.http.put<any>(this.API +'/domain/unlock-domain/' + id, null );
+    return this.http.put<any>(this.API +'/app/unlock-app/' + id, null );
   }
   searchDomain(paramSearch:any):Observable<any>
   {
@@ -118,7 +129,7 @@ export class UserService {
   login(auth:author):Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/text')
-    return this.http.post<any>(this.API +'/auth/sso/signin',auth, {headers: headers, observe: 'body'});
+    return this.http.post<any>(this.API +'/auth/sso/sign-in',auth, {headers: headers, observe: 'body'});
   }
 
   // User-domain join

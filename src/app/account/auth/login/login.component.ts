@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
 //----------------
 import { TopbarComponent } from 'src/app/layouts/topbar/topbar.component';
 import { AuthInterceptor } from 'src/app/SSO/service/AuthInterceptor';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -36,6 +37,9 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   responsedata: any;
 
+  private _isLoggedIn$ = new BehaviorSubject<boolean>(false)
+  isLoggedIn$ = this._isLoggedIn$.asObservable();
+  
   // set the currenr year
   year: number = new Date().getFullYear();
 
@@ -43,7 +47,9 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
     private authFackservice: AccountAuthenticationService,
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private userService: UserService,
+    private authenticate: AuthInterceptor
     ) { }
 
 
@@ -113,17 +119,44 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.formData.valid){
+
+      // this.userService.login(formValue).pipe(
+      //   tap((response: any) =>{
+      //     console.log('----',response);
+      //     localStorage.setItem('token',`${response.data.token}`);
+      //     localStorage.setItem('user',`${response.data.username}`);
+      //     localStorage.setItem('userId',`${response.data.userId}`);
+      //     this._isLoggedIn$.next(true);
+      //     console.log(response);  
+      //     this.router.navigate(['app/management']);
+      //   })
+      // ).subscribe(result =>{
+      //   console.log('login', result);
+      //   this.router.navigate(['app/management']);
+      // },error =>{ 
+      //     this.message = error ; 
+      //     console.log(this.message);
+      //     return ;
+      //   })
+
       this.authService.login(formValue).subscribe(result =>{
+        console.log('login----', result);
         if (result != null){
-          this.responsedata = result
-          // localStorage.setItem('token',this.responsedata.token);
-          location.replace('SSO/management');
+          this.responsedata = result;
+          this.router.navigate(['./user']);
+         // localStorage.setItem('token',this.responsedata.token);
+        //  localStorage.setItem('user',this.responsedata.username);
+          // localStorage.setItem('userId',`${response.data.userId}`);
+         //location.replace('./user');
+        //  this.router.navigate(['app/management']);
+        
         }
-      },error =>{
+      },error =>{ 
         this.message = error ; 
         console.log(this.message);
         return ;
       })
+
     }
   }
 

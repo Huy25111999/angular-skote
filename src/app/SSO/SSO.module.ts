@@ -6,7 +6,7 @@ import { ModalAddComponent } from './management/modal-add/modal-add.component';
 import { ModalEditComponent } from './management/modal-edit/modal-edit.component';
 import { DetailComponent } from './detail/detail.component';
 // import { DomainComponent } from './managementDomain/domain/domain.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from '../app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +19,7 @@ import { Ng2CompleterModule } from 'ng2-completer';
 import {SharedModule} from "../shared/shared.module";
 import { ModalUserDomainComponent } from './modal-user-domain/modal-user-domain.component';
 import { AuthInterceptor } from './service/AuthInterceptor';
-// import {NgxTrimModule} from 'ngx-trim';
+ import {NgxTrimModule} from 'ngx-trim';
 import { TreeviewModule } from 'ngx-treeview';
 import { ManagementUserComponent } from './user/management-user/management-user.component';
 import { ManagementRoleComponent } from './role/management-role/management-role.component';
@@ -32,6 +32,10 @@ import { ManagementGroupRoleComponent } from './management-group-role/management
 import { EditGroupRoleComponent } from './group-role/edit-group-role/edit-group-role.component';
 import { EditByRoleComponent } from './group-role/edit-by-role/edit-by-role.component';
 import { ConnectUserRoleComponent } from './connect-user-role/connect-user-role.component';
+import { CreatAppComponent } from './creat-app/creat-app.component';
+import { EditAppComponent } from './edit-app/edit-app.component';
+import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-select/dropdown-treeview-select.component';
+// import { TreeviewI18nDefault } from './group-role/tree-picker/ngx-treeview';
 
 @NgModule({
   declarations: [
@@ -54,6 +58,9 @@ import { ConnectUserRoleComponent } from './connect-user-role/connect-user-role.
     EditGroupRoleComponent,
     EditByRoleComponent,
     ConnectUserRoleComponent,
+    CreatAppComponent,
+    EditAppComponent,
+    DropdownTreeviewSelectComponent
   ],
   imports: [
     CommonModule,
@@ -64,12 +71,11 @@ import { ConnectUserRoleComponent } from './connect-user-role/connect-user-role.
     HttpClientModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,
     NgbModule,
     SharedModule,
     FormsModule,
     NgSelectModule,
-    //NgxTrimModule,
+    NgxTrimModule,
     TreeviewModule.forRoot(),
     // BrowserModule
   ],

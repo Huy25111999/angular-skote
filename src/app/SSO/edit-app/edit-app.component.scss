@@ -1,0 +1,258 @@
+
+// Tabs
+.tabs-container{
+    background: #eee;
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    height: 55px;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    }
+    
+    .tabs-container .tab-link{
+    width: 33.33%;
+    position: relative;
+    height: 100%;
+    padding: 10px;
+    float: left;
+    text-align: center;
+    }
+    
+    
+    .tab-link::after {
+        position: absolute;
+        left: 4px;
+        right: 4px;
+        bottom: 0;
+        display: block;
+        content: '';
+        border-bottom: 3px solid #18a790;
+        color: #18a790;
+        transform: scaleX(0);
+        transition: transform 250ms ease-in-out;
+      }
+      
+    .ant-tabs-tab:hover:after {
+    transform: scaleX(1);
+    /* transform-origin: 100% 50%; For Right*/
+    /* transform-origin: 0% 50%; For Left*/
+    }
+    .active::after {
+      transform: scaleX(1);
+    }
+
+    .active{
+    background-color: #0062ae !important;
+    }
+
+    .active h4{
+        color: #fff !important;
+    }
+
+    .ant-tabs-tab.col-md-3:hover {
+        box-shadow: 20px 20px 50px 10px pink inset;
+    }
+
+    .search-header h4 {
+        font-size: 20px;
+        color: #0062ae;
+    }
+
+    .ant-tabs-tab{
+        height: 48px;
+        background-color: #dbe9ff;
+        margin-left: 16px;
+        width: 128px;
+        color: #0f18ef;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    
+    }
+
+    .ant-tabs-tab h4{
+        line-height: 48px;
+        font-size: 17px;
+        text-align: center;
+        color: #0f18ef;
+    } 
+// Container
+.card-header .text-info{
+    color: #575353 !important;
+}
+.containers .content {
+    margin-top: 0;
+}
+
+.title-right ul {
+    padding: 0;
+}
+.title-right ul li {
+    display: inline;
+    padding: 8px;
+}
+.title-right ul li:first-child >a {
+    color: #74788d !important;
+}
+.title-right a {
+    color: #495057;
+}
+
+.content {
+    background: #FFFFFF;
+}
+
+// Search
+.search{
+    border: 1px solid #C5C7CD;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.search-header h4 {
+    font-size: 20px;
+    margin: 16px 0;
+}
+
+.search-container, .user-container {
+    margin: 0 16px;
+}
+
+.btn-search {
+   text-align: center;
+   margin: 16px 0;
+}
+.btn-search button {
+    border-radius: 4px;
+    color: #FFFFFF;
+    margin-right: 40px;
+    border: 0;
+}
+
+button.btn.btn-primary span, button.btn.btn-success span {
+    padding: 0 8px;
+}
+
+// button.btn.btn-success.btn-sm {
+//     background: #066d3a;
+// }
+button.btn.btn-success {
+    background: #00963c; 
+}
+.btn-primary {
+    color: #fff;
+    background-color: #1d10aa;
+
+}
+button.btn.btn-secondary {
+    background: #521212;
+}
+//Form-table-info
+
+.info-user
+{
+    width: 100%;
+    border: 1px solid #DFE0EB;
+    border-radius: 8px;
+    background: #FFFFFF;
+}
+
+// Table
+
+.table th {
+    padding-left: 10px;
+}
+
+table, th, tr, td {
+    border: 1px solid #CECECE;
+}
+tbody {
+    border: 0 !important;
+}
+
+
+img.edit, button img
+{
+    width: 18px;
+    height: 18px;   
+}
+
+.page-right {
+    float: right;
+    margin: 16px 0;
+}
+
+ .info-number-icon
+{
+    text-align: center;
+}
+td.info-number-icon i {
+    margin: 0 8px;
+}
+td i {
+    padding-right: 16px;
+}
+
+
+.view-role.col-md-8 {
+    line-height: 56px;
+}
+.role-right.col-md-6 {
+    padding-top: 13px;
+}
+small{
+    color: #f50911;
+}
+label i {
+    color: #de0344ee;
+}
+
+td.info-number-icon i:hover, td.info-number-icon span:hover {
+    color: #041ac3;
+}
+
+i.bx.bx-trash:hover {
+    color: red !important;
+}
+i.bx.bx-trash {
+    color: red;
+}
+i.bx.bxs-edit-alt {
+    color: #1909f2;
+}
+
+td {
+    line-height: 48px;
+}
+
+input{
+    height: 44px;
+}
+
+// no data
+.no-container {
+    text-align: center;
+}
+
+.no-container img {
+    width: 300px;
+    height: 200px;
+}
+
+label.col-sm-3,label.col-sm-4 {
+    padding: 0;
+}
+div.form{
+    padding-bottom: 16px;
+}
+.treeview-item {
+    padding-left: 8px;
+}
+
+.info-number-icon{
+    text-align: center;
+}
+
+.input-error {
+    border: #de0344ee 1px solid;
+}

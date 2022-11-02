@@ -2,39 +2,134 @@
 <div  id= "modal-add">
 
         <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Thêm user role</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal-Add" aria-label="Close" (click)="closeModal()" ></button>
+                <h5 class="modal-title" id="staticBackdropLabel">Quản lý người dùng</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal-Add" aria-label="Close" (click)="closeModal()" ></button> -->
         </div>
-       
-        <div class="modal-body">
+        <form class="form" [formGroup]="formData" >
+            <div class="modal-body">
+                <div class="input-form">
+                    <div class="row mb-4" >
+                        <ngb-alert type="danger" *ngIf="messageError && messageError.length">{{ messageError }}</ngb-alert>
+
+                        <label class="col-sm-3" >Người dùng (<i>*</i>)</label>
+                        <div class="col-sm-5">
+                            <ng-select formControlName="userId" 
+                            [searchable]="false"  
+                            [items]="listUsers"
+                            bindLabel="username"
+                            bindValue="id"  
+                            multiple="true"
+                            placeholder="Chọn người dùng"
+                            [ngClass]="{'input-error': f.userId.invalid && (f.userId.dirty || f.userId.touched)}" 
+                >           </ng-select>
+                            <div *ngIf="f.userId.invalid && (f.userId.dirty || f.userId.touched)">
+                                <div *ngIf="f.userId.errors">
+                                    <div [hidden]="!f.userId.errors.required">
+                                        <small>Vui lòng chọn người dùng</small>
+                                    </div>           
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class=" btn btn-success" type="button" [disabled]="!formData.valid" (click)="onAddUser()">
+                                <span class="bx bx-plus-medical"></span>
+                                <span>Thêm mới</span>
+                            </button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class=" btn btn-secondary" type="button" (click)="deleteUser()" >
+                                <i class="bx bx-trash"></i>
+                                <span>Xóa</span>
+                            </button>
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Table -->
+
+        <div class="table-responsive">
+            <table id="data-table" class = "table table-striped mb-0">
+                <thead>
+                    <th class="info-number-icon">
+                        <input type="checkbox" [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()"  > 
+                    </th> 
+                    <th class="info-number-icon">STT</th>
+                    <th class="info-text">Họ và tên</th>
+                    <th class="info-text">Email</th>    
+                    <th class="info-text">Username</th>
+                    <th class="info-text">Phone</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dataUser of listUserConnect ; let i = index">
+                        <td class="info-number-icon">
+                            <input type="checkbox" value="dataUser.id"  [(ngModel)]="dataUser.isChecked" > 
+                            <!-- <span class="bx bx-plus-medical"></span> -->
+                        </td>
+                        <!-- <td class="info-number-icon">
+                                                    <input type="checkbox" value="dataDomain.id"  [(ngModel)]="dataDomain.isChecked" > 
+                                                </td> -->
+                        <td class="info-number-icon">{{i+1}}</td>
+                        <td class="info-text">{{dataUser.fullName}}</td>
+                        <td class="info-text">{{dataUser.email}}</td>
+                        <td class="info-text">{{dataUser.username}}</td>
+                        <td class="info-text">{{dataUser.phone}}</td>
+                  
+                    </tr>
+                    
+
+                </tbody>
+            </table>
+            <ng-container *ngIf="this.listUserConnect.length == 0">
+                <div class="no-container">
+                    <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
+                </div>
+            </ng-container>
+            
+      
+        </div>
+
+
+        <div class="modal-footer">
+            <div class="btn-footer" >
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Đóng</button>
+                <!-- <button  class="btn btn-primary" type="button" [disabled]="!formData.valid" (click)="submit()">
+                    <span class="">Tạo mới</span> -->
+                    <!-- <img  class = "edit" src="./assets/images/sso/saveas.png" alt=""> -->
+                
+                <!-- </button> -->
+                
+                <button type="submit" class="btn btn-primary w-xs"   (click)="onSubmit()">Lưu</button>
+                <!-- <button *ngIf="!isConnect" type="submit" class="btn btn-primary w-xs" disabled (click)="onSubmit()">Lưu</button> -->
+
+            
+            </div>
+        </div>
+
+        <!-- <div class="modal-body">
             <div class="table-responsive">
                 <table id="data-table" class = "table table-striped mb-0">
                     <thead>
                         <th class="info-number-icon"></th>
                         <th class="info-number-icon">STT</th>
-                        <th class="info-text">Tên người dùng</th>
-                        <th class="info-text">Email đăng nhập</th>
+                        <th class="info-text">Họ và tên</th>
+                        <th class="info-text">Username</th>
+                        <th class="info-text">Email</th>
                         <th class="info-text">Phone</th>
-                        <th class="info-text">Ngày tạo</th>
-                        <th class="info-text">Người tạo</th>
-                        <th class="info-text">Trạng thái</th>
                         <th class="info-text">Vị trí</th>
                     </thead>
                     <tbody>
                         <tr *ngFor="let dataUser of listUsers ; let i = index">
-<!-- 
-                            <td class="info-number-icon">{{listUsers.indexOf(dataUser)+1}}</td> -->
                             <td class="info-number-icon">
-                                <span class="bx bx-plus-medical" (click)="onSubmit(dataUser.id)"></span>
-                                <!-- <input type="checkbox" value="dataDomain.id"  [(ngModel)]="dataUser.isChecked"  >  -->
+                                <span class="bx bx-plus-medical"></span>
                             </td>
-                            <td class="info-number-icon">{{i}}</td>
+                            <td class="info-number-icon">{{i+1}}</td>
+                            <td class="info-text">{{dataUser.fullName}}</td>
                             <td class="info-text">{{dataUser.username}}</td>
-                            <td class="info-text">{{dataUser.email}}</td>
+                                <td class="info-text">{{dataUser.email}}</td>
                             <td class="info-text">{{dataUser.phone}}</td>
-                            <td class="info-number">{{dataUser.createdTime}}</td>
-                            <td class="info-number">{{dataUser.createdBy}}</td>
-                            <td class="info-text">{{dataUser.status}}</td>
                             <td class="info-text">{{dataUser.position}}</td>
                       
                         </tr>
@@ -42,11 +137,15 @@
 
                     </tbody>
                 </table>
-
+                <ng-container *ngIf="this.listUsers.length == 0">
+                    <div class="no-container">
+                        <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
+                    </div>
+                </ng-container>
                 
           
             </div>
-        </div>
+        </div> -->
             
         <!-- <div class="modal-footer">
             <div class="btn-footer" >

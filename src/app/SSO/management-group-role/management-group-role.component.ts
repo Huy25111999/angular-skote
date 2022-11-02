@@ -16,6 +16,8 @@ import { app } from 'src/app/model/app';
 import { AddDomainComponent } from '../managementDomain/add-domain/add-domain.component';
 import { EditDomainComponent } from '../managementDomain/edit-domain/edit-domain.component';
 import { ConnectUserRoleComponent } from '../connect-user-role/connect-user-role.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-management-group-role',
@@ -23,28 +25,35 @@ import { ConnectUserRoleComponent } from '../connect-user-role/connect-user-role
   styleUrls: ['./management-group-role.component.scss']
 })
 export class ManagementGroupRoleComponent implements OnInit {
-  page: number = 0;
-  pageSize = 5;
+  page: number = 1;
+  pageSize = 10;
   count: number = 0;
   tableSize: number = 3;
   tableSizes: any = [3, 6, 9, 12];
   totalElements:number;
   listRole: any = [];
+  listGroupRoleUpdate = [];
+  oneGroupRole=[];
+
+  oneRole=[];
+  listRoleUpdate = [];
   listGroupRole: any= [];
   listDomain :any= [];
-  totalSize:number;
   idApp: number ; 
 
  // listApp: app[] = [];
   isRoll:any= true;
   isGroupRoll:any= true;
-  listApp : app[]= [];
+  listApp = [];
+
   constructor(
     private modalService : NgbModal,
     private roleService: RoleService,
     private userService: UserService,
     private groupRoleService: GroupRoleService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router:Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -59,26 +68,35 @@ export class ManagementGroupRoleComponent implements OnInit {
     pageSize: this.pageSize
   })
 
+  
+  convertDateTime(date)
+  {
+    // let now =moment(date); 
+    // return now.format("YYYY/MM/DD hh:mm:ss");
+    let utcDate =moment.utc(date);
+    let localDate = moment(utcDate).local();
+    return localDate.format("YYYY/MM/DD HH:mm:ss");
+  }
   //--------- App
   searchApp(flag)
   {
     // const body = {app: " ", pageNumber: this.page, pageSize: this.pageSize}
 
-    this.formData.value.pageNumber = this.page;
+    this.formData.value.pageNumber = this.page - 1;
     this.formData.value.pageSize = this.pageSize;
     console.log(this.formData.value);
     this.groupRoleService.getAllApp( this.formData.value).subscribe(data => {
       console.log('app',data);
       this.listDomain = data.data.content;
-      this.totalSize = data.data.totalElements;
-      console.log('_________', this.totalSize)
+      this.totalElements = data.data.totalElements;
     }, error => {
       console.log(error);
+     // this.router.navigate(['/account/login']);
     })
   }
 
   onPageChangeApp(event: any) {
-    this.page = event - 1;
+    this.page = event;
     this.searchApp(true);
   }
 
@@ -93,19 +111,16 @@ export class ManagementGroupRoleComponent implements OnInit {
   openAddApp(data)
   {
     const modalRef = this.modalService.open(AddDomainComponent, { size : 'lg'})
-    modalRef.componentInstance.dtApp = data ;
     modalRef.result.then((data)=>{
-
-    },(reason)=>{
-      data = reason;
-      this.listApp ;
+      this.listDomain;
     })
   }
+
 
   openEditApp(data)
   {
     const modalRef = this.modalService.open(EditDomainComponent,{ size : 'lg'})
-    modalRef.componentInstance.dtDomain = data;
+    modalRef.componentInstance.dtApp = data;
     modalRef.result.then( data=>{
 
     },reason =>{
@@ -115,12 +130,39 @@ export class ManagementGroupRoleComponent implements OnInit {
     })
   }
 
+  
+  creatApp()
+  {
+    this.router.navigate(['/create-app']);
+  }
+  
+  // editApp(data)
+  // {
+  //   const modalRef = this.router.navigate(['/edit-app']);
+  //   console.log('edit:', data);
+    
+  // }
+
+
   // delete app
   delete(id){
     this.groupRoleService.deleteApp(id).subscribe(data => {
-      console.log('app',data);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Xóa app thành công.',
+        showConfirmButton: false,
+        timer: 1500
+      });
       this.searchApp(true);
     }, error => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'warning',
+        title: 'Xóa app thất bại.',
+        showConfirmButton: false,
+        timer: 1500
+      });
       console.log(error);
     })
   }
@@ -137,9 +179,93 @@ export class ManagementGroupRoleComponent implements OnInit {
 
     }).then(result => {
       if (result.value) {
-        Swal.fire('Xóa app!', 'Xóa app thành công.','success');
         this.delete(id);
 
+      }
+    });
+  }
+
+  lockDomain(id)
+  {
+    this.userService.lockDomain(id).subscribe(data => {
+    //  Swal.fire('Khóa!','Bạn vừa khóa thành công.','success');
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Bạn vừa khóa thành công.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.searchApp(true);
+
+    }, error => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Khóa app thất bại!',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      console.log(error);
+    })
+  }
+
+  lockOneDomain(id){
+    Swal.fire({
+      title: 'Khóa app',
+      text: 'Bạn có chắc chắn muốn khóa app này không!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText:  'Đồng ý',
+      
+    }).then(result => {
+      if (result.value) {
+        this.lockDomain(id);
+      }
+    });
+  }
+
+  unlockDomain(id){
+    this.userService.unlockDomain(id).subscribe(data => {
+     // Swal.fire('Mở khóa!', 'Bạn vừa mở khóa thành công.','success');
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Bạn vừa mở khóa thành công.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.searchApp(true);
+
+    }, err => {
+      //Swal.fire('Mở khóa!','Mở khóa app thất bại!','success');
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Mở khóa app thất bại!',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      console.log(err);      
+    })
+  }
+
+  unlockOneDomain(id){
+    Swal.fire({
+      title:'Mở khóa',
+      text: 'Bạn có chắc chắn muốn mở khóa app này không!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Đồng ý!'
+      
+    }).then(result => {
+      if (result.value) {
+        this.unlockDomain(id);
+       
       }
     });
   }
@@ -148,7 +274,6 @@ export class ManagementGroupRoleComponent implements OnInit {
   view(id){
     this.groupRoleService.getIdApp(id).subscribe(data => {
       this.idApp = data.data.id ;
-      console.log('Id app', this.idApp)
      // this.getListGroupRole(id);
     }, error => {
       console.log(error);
@@ -195,9 +320,14 @@ export class ManagementGroupRoleComponent implements OnInit {
   createRole()
   {
     const tbody = this.listRole;
-    console.log('tbody', tbody);
     this.roleService.addRole(tbody).subscribe(data => {
-      console.log(data);
+       this.listRole.splice( this.listRole);
+       this.listRoleUpdate = data.data;
+       this.listRoleUpdate.forEach(element => {
+          this.listRole.push(element);
+       });
+       console.log('Element role',this.listRole);
+
    }, error => {
       return  error;
    })
@@ -217,7 +347,6 @@ export class ManagementGroupRoleComponent implements OnInit {
   editRole()
   {
     const tbody = this.listRole;
-    console.log('tbody', tbody);
       this.roleService.editRole(tbody).subscribe(data => {
       console.log ("submit:",tbody);
       this.success();
@@ -230,17 +359,21 @@ export class ManagementGroupRoleComponent implements OnInit {
 
   openEditRole(data)
   {
-    console.log(  'role', data);
     const modalRef = this.modalService.open(EditRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.dtRole= data ;
-    modalRef.result.then((data)=>{
-    },(reason)=>{
+    modalRef.componentInstance.dtRole= this.listRole[data] ;
+      modalRef.result.then((reason)=>{
       // data = reason;
-       console.log('edit-role',reason);
-       console.log('edit-role',data);
-       this.listRole.splice(data,reason);
+      this.listRole.splice(data,1,reason);
 
     })
+    // modalRef.result.then((data)=>{
+    // },(reason)=>{
+    //   // data = reason;
+    //    console.log('edit-role',reason);
+    //    console.log('edit-role',data);
+    //    this.listRole.splice(data,reason);
+
+    // })
   }
 
   //----------group role-----------
@@ -266,22 +399,27 @@ export class ManagementGroupRoleComponent implements OnInit {
 
   createGroupRole()
   {
-    console.log('creater group role:',this.listGroupRole);
       this.groupRoleService.addGroupRole(this.listGroupRole).subscribe(data => {
-        console.log(data);
+        this.listGroupRole.splice( this.listGroupRole);
+        this.listGroupRoleUpdate = data.data;
+        this.listGroupRoleUpdate.forEach(element => {
+            this.listGroupRole.push(element);
+        });
+        console.log('Element role',this.listGroupRole);
+        
+
       }, error => {
         console.log(error)
         return  error;
       })
   }
 
+
   editGroupRole()
   {
     const tbody = this.listGroupRole;
-    console.log('tbody', tbody);
-    const id =1;
+    const id = this.idApp;
       this.groupRoleService.editGroupRole(id,tbody).subscribe(data => {
-      console.log ("submit:",tbody);
       this.success();
     }, error => {
       console.log(error);
@@ -320,10 +458,11 @@ export class ManagementGroupRoleComponent implements OnInit {
   openEditGroupRole(data)
   {
     const modalRef = this.modalService.open(EditGroupRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.dtGroupRole = data ;
+    modalRef.componentInstance.dtGroupRole =  this.listGroupRole[data] ;
     console.log ( this.listGroupRole);
+
     modalRef.result.then((reason)=>{
-      this.listGroupRole.splice(this.listGroupRole,1,reason);
+      this.listGroupRole.splice(data,1,reason);
       console.log('group role:',this.listGroupRole);
     })
   }
@@ -332,9 +471,10 @@ export class ManagementGroupRoleComponent implements OnInit {
   connectRoleUser(id)
   {
     const modalRef = this.modalService.open(ConnectUserRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.dtIdUserRole= this.idApp ;
+    modalRef.componentInstance.dtIdApp= this.idApp ;
     modalRef.componentInstance.dtIdGroupRole= id ;
     modalRef.result.then((reason)=>{
+      console.log('id:',this.idApp,id);
       console.log('user role:',reason);
     })
   }

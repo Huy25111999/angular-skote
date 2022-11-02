@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GroupRoleService } from '../service/group-role.service';
 import { AddGroupRoleComponent } from './add-group-role/add-group-role.component';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
+import { TreeviewItem, TreeviewConfig } from 'ngx-treeview';
+import { ActivatedRoute } from '@angular/router';
+import { ConnectUserRoleComponent } from '../connect-user-role/connect-user-role.component';
+
 
 @Component({
   selector: 'app-group-role',
@@ -13,89 +17,163 @@ import { PaginationComponent } from 'src/app/shared/components/pagination/pagina
 })
 export class GroupRoleComponent implements OnInit {
 
-  listGroupRole: any;
-  page: number = 1;
-  pageSize = 10;
-  count: number = 0;
-  tableSize: number = 3;
-  tableSizes: any = [3, 6, 9, 12];
-  totalElements:number;
+  groupRoleId:any=[];
+  listRole: any=[];
   selectStatus: any[];
+  listGroupRole: any = [];
+  items:any = [] ;
+  dataSource: any= [];
+  listGroupRoleUpdate = [];
+  id: any ;
+
+  config = TreeviewConfig.create({
+    hasFilter: true,
+    hasCollapseExpand: true
+  });
 
   constructor(
     private groupRoleService: GroupRoleService,
     private modalService : NgbModal,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    private route: ActivatedRoute
+  ) { 
+    this.id = this.route.snapshot.params['id'];
+  }
 
   ngOnInit(): void {
-    this.onSearch(false);
     this.selectStatus = [
       {id:1, name:'Kích hoạt'},
       {id:0, name:'Không kích hoạt'}
     ];
 
-    this.listGroupRole =[
-      {id:1, groupName:'123',description:'Online',status: 1},
-      {id:2, groupName:'666',description:'Online',status: 1},
-      {id:3, groupName:'888',description:'Online',status: 1},
-     ];
+    this.getTreeRole(this.id);
   }
 
   formData:FormGroup = this.fb.group({
-    groupName: null,
-    groupStatus: null
+    appId: '' ,
+    groupRole:['',[Validators.required]],
+    status:['',[Validators.required]],
+    description:[''],
+    groupRoleId:[''],
+    roleId:['']
   })
 
-  
-  //Search
-  onSearch(flag)
+  get f(){
+    return this.formData.controls;
+  }
+
+  getTreeRole(id)
   {
-    console.log(this.formData.value);
-    this.groupRoleService.searchGroupRole( {
-      ...this.formData.value, page: this.page, pageSize: this.pageSize
-    }).subscribe(data => {
-      this.listGroupRole = data.data.content;
-      console.log('group role : ',data);
-      this.totalElements = data.data.totalElements;
+    this.groupRoleService.getAllRole(id).subscribe(data => {
+      this.listRole= data.data;
+      console.log("Domains",this.listRole);
+
+    let parent = 1;
+    let children = 1;
+       
+    this.dataSource = this.listRole.map(e => {
+      e.text = e.systemParam;
+      e.value = e.systemParamId;
+      e.children = e.roleRes ?  e.roleRes.map(k => {
+        return {
+          text: k.role,
+          value: k.roleId
+        }
+      }) : null;  
+        return {
+                 text:e.text,
+                 value: e.value,
+                 children:e.children               
+                }
+    }) ; 
+    console.log('---',this.dataSource);
+ 
+    this.items = this.getItems(this.dataSource);
     }, error => {
-      console.log(error);    
-       //   Swal.fire('Tìm kiếm!', 'Tìm kiếm thông tin thất bại.','error');
-
+      console.log(error);
+      
     })
 
+     
   }
 
-  onPageChange(event: any) {
-    this.page = event;
-    this.onSearch(true);
+  getItems(parentChildObj) {
+    let itemsArray = [];
+    parentChildObj.forEach(set => {
+      itemsArray.push(new TreeviewItem(set))
+    });
+    return itemsArray;
   }
 
-  pageChangeEvent(event: any) {
-    this.page = 1;
-    this.pageSize = event;
-    this.onSearch(true);
+  onFilterChange(value: string): void {
+    console.log('filter:', value);
   }
 
-  onReset()
+  onSelectedChange(value: string): void {
+    this.groupRoleId = value;
+    console.log ('inđẽ tree',  this.groupRoleId ); 
+  }
+
+  onSubmit()
   {
-   // if(this.formData.valid)
-      this.formData.reset();
-      this.formData.value.roleCode = '';
-      this.formData.value.description = '';
+   this.formData.value.appId = this.id ; 
+    this.formData.value.roleId = this.groupRoleId;
+    console.log('Group role',this.groupRoleId);
+    console.log('FORM grou-p role:',this.formData,'\n', this.formData.value)
+    this.listGroupRole.push(this.formData.value);
   }
+
+  saveCreatGrouprole()
+  {
+    console.log('creater group role:',this.listGroupRole);
+
+      this.groupRoleService.addGroupRole(this.listGroupRole).subscribe(data => {
+
+        console.log('create role',data);
+        this.listGroupRole.splice( this.listGroupRole);
+        this.listGroupRoleUpdate = data.data;
+        this.listGroupRoleUpdate.forEach(element => {
+            this.listGroupRole.push(element);
+        });
+        this.success();
+
+      }, error => {
+        console.log(error)
+        return  error;
+      })
+  }
+
+
+  connectRoleUser(id)
+  {
+    const modalRef = this.modalService.open(ConnectUserRoleComponent, { size : 'lg'})
+    modalRef.componentInstance.dtIdApp= this.id ;
+    modalRef.componentInstance.dtIdGroupRole= id ;
+    modalRef.result.then((reason)=>{;
+      console.log('user role:',reason);
+    })
+  }
+
   
-   //Open modal
-   openAddGroupRole(data)
-  {
-    const modalRef = this.modalService.open(AddGroupRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.listGroupRole== data ;
-    modalRef.result.then((data)=>{
-
-    },(reason)=>{
-      data = reason;
-      this.onSearch(true) ;
-    })
+  success() {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Tạo mới thành công',
+      showConfirmButton: false,
+      timer: 1500
+    });
   }
+
+  error() {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      title: 'Tạo mới thất bại',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+   
 
 }
