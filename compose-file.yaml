@@ -1,10 +1,10 @@
 version: "3.3"
 
 services:
-  qlan-app:
-    container_name: qlan-app
-    image: qlan-app:local-latest
-
+  sso-fe:
+    container_name: sso-fe
+    image: sso-fe-app:local-latest
+    restart: always
     ports:
       - "8083:80"
 volumes:
