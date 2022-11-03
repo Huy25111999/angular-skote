@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   defaultauth: 'serviceUrl',
-  serviceUrl:'http://192.168.0.101:8082/api',
+  serviceUrl:'http://192.168.0.101:8224/api',
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

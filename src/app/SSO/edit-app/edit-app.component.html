@@ -408,68 +408,7 @@
                                         <div class="search-header">
                                             <h4>Quản lý nhóm quyền</h4>
                                         </div>
-<!--
-                                        <div class="">
-                                            <form class="form" action="" [formGroup]="formGroupRole" >
-                                                <div class="row form">
-                                                    <div class = 'search-info col-md-6' >  
-                                                    
-                                                        
-                                                            <label class="col-sm-4" >Tên nhóm quyền (<i>*</i>)</label>
-                                                            <input ngxTrim type="text" class="form-control" formControlName = 'groupRole' placeholder="Nhập tên nhóm quyền" maxlength="200"> 
-                
-                                                            <div *ngIf="fGroup.groupRole.invalid && (fGroup.groupRole.dirty || fGroup.groupRole.touched)">
-                                                                <div *ngIf="fGroup.groupRole.errors">
-                                                                    <div [hidden]="!fGroup.groupRole.errors.required">
-                                                                        <small>Trường tên Nhóm quyền không được phép để trống</small>
-                                                                    </div>           
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                
-                                                    <div class = 'search-info col-md-6' >  
-                                                    
-                                                        <label class="col-sm-4" >Mô tả</label>
-                                                        <input type="text" maxlength="500" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả">
-                                            
-                                                    </div>
-                                                </div>
-                                                <div class= "row form">
-                                                    <div class = 'search-info col-md-6' > 
-                                                    
-                                                
-                                                            <label class="col-sm-4">Trạng thái</label>
-                                                            <ng-select formControlName="status"  
-                                                            [items]="selectStatus"
-                                                            bindLabel="name"
-                                                            bindValue="id"
-                                                    >           </ng-select>
-                
-                                                    </div>
-                                                    
-                                                    <div class = 'search-info col-md-6' >  
-                                                    
-                                                        
-                                                        <label class="col-sm-4" >Phân quyền (<i>*</i>)</label>
-                          
-
-                                                    <ngx-dropdown-treeview
-                                                        formControlName="roleId"
-                                                        (value)="formGroupRole.value.roleId"
-                                                        [items]="items"
-                                                        [config]="config"
-                                                        (selectedChange)="onSelectedChange($event)"
-                                                        (filterChange)="onFilterChange($event)">
-                                                        >
-                                                        </ngx-dropdown-treeview>
-
-                                                    </div>
-                
-                                                    
-                                                </div>
-                                            </form>
-                                        </div>
--->
+                                
                                         <div class="button">
                                             <div class="btn-search">
                                                 <button  class=" btn btn-primary" type="button" (click)="openAddGroupRole()">
