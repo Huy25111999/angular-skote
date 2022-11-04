@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,8 +9,8 @@ export class RoleService {
 
   role: any;
   constructor(private http: HttpClient) { }
-  private API:string = "http://192.168.0.101:8224/api" ;
 
+ private API:string = environment.serviceUrl ;
   // Role
   searchRole(paramSearch:any):Observable<any>
   {

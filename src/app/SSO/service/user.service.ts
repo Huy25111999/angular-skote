@@ -5,7 +5,7 @@ import { infor } from '../../model/infor';
 import { domain } from 'src/app/model/domain';
 import { THeadModule } from 'ng2-smart-table/lib/components/thead/thead.module';
 import { author } from 'src/app/model/author';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +14,7 @@ export class UserService {
   user!: infor[];
   main!: domain[];
   auth!:author[];
-  private API:string = "http://192.168.0.101:8224/api" ;
-  //private API:string = "http://192.168.3.41:8224/api" ;
+ private API:string = environment.serviceUrl ;
   constructor(private http: HttpClient) {}
 
   // User

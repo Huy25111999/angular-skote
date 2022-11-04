@@ -4,7 +4,7 @@ import { ManagementComponent } from './management/management.component';
 import { SSORoutingModule } from './SSO-routing.modules';
 import { ModalAddComponent } from './management/modal-add/modal-add.component';
 import { ModalEditComponent } from './management/modal-edit/modal-edit.component';
-import { DetailComponent } from './detail/detail.component';
+//import { DetailComponent } from './detail/detail.component';
 // import { DomainComponent } from './managementDomain/domain/domain.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from '../app.component';
@@ -17,7 +17,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2CompleterModule } from 'ng2-completer';
 import {SharedModule} from "../shared/shared.module";
-import { ModalUserDomainComponent } from './modal-user-domain/modal-user-domain.component';
+// import { ModalUserDomainComponent } from './modal-user-domain/modal-user-domain.component';
 import { AuthInterceptor } from './service/AuthInterceptor';
  import {NgxTrimModule} from 'ngx-trim';
 import { TreeviewModule } from 'ngx-treeview';
@@ -42,12 +42,12 @@ import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-
     ManagementComponent,
     ModalAddComponent,
     ModalEditComponent,
-    DetailComponent,
+   // DetailComponent,
  //   DomainComponent,
     AddDomainComponent,
     EditDomainComponent,
     SearchfilterPipe,
-    ModalUserDomainComponent,
+   // ModalUserDomainComponent,
     ManagementUserComponent,
     ManagementRoleComponent,
     ModalRoleComponent,

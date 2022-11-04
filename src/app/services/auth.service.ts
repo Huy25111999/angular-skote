@@ -18,7 +18,6 @@ export class AuthService {
   username;
   loginToken;
   _extractedToken;
-  apiurl = 'http://192.168.3.41:8224/api/auth/verify-refresh-token';
   constructor(
     private userService: UserService,
     private http: HttpClient,

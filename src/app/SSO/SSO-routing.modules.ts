@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ManagementComponent } from './management/management.component';
-import { DetailComponent } from './detail/detail.component';
+//import { DetailComponent } from './detail/detail.component';
 //import { DomainComponent } from './managementDomain/domain/domain.component';
 import { domain } from 'src/app/model/domain';
 import { AuthGuard } from '../shared/sso/auth.guard';
@@ -19,11 +19,11 @@ const routes: Routes = [
         component: ManagementComponent,
      //   canActivate:[AuthGuard]
     },
-    {
-        path: 'detail/:id',
-        component: DetailComponent,
-        canActivate:[AuthGuard]
-    },
+    // {
+    //     path: 'detail/:id',
+    //     component: DetailComponent,
+    //     canActivate:[AuthGuard]
+    // },
     // {
     //     path: 'domain',
     //     component: DomainComponent,

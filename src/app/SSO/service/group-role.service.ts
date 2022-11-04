@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { app } from 'src/app/model/app';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,8 +17,9 @@ export class GroupRoleService {
 
   groupRole: any = [];
   // app !: app[];
-  constructor(private http: HttpClient) { }
-  private API:string = "http://192.168.0.101:8224/api" ;
+  constructor(private http: HttpClient
+    ) { }
+  private API:string = environment.serviceUrl ;
 
   getAllApp(req ?: any):Observable<any>
   {
