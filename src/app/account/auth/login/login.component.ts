@@ -140,16 +140,8 @@ export class LoginComponent implements OnInit {
       //   })
 
       this.authService.login(formValue).subscribe(result =>{
-        console.log('login----', result);
         if (result != null){
           this.responsedata = result;
-          this.router.navigate(['./user']);
-         // localStorage.setItem('token',this.responsedata.token);
-        //  localStorage.setItem('user',this.responsedata.username);
-          // localStorage.setItem('userId',`${response.data.userId}`);
-         //location.replace('./user');
-        //  this.router.navigate(['app/management']);
-        
         }
       },error =>{ 
         this.message = error ; 

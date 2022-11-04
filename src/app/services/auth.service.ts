@@ -14,6 +14,7 @@ export class AuthService {
   auth!:author[];
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false)
   isLoggedIn$ = this._isLoggedIn$.asObservable();
+
   token;
   username;
   loginToken;
@@ -34,12 +35,11 @@ export class AuthService {
     return this.userService.login(auth).pipe(
       tap((response: any) =>{
         console.log('----',response);
+        this._isLoggedIn$.next(true);
         localStorage.setItem('token',`${response.data.token}`);
         localStorage.setItem('user',`${response.data.username}`);
-        
         localStorage.setItem('userId',`${response.data.userId}`);
-        this._isLoggedIn$.next(true);
-        console.log(response);   
+        location.replace('./user');
         // this.router.navigate(['app/management']);
       })
       
