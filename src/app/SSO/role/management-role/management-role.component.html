@@ -16,7 +16,9 @@
                                     
                                         
                                             <label class="col-sm-3" >Tên quyền (<i>*</i>)</label>
-                                            <input type="text" maxlength="200" ngxTrim class="form-control"  formControlName = 'role' placeholder="Nhập tên quyền">
+                                            <input type="text" maxlength="200" ngxTrim class="form-control"  formControlName = 'role' placeholder="Nhập tên quyền"
+                                            [ngClass]="{'input-error': f.role.invalid && (f.role.dirty || f.role.touched)}" 
+                                            >
                                             <div *ngIf="f.role.invalid && (f.role.dirty || f.role.touched)">
                                                 <div *ngIf="f.role.errors">
                                                     <div [hidden]="!f.role.errors.required">
@@ -31,7 +33,9 @@
                                         
                                         <label class="col-sm-3" >Mã quyền (<i>*</i>)</label>
 
-                                        <input type="text" maxlength="30" ngxTrim class="form-control" formControlName = 'roleCode' placeholder="Nhập mã quyền">
+                                        <input type="text" maxlength="30" ngxTrim class="form-control" formControlName = 'roleCode' placeholder="Nhập mã quyền"
+                                        [ngClass]="{'input-error': f.roleCode.invalid && (f.roleCode.dirty || f.roleCode.touched)}" 
+                                        >
                                         <div *ngIf="f.roleCode.invalid && (f.roleCode.dirty || f.roleCode.touched)">
                                             <div *ngIf="f.roleCode.errors">
                                                 <div *ngIf="f.roleCode.errors.required">
@@ -88,7 +92,7 @@
                         <div class="button">
                             <div class="btn-search">
                                      
-                                <button class=" btn btn-primary btn-sm" type="button"  (click)="onSubmit()">                                 
+                                <button class=" btn btn-primary btn-sm" type="button">                                 
                                     <span>Thêm mới</span> 
                                 </button>
                                 

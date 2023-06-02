@@ -6,13 +6,11 @@ import { ManagementComponent } from './management/management.component';
 import { domain } from 'src/app/model/domain';
 import { AuthGuard } from '../shared/sso/auth.guard';
 import { RoleGuard } from '../shared/sso/role.guard';
-import { ManagementUserComponent } from './user/management-user/management-user.component';
 import { ManagementRoleComponent } from './role/management-role/management-role.component';
 import { GroupRoleComponent } from './group-role/group-role.component';
 import { ManagementGroupRoleComponent } from './management-group-role/management-group-role.component';
 import { CreatAppComponent } from './creat-app/creat-app.component';
 import { EditAppComponent } from './edit-app/edit-app.component';
-
 const routes: Routes = [
     {
         path: 'user',
@@ -39,14 +37,9 @@ const routes: Routes = [
         component: ManagementRoleComponent,
     },
     {
-        path: 'create-app',
-        component: CreatAppComponent,
-        canActivate:[AuthGuard]
-    },
-    {
         path: 'edit-app/:id',
         component: EditAppComponent,
-        canActivate:[AuthGuard]
+       // canActivate:[AuthGuard]
     },
     
     {
@@ -64,17 +57,17 @@ const routes: Routes = [
     {
         path: 'creat-app',
         component: CreatAppComponent,
-        canActivate:[AuthGuard]
+      //  canActivate:[AuthGuard]
     },
     {
         path: 'app',
         component: ManagementGroupRoleComponent,
-        canActivate:[AuthGuard]
+        //canActivate:[AuthGuard]
     },
     {
         path:'',
         component:ManagementComponent,
-        canActivate:[AuthGuard]
+       // canActivate:[AuthGuard]
     }
 
 ];

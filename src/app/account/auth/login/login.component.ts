@@ -59,12 +59,12 @@ export class LoginComponent implements OnInit {
     this.voteSize.emit(this.counter);
     
     this.initForm();
-    // this.loginForm = this.formBuilder.group({
-    //   username: ['admin', [Validators.required]],
-    //   password: ['123456a@', [Validators.required]],
-    // });
+    this.loginForm = this.formBuilder.group({
+      username: ['admin', [Validators.required]],
+      password: ['123456a@', [Validators.required]],
+    });
 
-    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   // convenience getter for easy access to form fields
@@ -81,15 +81,15 @@ export class LoginComponent implements OnInit {
       return;
     } else {
       this.router.navigate(['/dashboard']);
-      //   this.authFackservice.login(this.f.username.value, this.f.password.value)
-      //     .pipe(first())
-      //     .subscribe(
-      //       data => {
-      //         this.router.navigate(['/dashboard']);
-      //       },
-      //       error => {
-      //         this.error = error ? error : '';
-      //       });
+        this.authFackservice.login(this.f.username.value, this.f.password.value)
+          .pipe(first())
+          .subscribe(
+            data => {
+              this.router.navigate(['/dashboard']);
+            },
+            error => {
+              this.error = error ? error : '';
+            });
       }
     
   }
@@ -139,15 +139,17 @@ export class LoginComponent implements OnInit {
       //     return ;
       //   })
 
-      this.authService.login(formValue).subscribe(result =>{
-        if (result != null){
-          this.responsedata = result;
-        }
-      },error =>{ 
-        this.message = error ; 
-        console.log(this.message);
-        return ;
-      })
+
+
+      // this.authService.login(formValue).subscribe(result =>{
+      //   if (result != null){
+      //     this.responsedata = result;
+      //   }
+      // },error =>{ 
+      //   this.message = error ; 
+      //   console.log(this.message);
+      //   return ;
+      // })
 
     }
   }

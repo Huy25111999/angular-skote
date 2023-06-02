@@ -1,7 +1,6 @@
 import { MenuItem } from './menu.model';
 
 export const MENU: MenuItem[] = [
-  /*
   {
     id: 1,
     label: 'MENUITEMS.MENU.TEXT',
@@ -825,30 +824,31 @@ export const MENU: MenuItem[] = [
       },
     ]
   },
-  */
+  
   {
     id: 130,
     label: 'User management',
     icon: 'bx-task',
     link: '/user',
   },
-  // {
-  //   id: 131,
-  //   label: 'Domain management',
-  //   icon: 'bx-list-ul',
-  //   link: '/SSO/domain'
-  // },
-  // {
-  //   id: 132,
-  //   label: 'Role management',
-  //   icon: 'bx-task',
-  //   link: '/SSO/role',
-  // },
   {
     id: 133,
     label: 'App Management',
     icon: 'bx-list-ul',
     link: '/app'
-  }
+  },
+  {
+    id: 134,
+    label: 'SSO',
+    icon: 'bx-map',
+    subItems: [
+      {
+        id: 135,
+        label: 'Form Validate',
+        link: '/role',
+        parentId: 134
+      }
+    ]
+  },
 ];
 

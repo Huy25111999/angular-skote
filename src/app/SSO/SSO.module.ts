@@ -21,7 +21,6 @@ import {SharedModule} from "../shared/shared.module";
 import { AuthInterceptor } from './service/AuthInterceptor';
  import {NgxTrimModule} from 'ngx-trim';
 import { TreeviewModule } from 'ngx-treeview';
-import { ManagementUserComponent } from './user/management-user/management-user.component';
 import { ManagementRoleComponent } from './role/management-role/management-role.component';
 import { ModalRoleComponent } from './role/modal-role/modal-role.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -48,7 +47,6 @@ import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-
     EditDomainComponent,
     SearchfilterPipe,
    // ModalUserDomainComponent,
-    ManagementUserComponent,
     ManagementRoleComponent,
     ModalRoleComponent,
     EditRoleComponent,
