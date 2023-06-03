@@ -4,6 +4,7 @@ import { RoleService } from '../../service/role.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+
 import { ModalRoleComponent } from '../modal-role/modal-role.component';
 import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditRoleComponent } from '../edit-role/edit-role.component';
@@ -58,7 +59,8 @@ export class ManagementRoleComponent implements OnInit {
     roleCode:['',[Validators.required]],
     status:['',[Validators.required]],
     description:[''],
-    systemParamId: ['']
+    systemParamId: [''],
+    time: ''
   })
 
   get f(){
@@ -183,5 +185,9 @@ export class ManagementRoleComponent implements OnInit {
   //     this.onSearch(true) ;
   //   })
   // }
+
+  handleDate(event){
+    console.log("-dfd---event", event);
+  }
 
 }

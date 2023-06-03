@@ -12,21 +12,25 @@ import {
 import { WidgetModule } from './widget/widget.module';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 @NgModule({
   declarations: [
-    PaginationComponent
+    PaginationComponent,
+    DatePickerComponent
   ],
-  imports: [
-    CommonModule,
-    UIModule,
-    WidgetModule,
-    NgbPaginationModule,
-    ReactiveFormsModule,
-    FormsModule
+    imports: [
+        CommonModule,
+        UIModule,
+        WidgetModule,
+        NgbPaginationModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgbDatepickerModule
 
-  ],
+    ],
   exports: [
-    PaginationComponent
+    PaginationComponent,
+    DatePickerComponent
   ]
 })
 

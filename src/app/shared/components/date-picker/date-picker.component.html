@@ -1,0 +1,21 @@
+
+<div class="position-relative showIconClose">
+    <input type="text" class="form-control showIconClose" name="dp" [(ngModel)]="model"
+    (ngModelChange)="format($event)"
+    style="background-color: unset"
+    placeholder="DD/MM/YYYY"
+    #c2="ngModel"
+   [placement]="placement ? placement: 'bottom'"
+   [positionTarget]="show"
+   [minDate]="minDate"
+    ngbDatepicker #d="ngbDatepicker"
+    >
+  <i *ngIf="model && model !=='' && control.enabled" class="fas fa-times-cicle icon-clear" ngbTooltip="Xóa" (click)="clear()"></i>
+  <i #show class="fas fa-calendar-alt icon-calendar" (click)="d.toggle()"></i>
+  <div>
+    <small class="text-danger" *ngIf="!valid && model && model.length">
+      Nhập ngày sai định dạng
+    </small>
+  </div>
+</div>
+

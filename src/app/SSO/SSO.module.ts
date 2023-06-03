@@ -35,7 +35,6 @@ import { CreatAppComponent } from './creat-app/creat-app.component';
 import { EditAppComponent } from './edit-app/edit-app.component';
 import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-select/dropdown-treeview-select.component';
 // import { TreeviewI18nDefault } from './group-role/tree-picker/ngx-treeview';
-
 @NgModule({
   declarations: [
     ManagementComponent,
@@ -58,7 +57,7 @@ import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-
     ConnectUserRoleComponent,
     CreatAppComponent,
     EditAppComponent,
-    DropdownTreeviewSelectComponent
+    DropdownTreeviewSelectComponent,
   ],
   imports: [
     CommonModule,

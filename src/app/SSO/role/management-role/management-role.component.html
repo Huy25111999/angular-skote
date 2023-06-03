@@ -79,11 +79,15 @@
                                         bindValue="id"
                                         placeholder="--Lựa chọn--"
                                         notFoundText="Không tìm thấy"
-                                >           </ng-select>
-                                </div>
+                                        >           
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <app-date-picker id="time" [control]="formData.controls.time"></app-date-picker>
+                                    </div>
 
                              
-                                </div>
+                                 </div>
 
                             </form>
                         </div>

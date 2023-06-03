@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RoleService } from '../service/role.service';
-import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 import { GroupRoleService } from '../service/group-role.service';
 import { ModalRoleComponent } from '../role/modal-role/modal-role.component';
 import { EditRoleComponent } from '../role/edit-role/edit-role.component';

@@ -10,7 +10,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { SharedModule } from './cyptolanding/shared/shared.module';
-
+import {SharedModule as SharedModule2} from './shared/shared.module'
 import { ExtrapagesModule } from './extrapages/extrapages.module';
 
 import { LayoutsModule } from './layouts/layouts.module';
@@ -75,6 +75,7 @@ export function createTranslateLoader(http: HttpClient): any {
     NgbNavModule,
     NgbTooltipModule,
     SharedModule,
+    SharedModule2,
     ScrollToModule.forRoot(),
     NgbModule,
     TreeviewModule.forRoot(),
