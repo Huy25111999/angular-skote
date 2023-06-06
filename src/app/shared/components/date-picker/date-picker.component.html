@@ -2,7 +2,9 @@
 <div class="position-relative showIconClose">
     <input type="text" class="form-control showIconClose" name="dp" [(ngModel)]="model"
     (ngModelChange)="format($event)"
-    style="background-color: unset"
+    (click)="d.toggle()"
+    [ngClass]="{'is-invalid': control.errors && (control.touched || control.dirty), 'disableStyle': control.disabled}"
+    style="background: unset"
     placeholder="DD/MM/YYYY"
     #c2="ngModel"
    [placement]="placement ? placement: 'bottom'"

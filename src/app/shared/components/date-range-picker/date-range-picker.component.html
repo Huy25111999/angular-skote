@@ -1,0 +1,40 @@
+
+<ng-template #t let-date let-focused="focused">
+    <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null"
+    >
+        {{date.day}}
+    </span>
+</ng-template>
+
+<div class="position-relative showIconClose">
+    <input type="text" class="form-control date showIconClose"
+     name="daterange" autocomplete="off" [(ngModel)]="selected"
+    (ngModelChange)="inputByEnter($event)"
+    (blur)="onBlurDate()"
+    (click)="evenClick()"
+    [ngClass]="{'is-invalid': control.errors && (control.touched || control.dirty), 'disableStyle': control.disabled}"
+    style="background: unset"
+    placeholder="DD/MM/YYYY - DD/MM/YYYY"
+    >
+  <i *ngIf="selected && selected !=='' && !isRequired && control.enabled" class="fas fa-times-cicle icon-clear" ngbTooltip="Xóa" (click)="clear()"></i>
+  <i class="fas fa-calendar-alt icon-calendar" (click)="close()"></i>
+  <div>
+    <small class="text-danger" *ngIf="!valid && selected && selected.length">
+      Nhập ngày sai định dạng
+    </small>
+    <small class="text-danger" *ngIf="errorOverToDate" class="text-danger">
+        Ngày bắt đầu không được phép lớn hơn ngày kết thúc
+    </small>
+  </div>
+</div>
+
+<ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t"
+        [startDate]="fromDate"
+        outsideDays="hidden" [hidden]="hidden" [maxDate]="maxDate"
+    >
+
+</ngb-datepicker>
+<div *ngIf="hidden === false && (!isRequired || isRequired && fromDate && toDate)" [ngClass]="{'fake-background': hidden === false}" (click)="eventClose()"></div>
+

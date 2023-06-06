@@ -15,7 +15,8 @@ import {CustomDatepickerI18n, I18n} from "./datepicker-i18n";
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.scss'],  providers: [
+  styleUrls: ['./date-picker.component.scss'],  
+  providers: [
     I18n,
     {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n},
     { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
