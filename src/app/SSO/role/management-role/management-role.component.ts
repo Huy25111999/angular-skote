@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from '../../service/role.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -9,7 +9,7 @@ import { ModalRoleComponent } from '../modal-role/modal-role.component';
 import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditRoleComponent } from '../edit-role/edit-role.component';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import * as FileSaver from "file-saver";
 @Component({
   selector: 'app-management-role',
   templateUrl: './management-role.component.html',
@@ -31,7 +31,7 @@ export class ManagementRoleComponent implements OnInit {
 
   listRole: any = [];
   idApp: number ;
-
+  formControls: FormGroup
   constructor(
     private roleService: RoleService,
     private modalService : NgbModal,
@@ -40,6 +40,9 @@ export class ManagementRoleComponent implements OnInit {
     private router:Router,
   ) { 
     this.id = this.route.snapshot.params['id'];
+    this.formControls = this.fb.group({
+      phone: this.fb.array([])
+    })
   }
 
   ngOnInit(): void {
@@ -190,4 +193,46 @@ export class ManagementRoleComponent implements OnInit {
     console.log("-dfd---event", event);
   }
 
+  // Download
+  download(){
+    const data = {name:'123',age:'343'};
+    this.roleService.getList({page:0, size: 1000}, {name:'123',age:'343'}).subscribe(res =>{
+      if(res && res.data && res.data.length){
+        const body = {
+          workDTOList:res.data,
+          fromDate: data.name,
+          toDate: data.age
+        };
+        this.roleService.downloadExcel(body).subscribe(request =>{
+          const data = new Blob([request], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+          const fileName = 'Danh sách quyền.xlsx';
+          FileSaver.saveAs(data, fileName);
+        });
+      }
+    }, error => {
+      console.log("error saving", error);
+      
+    });
+  }
+
+  //---------Import 
+  import(){
+
+  }
+
+  // form array
+  get form(): FormArray {
+    return this.formControls.get('phone') as FormArray;
+  }
+  phone(){
+    return this.fb.group({
+      phoneNumbere:''
+    })
+  }
+  addPhone(){
+    this.form.push(this.phone())
+  }
+  removePhone(i: number){
+    this.form.removeAt(i);
+  }
 }

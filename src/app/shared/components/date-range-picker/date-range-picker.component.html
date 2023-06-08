@@ -19,7 +19,7 @@
     placeholder="DD/MM/YYYY - DD/MM/YYYY"
     >
   <i *ngIf="selected && selected !=='' && !isRequired && control.enabled" class="fas fa-times-cicle icon-clear" ngbTooltip="Xóa" (click)="clear()"></i>
-  <i class="fas fa-calendar-alt icon-calendar" (click)="close()"></i>
+  <i class="fas fa-calendar-alt icon-calendar" (click)="onClose()"></i>
   <div>
     <small class="text-danger" *ngIf="!valid && selected && selected.length">
       Nhập ngày sai định dạng

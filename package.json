@@ -49,6 +49,7 @@
     "datatables.net": "^1.12.1",
     "datatables.net-dt": "^1.12.1",
     "echarts": "^5.1.2",
+    "file-saver": "^2.0.5",
     "firebase": "^8.6.8",
     "jquery": "^3.6.0",
     "metismenujs": "^1.2.1",

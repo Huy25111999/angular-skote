@@ -32,7 +32,8 @@ import { DateRangePickerComponent } from './components/date-range-picker/date-ra
     ],
   exports: [
     PaginationComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    DateRangePickerComponent
   ]
 })
 
