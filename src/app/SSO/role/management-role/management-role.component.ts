@@ -32,6 +32,8 @@ export class ManagementRoleComponent implements OnInit {
   listRole: any = [];
   idApp: number ;
   formControls: FormGroup
+  valueForm;
+  files: any;
   constructor(
     private roleService: RoleService,
     private modalService : NgbModal,
@@ -41,8 +43,13 @@ export class ManagementRoleComponent implements OnInit {
   ) { 
     this.id = this.route.snapshot.params['id'];
     this.formControls = this.fb.group({
-      phone: this.fb.array([])
-    })
+      phone: this.fb.array([]),
+      avatar: ''
+    });
+    this.valueForm = [
+    {name:'admmin', phoneNumber:'249832'},
+    {name:'admmin1', phoneNumber:'2498329385'},
+    {name:'admmin2', phoneNumber:'249832487584'}]
   }
 
   ngOnInit(): void {
@@ -53,6 +60,8 @@ export class ManagementRoleComponent implements OnInit {
     ];
 
     this.getParamRole();
+
+    this.patchFormArray()
   }
 
   formData:FormGroup = this.fb.group({
@@ -114,6 +123,8 @@ export class ManagementRoleComponent implements OnInit {
 
   onCreatRole()
   {
+    this.formControls.get('avatar').setValue(this.files);
+    console.log(this.formControls.getRawValue());
     const tbody = this.listRole;
     this.roleService.editRole(tbody).subscribe(data => {
       console.log('list role', this.listRole);
@@ -133,6 +144,10 @@ export class ManagementRoleComponent implements OnInit {
     console.log('data', this.listRole[index]);
   }
   
+  removeAt(index){
+    this.listRole.splice(index, 1);
+  }
+
   getParamRole()
   { 
     this.roleService.getAllParamID().subscribe(data => {
@@ -226,7 +241,9 @@ export class ManagementRoleComponent implements OnInit {
   }
   phone(){
     return this.fb.group({
-      phoneNumbere:''
+      name: '',
+      phoneNumber: '',
+      files: undefined
     })
   }
   addPhone(){
@@ -235,4 +252,20 @@ export class ManagementRoleComponent implements OnInit {
   removePhone(i: number){
     this.form.removeAt(i);
   }
+
+  patchFormArray(){
+    let i =0 ;
+    for (let value of this.valueForm){
+      this.addPhone();
+      let control = <FormArray>this.formControls.controls['phone'];
+      control.controls[i].patchValue(value);
+      i++;
+    }
+
+  } 
+  // image --------
+  setValue(event){
+    this.files = event;
+  }
+
 }

@@ -14,11 +14,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { DateRangePickerComponent } from './components/date-range-picker/date-range-picker.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
 @NgModule({
   declarations: [
     PaginationComponent,
     DatePickerComponent,
-    DateRangePickerComponent
+    DateRangePickerComponent,
+    AvatarComponent
   ],
     imports: [
         CommonModule,
@@ -33,7 +35,8 @@ import { DateRangePickerComponent } from './components/date-range-picker/date-ra
   exports: [
     PaginationComponent,
     DatePickerComponent,
-    DateRangePickerComponent
+    DateRangePickerComponent,
+    AvatarComponent
   ]
 })
 
