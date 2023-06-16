@@ -124,7 +124,20 @@ export class ManagementRoleComponent implements OnInit {
   onCreatRole()
   {
     this.formControls.get('avatar').setValue(this.files);
-    console.log(this.formControls.getRawValue());
+
+    console.log("fomrArray", this.form.controls);
+    let i =0 ;
+    for (let item of this.form.controls){
+      // let control = <FormArray>this.formControls.controls['phone'];
+      // control.controls[i].get('filess').setValue('2893473924');
+      // console.log("alue--", item);
+     // item.get('filess').setValue(2893473924);
+
+      i++;
+    }
+    console.log('value formArray',this.formControls.getRawValue());
+
+
     const tbody = this.listRole;
     this.roleService.editRole(tbody).subscribe(data => {
       console.log('list role', this.listRole);
@@ -263,6 +276,27 @@ export class ManagementRoleComponent implements OnInit {
     }
 
   } 
+  
+  onChangeBase64(e){    
+    e.preventDefault();
+
+    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+
+    var pattern = /image-*/;
+    var reader = new FileReader();
+
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
+
+  }
+  _handleReaderLoaded(e) {
+    var reader = e.target;
+    console.log(reader.result)
+  }
   // image --------
   setValue(event){
     this.files = event;

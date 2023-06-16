@@ -113,7 +113,7 @@
                                                 <input class="form-control" type="text" placeholder="Nhập text" formControlName="phoneNumber">     
                                             </div> 
                                             <div class="mb-3 col-md-4">
-                                                <input type="file" class="form-control" id="inputGroupFile01" formControlName="files">
+                                                <input  (change)="onChangeBase64($event)" type="file" class="form-control" id="inputGroupFile01" formControlName="files">
                                             </div>
                                         </div>
                                         <input type="button" class="col-md-2 btn btn-primary" value="Delete" (click)="removePhone(i)">

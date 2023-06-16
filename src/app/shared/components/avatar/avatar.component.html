@@ -21,7 +21,6 @@
                 accept="image/*"
                 (change)="handleInputChange($event)"
             />
-            <!-- [ngClass]="{hidden: imageSrc.length == 0}" -->
             <img id="file-image" alt="Preview" *ngIf="imageSrc.length > 0; else content"
                 [src]="imageSrc"
                 (load)="handleImageLoad()"
