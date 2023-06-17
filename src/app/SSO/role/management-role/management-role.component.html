@@ -83,7 +83,13 @@
                                         </ng-select>
                                     </div>
                                     <div class="col-md-6">
+                                        <label for="time" class="col-md-2 col-form-label fw-bolder">Datetime</label>
                                         <app-date-picker id="time" [control]="formData.controls.time"></app-date-picker>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="time" class="col-md-3 col-form-label fw-bolder">Khoảng thời gian</label>
+                                        <app-date-range-picker  [control]="formData.controls.time"></app-date-range-picker>
                                     </div>
 
                              
@@ -92,6 +98,23 @@
                             </form>
                         </div>
 
+                        <div class="form-array">
+                            <form [formGroup]="formControls">
+                                <div formArrayName="phone">
+                                    <div class="row mb-4" *ngFor="let control of form.controls; let i = index" [formGroupName] = "i">
+                                        <div class="col-md-2">
+                                            <label for="time">Phone</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input class="form-control" type="text" placeholder="Nhập text" formControlName="phoneNumber">     
+                                        </div>
+                                        <input type="button" class="col-md-2 btn btn-primary" value="Delete" (click)="removePhone(i)">
+                            
+                                    </div>
+                                </div>
+                            </form>
+                            <input type="button" class="btn btn-primary inner" value="Add number" (click)="addPhone()">
+                        </div>
 
                         <div class="button">
                             <div class="btn-search">
@@ -102,6 +125,13 @@
                                 
                                 <button class=" btn btn-primary btn-sm" type="button" (click)="onCreatRole()" >                                 
                                     <span>Lưu</span> 
+                                </button>
+
+                                <button class=" btn btn-primary btn-sm" type="button" (click)="download()" >                                 
+                                    <span>Download</span> 
+                                </button>
+                                <button class=" btn btn-primary btn-sm" type="button" (click)="import()" >                                 
+                                    <span>Imports</span> 
                                 </button>
                                 
                                 <button class=" btn btn-secondary" type="button" (click)="onReset()">

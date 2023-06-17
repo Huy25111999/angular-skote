@@ -70,7 +70,7 @@
                                 <div *ngIf="f.email.errors.required">
                                     <small>Email không được để trống</small>
                                 </div>
-                                <div *ngIf="f.email.errors.email">
+                                <div *ngIf="f.email.errors.pattern">
                                     <small>Không đúng định dạng email</small>
                                 </div>
                             

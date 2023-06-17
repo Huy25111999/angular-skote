@@ -52,4 +52,16 @@ export class RoleService {
   {
     return this.http.get<any>(this.API + '/group-role/get-role');
   }
+
+  //Download
+  getList(params, body):Observable<any>
+  {
+   const url =  this.API + `/role/search?page=${params.page}&size=${params.size}`
+   return this.http.post<any>(url, body);
+  }
+
+  downloadExcel(body): Observable<any>{
+    const url = this.API + `/role/download`;
+    return this.http.post(url, body, {responseType: 'blob'});
+  }
 }
