@@ -105,8 +105,16 @@
                                         <div class="col-md-2">
                                             <label for="time">Phone</label>
                                         </div>
-                                        <div class="col-md-8">
-                                            <input class="form-control" type="text" placeholder="Nhập text" formControlName="phoneNumber">     
+                                        <div class="row col-md-8">
+                                            <div class="col-md-4">
+                                                <input class="form-control" type="text" placeholder="Nhập text" formControlName="name">     
+                                            </div>   
+                                            <div class="col-md-4">
+                                                <input class="form-control" type="text" placeholder="Nhập text" formControlName="phoneNumber">     
+                                            </div> 
+                                            <div class="mb-3 col-md-4">
+                                                <input  (change)="onChangeBase64($event)" type="file" class="form-control" id="inputGroupFile01" formControlName="files">
+                                            </div>
                                         </div>
                                         <input type="button" class="col-md-2 btn btn-primary" value="Delete" (click)="removePhone(i)">
                             
@@ -115,11 +123,15 @@
                             </form>
                             <input type="button" class="btn btn-primary inner" value="Add number" (click)="addPhone()">
                         </div>
+                        <div class="row">
+                            <app-avatar (avatar)="setValue($event)"></app-avatar>
+
+                        </div>
 
                         <div class="button">
                             <div class="btn-search">
                                      
-                                <button class=" btn btn-primary btn-sm" type="button">                                 
+                                <button class=" btn btn-primary btn-sm" type="button" (click)="onSubmit()">                                 
                                     <span>Thêm mới</span> 
                                 </button>
                                 
@@ -141,41 +153,47 @@
                         </div>
 
                         
-                <div class="table-responsive">
-                    <table id="data-table" class = "table table-striped mb-0">
-                        <thead>
-                            <th class="info-text">STT</th>
-                            <th class="info-text">Tên quyền</th>
-                            <th class="info-number">Mã code</th>   
-                            <th class="info-text">Miêu tả</th>                                    
-                            <th class="info-text">Trạng thái</th>
-                            <th class="info-text">Hành động</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let role of listRole; let i = index">
-                                <td class="info-text">{{i}}</td>
-                                <td class="info-text">{{role.role}}</td>
-                                <td class="info-text">{{role.roleCode}}</td>
-                                <td class="info-text">{{role.description}}</td>
-                                <td class="info-date">{{role.status}}</td>
-                                <td class="info-text" >
-                                    <i (click)="openEditRole(i)">
-                                        <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
+                    <div class="table-responsive">
+                        <table id="data-table" class = "table table-striped mb-0">
+                            <thead>
+                                <th class="info-text">STT</th>
+                                <th class="info-text">Tên quyền</th>
+                                <th class="info-number">Mã code</th>   
+                                <th class="info-text">Miêu tả</th>                                    
+                                <th class="info-text">Trạng thái</th>
+                                <th class="info-text">Hành động</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let role of listRole; let i = index">
+                                    <td class="info-text">{{i}}</td>
+                                    <td class="info-text">{{role.role}}</td>
+                                    <td class="info-text">{{role.roleCode}}</td>
+                                    <td class="info-text">{{role.description}}</td>
+                                    <td class="info-date">{{role.status}}</td>
+                                    <td class="info-text" >
+                                        <i (click)="openEditRole(i)">
+                                            <img  class = "edit" src="./assets/images/sso/edit.png" alt="">
 
-                                    </i>
-                                    <i class="bx bx-trash"></i>
+                                        </i>
+                                        <i class="bx bx-trash" (click)="removeAt(i)"></i>
 
-                                </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>            
-                </div>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <ng-container *ngIf="this.listRole.length == 0">
+                            <div class="no-container">
+                                <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
+                            </div>
+                        </ng-container>         
+
                     </div>
-
                 </div>
 
             </div>
+
+        </div>
     </div>
 </div>
 

@@ -1,0 +1,50 @@
+
+<div
+[class.loaded]="loaded"
+[style.outlineColor]="dragging ? activeColor : baseColor"
+(dragenter)="handleDragEnter()"
+(dragleave)="handleDragLeave()"
+(drop)="handleDrop($event)"
+> 
+    <div style="margin: 0 auto; text-align: center;">
+        <h2>File Upload & Image Preview</h2>
+    </div>
+<!-- Upload  -->
+    <div>
+    <div id="file-upload-form" class="uploader" >
+        <p class="btn-close"  aria-label="Close" (click)="cancel()" *ngIf="imageSrc.length > 0"></p>
+        <label for="file-upload" id="file-drag">
+            <input
+                id="file-upload"
+                type="file"
+                name="file"
+                accept="image/*"
+                (change)="handleInputChange($event)"
+            />
+            <img id="file-image" alt="Preview" *ngIf="imageSrc.length > 0; else content"
+                [src]="imageSrc"
+                (load)="handleImageLoad()"
+                [class.loaded]="imageLoaded"
+            >
+            <ng-template #content>
+                <div id="start">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <div>Select a file or drag here</div>
+                    <div id="notimage" class="hidden">Please select an image</div>
+                    <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+                </div>
+            </ng-template>
+
+            <div id="response" class="hidden">
+                <div id="messages"></div>
+                <progress class="progress" id="file-progress" value="0">
+                    <span>0</span>%
+                </progress>
+            </div>
+        </label>
+    </div>
+    </div>
+
+</div>
+
+
