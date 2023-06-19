@@ -125,18 +125,17 @@ export class ManagementRoleComponent implements OnInit {
   {
     this.formControls.get('avatar').setValue(this.files);
 
-    console.log("fomrArray", this.form.controls);
-    let i =0 ;
-    for (let item of this.form.controls){
-      // let control = <FormArray>this.formControls.controls['phone'];
-      // control.controls[i].get('filess').setValue('2893473924');
-      // console.log("alue--", item);
-     // item.get('filess').setValue(2893473924);
+    // let i =0 ;
+    // for (let item of this.form.controls){
+    //   console.log("item", item);
+    //   console.log("efjdf--", item.get('files').setValue('fjsdfjsj'));
+      
+    //   let control = <FormArray>this.formControls.controls['phone'];
+    //   item.value.files = 'demodjfsidfj'
+    //   i++;
+    // }
 
-      i++;
-    }
     console.log('value formArray',this.formControls.getRawValue());
-
 
     const tbody = this.listRole;
     this.roleService.editRole(tbody).subscribe(data => {
@@ -277,25 +276,32 @@ export class ManagementRoleComponent implements OnInit {
 
   } 
   
-  onChangeBase64(e){    
+  onChangeBase64(e,i){    
     e.preventDefault();
 
-    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-
-    var pattern = /image-*/;
-    var reader = new FileReader();
+    let file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    
+    let pattern = /image-*/;
+    let reader = new FileReader();
 
     if (!file.type.match(pattern)) {
       alert('invalid format');
       return;
     }
-    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.onload = this._handleReaderLoaded.bind(this,i);
     reader.readAsDataURL(file);
 
   }
-  _handleReaderLoaded(e) {
-    var reader = e.target;
-    console.log(reader.result)
+  _handleReaderLoaded(e, i) {
+    let reader = e.target;
+    console.log("----i", i, i.target.result);  
+    console.log(reader);   
+
+    this.form.controls.forEach((control, index) =>{
+      if(control.value.files !== null){    
+        control.get('files').setValue(i.target.result);
+      }
+    });
   }
   // image --------
   setValue(event){
