@@ -167,7 +167,7 @@
                                 <tr *ngFor="let role of listRole; let i = index">
                                     <td class="info-text">{{i}}</td>
                                     <td class="info-text">{{role.role}}</td>
-                                    <td class="info-text">{{role.roleCode}}</td>
+                                    <td class="info-text">{{role.roleCode | uppercase}}</td>
                                     <td class="info-text">{{role.description}}</td>
                                     <td class="info-date">{{role.status}}</td>
                                     <td class="info-text" >
