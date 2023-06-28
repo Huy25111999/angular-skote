@@ -189,6 +189,27 @@
                         </ng-container>         
 
                     </div>
+
+                    <div class="table-responsive">
+                        <ejs-treegrid [dataSource]="data" chldMapping="subtasks" [treeColumnIndex]="1">
+                            <e-columns>
+                                <e-column field='taskID' headerText='Task ID' filter="filter" width=190>
+                                </e-column>
+                            </e-columns>
+                            <e-columns>
+                                <e-column field='taskName' headerText='Task ID' filter="filter" width=190>
+                                </e-column>
+                            </e-columns>
+                            <e-columns>
+                                <e-column field='startDate' textAlign="Right" headerText='Task ID' filter="filter" width=190>
+                                </e-column>
+                            </e-columns>
+                            <e-columns>
+                                <e-column field='endDate' format="yMEd" headerText='Task ID' filter="filter" width=190>
+                                </e-column>
+                            </e-columns>
+                        </ejs-treegrid>
+                    </div>
                 </div>
 
             </div>

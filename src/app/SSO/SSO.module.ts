@@ -35,6 +35,7 @@ import { CreatAppComponent } from './creat-app/creat-app.component';
 import { EditAppComponent } from './edit-app/edit-app.component';
 import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-select/dropdown-treeview-select.component';
 import { OnSalePipe } from './on-sale.pipe';
+import { TreeGridModule} from '@syncfusion/ej2-angular-treegrid';
 // import { TreeviewI18nDefault } from './group-role/tree-picker/ngx-treeview';
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { OnSalePipe } from './on-sale.pipe';
     FormsModule,
     NgSelectModule,
     NgxTrimModule,
+    TreeGridModule,
     TreeviewModule.forRoot(),
     // BrowserModule
   ],

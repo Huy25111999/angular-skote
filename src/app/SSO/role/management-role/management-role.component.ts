@@ -10,6 +10,7 @@ import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditRoleComponent } from '../edit-role/edit-role.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as FileSaver from "file-saver";
+import { sampleData } from './datasource';
 @Component({
   selector: 'app-management-role',
   templateUrl: './management-role.component.html',
@@ -52,11 +53,14 @@ export class ManagementRoleComponent implements OnInit {
     {name:'admmin2', phoneNumber:'249832487584'}]
   }
 
+  public data: Object[];
+  title='gettingstarted';
   ngOnInit(): void {
     //this.onSearch(false);
     this.selectStatus = [
       {id:1, name:'Kích hoạt', active: true},
-      {id:0, name:'Không kích hoạt'}
+      {id:0, name:'Không kích hoạt'},
+      this.data = sampleData
     ];
 
     this.getParamRole();
