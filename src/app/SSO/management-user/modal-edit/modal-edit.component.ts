@@ -6,7 +6,7 @@ import { UserService } from '../../service/user.service';
 import { NgbActiveModal,NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
-import { ManagementComponent } from '../management.component';
+//import { ManagementComponent } from '../management.component';
 import Swal from 'sweetalert2';
 import { GroupRoleService } from '../../service/group-role.service';
 

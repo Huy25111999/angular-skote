@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ManagementComponent } from './management/management.component';
+import { ManagementUserComponent } from './management-user/management.component';
 import { SSORoutingModule } from './SSO-routing.modules';
-import { ModalAddComponent } from './management/modal-add/modal-add.component';
-import { ModalEditComponent } from './management/modal-edit/modal-edit.component';
+import { ModalAddComponent } from './management-user/modal-add/modal-add.component';
+import { ModalEditComponent } from './management-user/modal-edit/modal-edit.component';
 //import { DetailComponent } from './detail/detail.component';
-// import { DomainComponent } from './managementDomain/domain/domain.component';
+ import { DomainComponent } from './managementDomain/domain/domain.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from '../app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,15 +21,14 @@ import {SharedModule} from "../shared/shared.module";
 import { AuthInterceptor } from './service/AuthInterceptor';
  import {NgxTrimModule} from 'ngx-trim';
 import { TreeviewModule } from 'ngx-treeview';
-import { ManagementRoleComponent } from './role/management-role/management-role.component';
+import { ManagementSSOComponent } from './management-sso/management-role.component';
 import { ModalRoleComponent } from './role/modal-role/modal-role.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EditRoleComponent } from './role/edit-role/edit-role.component';
 import { GroupRoleComponent } from './group-role/group-role.component';
 import { AddGroupRoleComponent } from './group-role/add-group-role/add-group-role.component';
-import { ManagementGroupRoleComponent } from './management-group-role/management-group-role.component';
+import { ManagementAppComponent } from './management-app/management-group-role.component';
 import { EditGroupRoleComponent } from './group-role/edit-group-role/edit-group-role.component';
-import { EditByRoleComponent } from './group-role/edit-by-role/edit-by-role.component';
 import { ConnectUserRoleComponent } from './connect-user-role/connect-user-role.component';
 import { CreatAppComponent } from './creat-app/creat-app.component';
 import { EditAppComponent } from './edit-app/edit-app.component';
@@ -37,23 +36,22 @@ import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-
 // import { TreeviewI18nDefault } from './group-role/tree-picker/ngx-treeview';
 @NgModule({
   declarations: [
-    ManagementComponent,
+    ManagementUserComponent,
     ModalAddComponent,
     ModalEditComponent,
    // DetailComponent,
- //   DomainComponent,
+    DomainComponent,
     AddDomainComponent,
     EditDomainComponent,
     SearchfilterPipe,
    // ModalUserDomainComponent,
-    ManagementRoleComponent,
+    ManagementSSOComponent,
     ModalRoleComponent,
     EditRoleComponent,
     GroupRoleComponent,
     AddGroupRoleComponent,
-    ManagementGroupRoleComponent,
+    ManagementAppComponent,
     EditGroupRoleComponent,
-    EditByRoleComponent,
     ConnectUserRoleComponent,
     CreatAppComponent,
     EditAppComponent,
@@ -77,7 +75,7 @@ import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-
     // BrowserModule
   ],
   providers: [
-    ManagementComponent
+    ManagementUserComponent
   ],
   bootstrap: [AppComponent]
 })

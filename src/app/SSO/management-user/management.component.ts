@@ -21,7 +21,7 @@ import * as moment from 'moment';
   styleUrls: ['./management.component.scss']
 })
 
-export class ManagementComponent implements OnInit
+export class ManagementUserComponent implements OnInit
 {
   POSTS: any;
   page: number = 1;
