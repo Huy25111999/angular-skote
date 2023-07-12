@@ -115,6 +115,56 @@
                             </app-pagination>
                         </div>
 
+                        <div class="table-responsive">
+                            <table id="data-table" class = "table table-striped mb-0">
+                                <thead>
+                                    <th class="info-number-icon"> 
+                                        <input type="checkbox" [(ngModel)]="checked" 
+                                         (ngModelChange)="onAllChecked($event)">
+                                    </th>
+                                    <th class="info-number-icon">STT</th>
+                                    <th class="info-text">first_name</th>
+                                    <th class="info-text">last_name</th>
+                                    <th class="info-text">user_name</th>
+                                    <th class="info-number-date">country</th>
+                                    <th class="text-center">Hành động</th>
+                                </thead>
+                                <tbody>
+
+                                    
+                                    <tr *ngFor="let dataDomain of members;  let i = index">
+                                        <td class="info-number-icon"><input  type="checkbox" [ngModel]="setOfCheckedId.has(dataDomain?.id)" 
+                                            (ngModelChange)="onItemChecked(dataDomain?.id, $event)"></td>
+                                        <td class="info-number-icon">{{(page-1)*pageSize + (i+1)}}</td>
+                                        <td class="info-text">{{dataDomain.first_name}}</td>
+                                        <td class="info-text">{{dataDomain.last_name}}</td>
+                                        <td class="info-text">{{dataDomain.user_name}}</td>
+                                        <td class="info-text" >>{{dataDomain.country}}</td>
+                                        <td class="info-number-icon" >
+                                            <i routerLink='../edit-app/{{dataDomain?.id}}' routerLinkActive="active" class="bx bxs-edit-alt"></i>
+                                            <i class="bx bx-trash" (click)="deleteApp(dataDomain.appId,dataDomain.app)"></i>
+                                            <i  *ngIf="dataDomain.status == 0" class="bx bx-lock-alt" (click)="unlockOneDomain(dataDomain.appId)"></i>
+                                            <i *ngIf="dataDomain.status == 1" class="bx bx-lock-open-alt" (click)="lockOneDomain(dataDomain.appId)"></i>
+                                         </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ng-container *ngIf="this.members.length == 0">
+                                <div class="no-container">
+                                    <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
+                                </div>
+                            </ng-container> 
+                            <!--Pagination-->                               
+                            <app-pagination *ngIf="listDomain.length"
+                                            [page]="page"
+                                            [pageSize]="pageSize"
+                                            [collectionSize]="totalElements"
+                                            (pageChange)="onPageChangeApp($event)"
+                                            (pageSizeChange)="pageChangeEventApp($event)"
+                            >
+                            </app-pagination>
+                        </div>
+
                     </div>
 
                 </div>

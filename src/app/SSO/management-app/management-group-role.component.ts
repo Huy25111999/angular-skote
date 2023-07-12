@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RoleService } from '../service/role.service';
 import { GroupRoleService } from '../service/group-role.service';
@@ -23,12 +23,13 @@ import * as moment from 'moment';
   templateUrl: './management-group-role.component.html',
   styleUrls: ['./management-group-role.component.scss']
 })
-export class ManagementGroupRoleComponent implements OnInit {
+export class ManagementAppComponent implements OnInit {
   page: number = 1;
   pageSize = 10;
   count: number = 0;
   tableSize: number = 3;
   tableSizes: any = [3, 6, 9, 12];
+  historySearch: any;
   totalElements:number;
   listRole: any = [];
   listGroupRoleUpdate = [];
@@ -45,6 +46,79 @@ export class ManagementGroupRoleComponent implements OnInit {
   isGroupRoll:any= true;
   listApp = [];
 
+  members: any[] = [
+      {
+        id: 41,
+        first_name: "Joan",
+        last_name: "Brown",
+        user_name: "jbrown",
+        country: "Canada",
+    },
+    {
+        id: 40,
+        first_name: "Mort",
+        last_name: "Johnston",
+        user_name: "morty",
+        country: "Canada",
+    },
+    {
+        id: 42,
+        first_name: "Sally",
+        last_name: "Johns",
+        user_name: "smothers",
+        country: "Canada",
+    },
+    {
+        id: 39,
+        first_name: "Kat",
+        last_name: "Preston",
+        user_name: "kipreston",
+        country: "United States",
+    },
+    {
+        id: 34,
+        first_name: "James",
+        last_name: "Preston",
+        user_name: "jpreston",
+        country: "United States",
+    },
+    {
+        id: 43,
+        first_name: "Anya",
+        last_name: "Promaski",
+        user_name: "anyapro",
+        country: "United States",
+    },
+    {
+        id: 44,
+        first_name: "Elena",
+        last_name: "Savkin",
+        user_name: "esavkin",
+        country: "United States",
+    },
+    {
+        id: 45,
+        first_name: "Johan",
+        last_name: "Severson",
+        user_name: "jsever",
+        country: "United States",
+    },
+    {
+        id: 46,
+        first_name: "Kathya",
+        last_name: "Smith",
+        user_name: "ksmith",
+        country: "United States",
+    },
+    {
+        id: 47,
+        first_name: "Bill",
+        last_name: "Lewis",
+        user_name: "blewis",
+        country: "United States",
+    }
+    ];
+
   constructor(
     private modalService : NgbModal,
     private roleService: RoleService,
@@ -52,12 +126,12 @@ export class ManagementGroupRoleComponent implements OnInit {
     private groupRoleService: GroupRoleService,
     private fb: FormBuilder,
     private router:Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
    // this.onSearchRole(false);
-    //this.onSearchGroupRole(false);
      this.searchApp(false);
   }
 
@@ -77,19 +151,46 @@ export class ManagementGroupRoleComponent implements OnInit {
     return localDate.format("YYYY/MM/DD HH:mm:ss");
   }
   //--------- App
-  searchApp(flag)
+  searchApp(flag?:boolean)
   {
     // const body = {app: " ", pageNumber: this.page, pageSize: this.pageSize}
-
+    let data: any;
+    if(!flag){
+      data = this.formData.value;
+      this.historySearch = data;
+      this.page = 1;
+      this.pageSize= 10;
+    }else{
+      data = this.historySearch;
+    }
+    //C1
+    // const page = this.page -1;
+    // const size = this.pageSize
+    // this.groupRoleService.search(data,page,size).subscribe(res =>{})
+    //C2
     this.formData.value.pageNumber = this.page - 1;
     this.formData.value.pageSize = this.pageSize;
     console.log(this.formData.value);
+
     this.groupRoleService.getAllApp( this.formData.value).subscribe(data => {
-      console.log('app',data);
-      this.listDomain = data.data.content;
-      this.totalElements = data.data.totalElements;
+      if(data && data.data){
+        if(data.data.content && data.data.content.length){
+          this.listDomain = data.data.content;
+        }else{
+          this.listDomain = []
+        }
+        this.totalElements = data.data.totalElements || 0;
+        this.cdr.detectChanges();
+        this.refreshCheckedStatus();
+      }else{
+        this.listDomain = [];
+        this.totalElements = 0;
+      }
+     
     }, error => {
       console.log(error);
+      this.listDomain = [];
+      this.totalElements = 0;
      // this.router.navigate(['/account/login']);
     })
   }
@@ -134,14 +235,6 @@ export class ManagementGroupRoleComponent implements OnInit {
   {
     this.router.navigate(['/create-app']);
   }
-  
-  // editApp(data)
-  // {
-  //   const modalRef = this.router.navigate(['/edit-app']);
-  //   console.log('edit:', data);
-    
-  // }
-
 
   // delete app
   delete(id){
@@ -269,15 +362,6 @@ export class ManagementGroupRoleComponent implements OnInit {
     });
   }
 
-  // view App
-  view(id){
-    this.groupRoleService.getIdApp(id).subscribe(data => {
-      this.idApp = data.data.id ;
-     // this.getListGroupRole(id);
-    }, error => {
-      console.log(error);
-    })
-  }
   /*
   onSearchRole(flag)
   {
@@ -305,182 +389,6 @@ export class ManagementGroupRoleComponent implements OnInit {
   }
 */
 
-// ----------role
-  showListRole(){
-    if(this.isRoll){
-      this.isRoll = false
-    }
-    else{
-      this.isRoll = true
-    }
-  }
-
- // creat role
-  createRole()
-  {
-    const tbody = this.listRole;
-    this.roleService.addRole(tbody).subscribe(data => {
-       this.listRole.splice( this.listRole);
-       this.listRoleUpdate = data.data;
-       this.listRoleUpdate.forEach(element => {
-          this.listRole.push(element);
-       });
-       console.log('Element role',this.listRole);
-
-   }, error => {
-      return  error;
-   })
-  }
-
-  openAddRole()
-  {
-    const modalRef = this.modalService.open(ModalRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.dtIdRole= this.idApp ;
-    modalRef.result.then((reason)=>{
-    console.log('role:',reason)
-    this.listRole.push(reason);
-    })
-  }
-
-// edit role
-  editRole()
-  {
-    const tbody = this.listRole;
-      this.roleService.editRole(tbody).subscribe(data => {
-      console.log ("submit:",tbody);
-      this.success();
-    }, error => {
-      console.log(error);
-      this.error;
-      return ;
-    })
-  }
-
-  openEditRole(data)
-  {
-    const modalRef = this.modalService.open(EditRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.dtRole= this.listRole[data] ;
-      modalRef.result.then((reason)=>{
-      // data = reason;
-      this.listRole.splice(data,1,reason);
-
-    })
-    // modalRef.result.then((data)=>{
-    // },(reason)=>{
-    //   // data = reason;
-    //    console.log('edit-role',reason);
-    //    console.log('edit-role',data);
-    //    this.listRole.splice(data,reason);
-
-    // })
-  }
-
-  //----------group role-----------
-
-  showListGroupRole(){
-    if(this.isGroupRoll){
-      this.isGroupRoll = false
-    }
-    else{
-      this.isGroupRoll = true
-    }
-  }
-
-  // getListGroupRole(id)
-  // {
-  //   this.groupRoleService.getAllGroupRole(id).subscribe(data => {
-  //     this.listGroupRole = data.data;
-  //     console.log('all group role:', this.listGroupRole)
-  //   }, error => {
-  //     console.log(error);
-  //   })
-  // }
-
-  createGroupRole()
-  {
-      this.groupRoleService.addGroupRole(this.listGroupRole).subscribe(data => {
-        this.listGroupRole.splice( this.listGroupRole);
-        this.listGroupRoleUpdate = data.data;
-        this.listGroupRoleUpdate.forEach(element => {
-            this.listGroupRole.push(element);
-        });
-        console.log('Element role',this.listGroupRole);
-        
-
-      }, error => {
-        console.log(error)
-        return  error;
-      })
-  }
-
-
-  editGroupRole()
-  {
-    const tbody = this.listGroupRole;
-    const id = this.idApp;
-      this.groupRoleService.editGroupRole(id,tbody).subscribe(data => {
-      this.success();
-    }, error => {
-      console.log(error);
-      this.error;
-      return ;
-    })
-  }
-
-
-
-  // openEdiByRole(data)
-  // {
-  //   console.log(  'role', data);
-  //   const modalRef = this.modalService.open(EditByRoleComponent, { size : 'lg'})
-  //   modalRef.componentInstance.dtEditRole= data ;
-  //   modalRef.result.then(data=>{
-
-  //   },reason =>{
-  //     data = reason;
-  //     this.listRole;
-
-  //   })
-  // }
-
-
-  openAddGroupRole()
-  {
-    const modalRef = this.modalService.open(AddGroupRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.dtIdGroupRole= this.idApp ;
-    modalRef.result.then((reason)=>{
-      this.listGroupRole.push(reason);
-      console.log('group role:',this.listGroupRole);
-    })
-  }
-
-  openEditGroupRole(data)
-  {
-    const modalRef = this.modalService.open(EditGroupRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.dtGroupRole =  this.listGroupRole[data] ;
-    console.log ( this.listGroupRole);
-
-    modalRef.result.then((reason)=>{
-      this.listGroupRole.splice(data,1,reason);
-      console.log('group role:',this.listGroupRole);
-    })
-  }
-
-  // connect user-role
-  connectRoleUser(id)
-  {
-    const modalRef = this.modalService.open(ConnectUserRoleComponent, { size : 'lg'})
-    modalRef.componentInstance.dtIdApp= this.idApp ;
-    modalRef.componentInstance.dtIdGroupRole= id ;
-    modalRef.result.then((reason)=>{
-      console.log('id:',this.idApp,id);
-      console.log('user role:',reason);
-    })
-  }
-
-
-
-
   // Notification
   success() {
     Swal.fire({
@@ -500,6 +408,51 @@ export class ManagementGroupRoleComponent implements OnInit {
       showConfirmButton: false,
       timer: 1500
     });
+  }
+
+
+
+  // Checkbox
+  setOfCheckedId = new Set<any>();
+  itemRecord: any= [];
+  checked = false;
+  // Note: them refreshCheckedStatus() vao search
+
+  onAllChecked(value:boolean): void{
+    if(this.members){
+      console.log("value", value);
+      
+      this.members.forEach( item => this.updateCheckedSet(item?.id, value));
+      this.refreshCheckedStatus();
+    }
+  }
+  onItemChecked(id: number, checked: boolean){
+    this.updateCheckedSet(id, checked);
+    console.log("id", id, "checked",checked);
+    
+    this.refreshCheckedStatus()
+  }
+  updateCheckedSet(id: number, checked: boolean){
+    if(checked){
+      this.setOfCheckedId.add(id);
+      const getItemFromId = this.members.filter( e =>{
+        return e.id == id
+      });
+      if(getItemFromId){
+        this.itemRecord.push(getItemFromId[0]);
+      }
+    }else{
+      this.setOfCheckedId.delete(id);
+      const getItemFromId = this.members.filter( e =>{
+        return e.id == id
+      })
+      if(getItemFromId){
+        this.itemRecord.splice(getItemFromId,1);
+      }
+    }
+  }
+  refreshCheckedStatus(){
+    this.checked = this.members.every(item => this.setOfCheckedId.has(item.id));
   }
 
 }

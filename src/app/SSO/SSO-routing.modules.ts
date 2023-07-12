@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ManagementComponent } from './management/management.component';
+import { ManagementUserComponent } from './management-user/management.component';
 //import { DetailComponent } from './detail/detail.component';
 import { DomainComponent } from './managementDomain/domain/domain.component';
-import { domain } from 'src/app/model/domain';
 import { AuthGuard } from '../shared/sso/auth.guard';
 import { RoleGuard } from '../shared/sso/role.guard';
-import { ManagementRoleComponent } from './role/management-role/management-role.component';
+import { ManagementSSOComponent } from './management-sso/management-role.component';
 import { GroupRoleComponent } from './group-role/group-role.component';
-import { ManagementGroupRoleComponent } from './management-group-role/management-group-role.component';
+import { ManagementAppComponent } from './management-app/management-group-role.component';
 import { CreatAppComponent } from './creat-app/creat-app.component';
 import { EditAppComponent } from './edit-app/edit-app.component';
 const routes: Routes = [
     {
         path: 'user',
-        component: ManagementComponent,
+        component: ManagementUserComponent,
      //   canActivate:[AuthGuard]
     },
     // {
@@ -22,11 +21,11 @@ const routes: Routes = [
     //     component: DetailComponent,
     //     canActivate:[AuthGuard]
     // },
-    // {
-    //     path: 'domain',
-    //     component: DomainComponent,
-    //     canActivate:[AuthGuard]
-    // },
+    {
+        path: 'domain',
+        component: DomainComponent,
+     //   canActivate:[AuthGuard]
+    },
     // {
     //     path: 'user',
     //     component: ManagementUserComponent,
@@ -34,7 +33,7 @@ const routes: Routes = [
     // },
     {
         path: 'role',
-        component: ManagementRoleComponent,
+        component: ManagementSSOComponent,
     },
     {
         path: 'edit-app/:id',
@@ -44,7 +43,7 @@ const routes: Routes = [
     
     {
         path: 'role/:id',
-        component: ManagementRoleComponent,
+        component: ManagementSSOComponent,
     },
     {
         path: 'group-role/:id',
@@ -60,12 +59,12 @@ const routes: Routes = [
     },
     {
         path: 'app',
-        component: ManagementGroupRoleComponent,
+        component: ManagementAppComponent,
         //canActivate:[AuthGuard]
     },
     {
         path:'',
-        component:ManagementComponent,
+        component:ManagementUserComponent,
        // canActivate:[AuthGuard]
     }
 

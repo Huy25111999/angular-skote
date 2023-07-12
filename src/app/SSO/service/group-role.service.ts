@@ -21,9 +21,16 @@ export class GroupRoleService {
     ) { }
   private API:string = environment.serviceUrl ;
 
+  // Search c1
   getAllApp(req ?: any):Observable<any>
   {
     return  this.http.post<any>(this.API + '/app/search',req)
+  }
+
+  // Search c2
+  search(data, page, size): Observable<any>{
+    const url = this.API + `/app/search?page=${page}&size=${size}`;
+    return this.http.post(url, data);
   }
 
   deleteApp(id:number):Observable<any>

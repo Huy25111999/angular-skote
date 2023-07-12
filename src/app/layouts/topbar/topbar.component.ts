@@ -8,7 +8,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {LanguageService} from '../../core/services/language.service';
 import {TranslateService} from '@ngx-translate/core';
 import {ShareDataService} from "../../services/share-data.service";
-import { ManagementComponent } from 'src/app/SSO/management/management.component';
+//import { ManagementComponent } from 'src/app/SSO/management-user/management.component';
 // import { DomainComponent } from 'src/app/SSO/managementDomain/domain/domain.component';
 import { LoginComponent } from 'src/app/account/auth/login/login.component';
 import { AuthService } from 'src/app/services/auth.service';
