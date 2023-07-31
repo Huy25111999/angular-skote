@@ -158,7 +158,7 @@
                             <thead>
                                 <th class="info-text">STT</th>
                                 <th class="info-text">Tên quyền</th>
-                                <th class="info-number">Mã code</th>   
+                                <th class="info-number" >Mã code</th>   
                                 <th class="info-text">Miêu tả</th>                                    
                                 <th class="info-text">Trạng thái</th>
                                 <th class="info-text">Hành động</th>
@@ -186,29 +186,7 @@
                             <div class="no-container">
                                 <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
                             </div>
-                        </ng-container>         
-
-                    </div>
-
-                    <div class="table-responsive">
-                        <ejs-treegrid [dataSource]="data" chldMapping="subtasks" [treeColumnIndex]="1">
-                            <e-columns>
-                                <e-column field='taskID' headerText='Task ID' filter="filter" width=190>
-                                </e-column>
-                            </e-columns>
-                            <e-columns>
-                                <e-column field='taskName' headerText='Task ID' filter="filter" width=190>
-                                </e-column>
-                            </e-columns>
-                            <e-columns>
-                                <e-column field='startDate' textAlign="Right" headerText='Task ID' filter="filter" width=190>
-                                </e-column>
-                            </e-columns>
-                            <e-columns>
-                                <e-column field='endDate' format="yMEd" headerText='Task ID' filter="filter" width=190>
-                                </e-column>
-                            </e-columns>
-                        </ejs-treegrid>
+                        </ng-container>
                     </div>
                 </div>
 

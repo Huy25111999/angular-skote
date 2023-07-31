@@ -76,6 +76,7 @@
     "ngx-lightbox": "^2.4.0",
     "ngx-mask": "^12.0.0",
     "ngx-owl-carousel-o": "^6.0.0",
+    "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-treeview": "^10.0.2",
     "ngx-trim": "^1.0.1",
     "ngx-ui-switch": "^10.0.2",

@@ -1,3 +1,4 @@
+import { FilterModule } from 'ng2-smart-table/lib/components/filter/filter.module';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/core/models/auth.models';
@@ -73,7 +74,8 @@ export class ModalAddComponent implements OnInit {
       phone:['',[Validators.required, Validators.maxLength(10),Validators.minLength(10), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       address:[''],
       gender:null,
-      position:['',[Validators.required,Validators.maxLength(100)]]
+      position:[null,[Validators.required,Validators.maxLength(100)]],
+      currentNumber:[null]
     })
    // Validators.pattern("^[0-9]*$"),
     this.getNameApp();
@@ -235,4 +237,47 @@ export class ModalAddComponent implements OnInit {
     });
   }
 
+  // Dải số chỉ được nhập số và không nhập số ) ở đằng trước
+  onlyNumber(event: KeyboardEvent): boolean {
+    const charCode = event.which ? event.which : event.keyCode;
+    if ((charCode > 31 && charCode < 43)  ||  (charCode > 43 && charCode < 48) || (charCode > 57)) {
+      return false;
+    }
+    this.formData.controls.currentNumber.valueChanges.subscribe(item =>{
+      if(item.length > 1){
+        if(item && item.includes(0)){
+          if(item.startsWith(0)){
+            this.formData.patchValue({
+              currentNumber: item.replace(0,'')
+            })
+          }
+        }
+      }
+    })
+
+    return true;
+  }
+
+  isNum(val: any) {
+    return !isNaN(val);
+  }
+
+
+  // Note : Một số phương thức của form
+  methodForm(){
+    this.formData.addControl('tenant', new FormControl(null, [Validators.required]));
+    this.formData.removeControl('tenant');
+    this.formData.get('tenant').clearValidators();
+    this.formData.get('tenant').updateValueAndValidity();
+    this.formData.get('tenant').setValue(null)
+  };
+
+  displayFieldHasError( field: string){
+    return {
+      'has-error': this.isFieldValid(field)
+    }
+  }
+  isFieldValid(field: string){
+    return !this.formData.get(field).valid && this.formData.get(field).touched;
+  }
 }

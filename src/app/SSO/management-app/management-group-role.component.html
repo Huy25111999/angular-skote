@@ -51,6 +51,7 @@
                             </div>
     
                         </div>
+
     
                         <div class="table-responsive">
                             <table id="data-table" class = "table table-striped mb-0">
@@ -115,7 +116,44 @@
                             </app-pagination>
                         </div>
 
+                        <!-- -------------------------------------- -->
                         <div class="table-responsive">
+                            <div ngbDropdown class="d-inline-block choose-column mb-3" ngbTooltip="Ẩn/hiện côt">
+                                <button id="dropdownBasic1" class=" btn btn-primary btn-view-column" type="button" placement="top" ngbDropdownToggle>
+                                    <i class="fa fa-list" aria-hidden="true"></i>
+                                    <span>Ẩn hiện cột</span>
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <div class="ps" [style.max-height.vh]="30">
+                                        <div class="custom-control custom-checkbox" *ngFor = "let col of columns; let i = index">
+                                            <input class="custom-control-input" type="checkbox" checked="col.isShow" id="check{{i}}" (click)="toggleColumns(col)">
+                                            <label class="custom-control-label cursor-pointer" for="check{{i}}">{{col.value}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <h4 class="card-title">{{'Kết quả tìm kiếm'}} ( {{totalElements}}  )</h4>
+                                <div>
+                                    <div *ngIf="getSelectRecord" class="text-info fw-bold font-italic"> Đã chọn {{getSelectRecord}}</div>
+                                </div>
+                            </div>
+                            
+                            <ng-container *ngIf="loading">
+                                <div id="status">
+                                    <div class="spinner-chase">
+                                        <div class="chase-dot"></div>
+                                        <div class="chase-dot"></div>
+                                        <div class="chase-dot"></div>
+                                        <div class="chase-dot"></div>
+                                        <div class="chase-dot"></div>
+                                        <div class="chase-dot"></div>
+
+                                    </div>
+                                </div>
+                            </ng-container>
+
                             <table id="data-table" class = "table table-striped mb-0">
                                 <thead>
                                     <th class="info-number-icon"> 
@@ -123,10 +161,10 @@
                                          (ngModelChange)="onAllChecked($event)">
                                     </th>
                                     <th class="info-number-icon">STT</th>
-                                    <th class="info-text">first_name</th>
-                                    <th class="info-text">last_name</th>
-                                    <th class="info-text">user_name</th>
-                                    <th class="info-number-date">country</th>
+                                    <th class="info-text" *ngIf="this.columns[0].isShow">first_name</th>
+                                    <th class="info-text" *ngIf="this.columns[1].isShow">last_name</th>
+                                    <th class="info-text" *ngIf="this.columns[2].isShow">user_name</th>
+                                    <th class="info-number-date" *ngIf="this.columns[3].isShow">country</th>
                                     <th class="text-center">Hành động</th>
                                 </thead>
                                 <tbody>
@@ -136,10 +174,10 @@
                                         <td class="info-number-icon"><input  type="checkbox" [ngModel]="setOfCheckedId.has(dataDomain?.id)" 
                                             (ngModelChange)="onItemChecked(dataDomain?.id, $event)"></td>
                                         <td class="info-number-icon">{{(page-1)*pageSize + (i+1)}}</td>
-                                        <td class="info-text">{{dataDomain.first_name}}</td>
-                                        <td class="info-text">{{dataDomain.last_name}}</td>
-                                        <td class="info-text">{{dataDomain.user_name}}</td>
-                                        <td class="info-text" >>{{dataDomain.country}}</td>
+                                        <td class="info-text" *ngIf="this.columns[0].isShow">{{dataDomain.first_name}}</td>
+                                        <td class="info-text" *ngIf="this.columns[1].isShow">{{dataDomain.last_name}}</td>
+                                        <td class="info-text" *ngIf="this.columns[2].isShow">{{dataDomain.user_name}}</td>
+                                        <td class="info-text" *ngIf="this.columns[3].isShow">{{dataDomain.country}}</td>
                                         <td class="info-number-icon" >
                                             <i routerLink='../edit-app/{{dataDomain?.id}}' routerLinkActive="active" class="bx bxs-edit-alt"></i>
                                             <i class="bx bx-trash" (click)="deleteApp(dataDomain.appId,dataDomain.app)"></i>
@@ -154,7 +192,8 @@
                                     <img  class = "no-data" src="./assets/images/sso/no-data.png" alt="">     
                                 </div>
                             </ng-container> 
-                            <!--Pagination-->                               
+                            <!--Pagination-->      
+                            <!-- <app-pagination *ngIf="totalElements"></app-pagination>                          -->
                             <app-pagination *ngIf="listDomain.length"
                                             [page]="page"
                                             [pageSize]="pageSize"

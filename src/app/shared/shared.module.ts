@@ -15,12 +15,14 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { DateRangePickerComponent } from './components/date-range-picker/date-range-picker.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
+import { ErrorMessagesComponent } from './components/error-messages/error-messages.component';
 @NgModule({
   declarations: [
     PaginationComponent,
     DatePickerComponent,
     DateRangePickerComponent,
-    AvatarComponent
+    AvatarComponent,
+    ErrorMessagesComponent
   ],
     imports: [
         CommonModule,
@@ -36,7 +38,8 @@ import { AvatarComponent } from './components/avatar/avatar.component';
     PaginationComponent,
     DatePickerComponent,
     DateRangePickerComponent,
-    AvatarComponent
+    AvatarComponent,
+    ErrorMessagesComponent
   ]
 })
 
