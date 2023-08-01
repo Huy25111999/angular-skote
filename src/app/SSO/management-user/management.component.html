@@ -46,7 +46,7 @@
                                 <div class = 'search-info col-md-3' > 
                                     <p>Trạng thái</p>
                                          
-                                    <ng-select formControlName="status" [items]="selectStatus"
+                                    <ng-select [items]="selectStatus"
                                     [searchable]="false"  
                                     bindLabel="name"
                                     bindValue="id"
@@ -82,6 +82,28 @@
                                     placeholder="Chọn nhóm quyền"
                                  >           </ng-select>             
                                 </div>  
+
+                                <div class="col-md-12 mb-3">
+                                    <div>
+                                        <span for="auto" style="margin-right: 20px;">
+                                            <label>Trạng thái</label>
+                                        </span>
+                                        <span style="margin-right: 20px;">
+                                            <input type="radio" class="" #auto value="1" checked
+                                            style="margin-right: 10px; margin-top: 0;"
+                                            formControlName="status"
+                                            (click)="handleRadioClick('1')">
+                                            <label for="auto" style="">Đang hoạt động</label>
+                                        </span>
+                                        <span style="margin-right: 20px;">
+                                            <input type="radio" class="" #off value="2" checked
+                                            style="margin-right: 10px; margin-top: 0;"
+                                            formControlName="noStatus"
+                                            (click)="handleRadioNoStatusClick('2')">
+                                            <label for="off" style="">Đang hoạt động</label>
+                                        </span>
+                                    </div>
+                                </div>
                            
                             </form>
                         </div>

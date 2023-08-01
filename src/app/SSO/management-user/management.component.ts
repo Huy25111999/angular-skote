@@ -57,7 +57,7 @@ export class ManagementUserComponent implements OnInit
     private userService: UserService,
     private groupRoleService: GroupRoleService,
     private modalService : NgbModal,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private router:Router
     ) {
     }
@@ -72,7 +72,9 @@ export class ManagementUserComponent implements OnInit
    // this.getToken();
     this.getIdApp();
    // this.getGroupRole();
- 
+    this.formData.patchValue({
+      status: "1"
+    })
   }
 
   getToken(){
@@ -107,18 +109,31 @@ export class ManagementUserComponent implements OnInit
   }
 
 
-  public formData:FormGroup = new FormGroup({
-    fullName: new FormControl(''),
-    email: new FormControl(''),
-    appId: new FormControl(null),
-    groupRoleId: new FormControl(null),
-    username: new FormControl(''),
-    phone: new FormControl('',[Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
-    status: new FormControl(null),
-    pageNumber: new FormControl(''),
-    pageSize: new FormControl('')
-  })
+  // public formData:FormGroup = new FormGroup({
+  //   fullName: new FormControl(''),
+  //   email: new FormControl(''),
+  //   appId: new FormControl(null),
+  //   groupRoleId: new FormControl(null),
+  //   username: new FormControl(''),
+  //   phone: new FormControl('',[Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
+  //   status: new FormControl(null),
+  //   pageNumber: new FormControl(''),
+  //   pageSize: new FormControl(''),
+  //   noStatus: new FormControl(null)
+  // })
 
+  formData:FormGroup = this.fb.group({
+    fullName: [null],
+    email: [null],
+    appId: [null],
+    groupRoleId: [null],
+    username: [null],
+    phone: [null,[Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+    status: 1,
+    pageNumber: [null],
+    pageSize: [null],
+    noStatus: [null]
+  })
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
    
@@ -406,6 +421,66 @@ export class ManagementUserComponent implements OnInit
 
       }
     });
+  }
+
+  // Set Status radio and validate status
+  message: boolean = false;
+  get form(){
+    return this.formData.controls
+  };
+
+  handleRadioClick(value: string){
+    if(this.formData.value.status === value){
+      if(this.formData.value.noStatus){
+        this.formData.patchValue({
+          status: null,
+          noStatus: this.formData.value.noStatus
+        })
+      }else{
+        this.formData.patchValue({
+          status: null,
+          noStatus: null
+        })
+      }
+    }else{
+      this.formData.patchValue({
+        status: value,
+        noStatus: this.formData.value.noStatus
+      })
+    }
+
+    if(!this.formData.value.status && !this.formData.value.noStatus){
+      this.message = true
+    }else{
+      this.message = false
+    }
+  }
+
+  handleRadioNoStatusClick(value: string){
+    if(this.formData.value.noStatus === value){
+      if(this.formData.value.status){
+        this.formData.patchValue({
+          status: this.formData.value.status,
+          noStatus: null
+        })
+      }else{
+        this.formData.patchValue({
+          status: null,
+          noStatus: null
+        })
+      }
+    }else{
+      this.formData.patchValue({
+        status: this.formData.value.status,
+        noStatus: value
+      })
+    }
+
+    if(!this.formData.value.status && !this.formData.value.noStatus){
+      this.message = true
+    }else{
+      this.message = false
+    }
   }
 
 }
