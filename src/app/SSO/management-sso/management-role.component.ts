@@ -10,6 +10,7 @@ import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //import { EditRoleComponent } from '../edit-role/edit-role.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as FileSaver from "file-saver";
+import { sampleData } from './datasource';
 @Component({
   selector: 'app-management-role',
   templateUrl: './management-role.component.html',
@@ -52,11 +53,14 @@ export class ManagementSSOComponent implements OnInit {
       { name: 'admmin2', phoneNumber: '249832487584' }]
   }
 
+  public data: Object[];
+  title='gettingstarted';
   ngOnInit(): void {
     //this.onSearch(false);
     this.selectStatus = [
-      { id: 1, name: 'Kích hoạt', active: true },
-      { id: 0, name: 'Không kích hoạt' }
+      {id:1, name:'Kích hoạt', active: true},
+      {id:0, name:'Không kích hoạt'},
+      this.data = sampleData
     ];
 
     this.getParamRole();
@@ -75,7 +79,7 @@ export class ManagementSSOComponent implements OnInit {
     time: ''
   })
 
-  get f() {
+  get f(){
     return this.formData.controls;
   }
 
@@ -90,7 +94,7 @@ export class ManagementSSOComponent implements OnInit {
   //     console.log('list doamin : ',data);
   //     this.totalElements = data.data.totalElements;
   //   }, error => {
-  //     console.log(error);    
+  //     console.log(error);
 
   //   })
 
@@ -187,7 +191,7 @@ export class ManagementSSOComponent implements OnInit {
     });
   }
 
-  //Open modal
+   //Open modal
   //  openModalAdd(data)
   // {
   //   const modalRef = this.modalService.open(ModalRoleComponent, { size : 'lg'})
@@ -212,7 +216,7 @@ export class ManagementSSOComponent implements OnInit {
   //   })
   // }
 
-  handleDate(event) {
+  handleDate(event){
     console.log("-dfd---event", event);
   }
 
@@ -261,8 +265,8 @@ export class ManagementSSOComponent implements OnInit {
     document.body.removeChild(link);
   }
 
-  //---------Import 
-  import() {
+  //---------Import
+  import(){
 
   }
 
@@ -270,17 +274,17 @@ export class ManagementSSOComponent implements OnInit {
   get form(): FormArray {
     return this.formControls.get('phone') as FormArray;
   }
-  phone() {
+  phone(){
     return this.fb.group({
       name: '',
       phoneNumber: '',
       files: undefined
     })
   }
-  addPhone() {
+  addPhone(){
     this.form.push(this.phone())
   }
-  removePhone(i: number) {
+  removePhone(i: number){
     this.form.removeAt(i);
   }
 
@@ -295,28 +299,35 @@ export class ManagementSSOComponent implements OnInit {
 
   }
 
-  onChangeBase64(e) {
+  onChangeBase64(e,i){
     e.preventDefault();
 
-    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    let file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
 
-    var pattern = /image-*/;
-    var reader = new FileReader();
+    let pattern = /image-*/;
+    let reader = new FileReader();
 
     if (!file.type.match(pattern)) {
       alert('invalid format');
       return;
     }
-    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.onload = this._handleReaderLoaded.bind(this,i);
     reader.readAsDataURL(file);
 
   }
-  _handleReaderLoaded(e) {
-    var reader = e.target;
-    console.log(reader.result)
+  _handleReaderLoaded(e, i) {
+    let reader = e.target;
+    console.log("----i", i, i.target.result);
+    console.log(reader);
+
+    this.form.controls.forEach((control, index) =>{
+      if(control.value.files !== null){
+        control.get('files').setValue(i.target.result);
+      }
+    });
   }
   // image --------
-  setValue(event) {
+  setValue(event){
     this.files = event;
   }
 

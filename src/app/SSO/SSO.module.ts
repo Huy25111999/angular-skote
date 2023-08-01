@@ -33,7 +33,18 @@ import { ConnectUserRoleComponent } from './connect-user-role/connect-user-role.
 import { CreatAppComponent } from './creat-app/creat-app.component';
 import { EditAppComponent } from './edit-app/edit-app.component';
 import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-select/dropdown-treeview-select.component';
+import { OnSalePipe } from './on-sale.pipe';
+import { TreeGridModule} from '@syncfusion/ej2-angular-treegrid';
 // import { TreeviewI18nDefault } from './group-role/tree-picker/ngx-treeview';
+
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: false
+};
+
 @NgModule({
   declarations: [
     ManagementUserComponent,
@@ -56,6 +67,7 @@ import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-
     CreatAppComponent,
     EditAppComponent,
     DropdownTreeviewSelectComponent,
+    OnSalePipe,
   ],
   imports: [
     CommonModule,
@@ -71,11 +83,17 @@ import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-
     FormsModule,
     NgSelectModule,
     NgxTrimModule,
+    TreeGridModule,
     TreeviewModule.forRoot(),
-    // BrowserModule
+    // BrowserModule,
+    PerfectScrollbarModule
   ],
   providers: [
-    ManagementUserComponent
+    ManagementUserComponent,
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
   ],
   bootstrap: [AppComponent]
 })

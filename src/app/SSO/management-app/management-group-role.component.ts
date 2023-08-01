@@ -34,6 +34,7 @@ export class ManagementAppComponent implements OnInit {
   listRole: any = [];
   listGroupRoleUpdate = [];
   oneGroupRole=[];
+  loading: boolean = false;
 
   oneRole=[];
   listRoleUpdate = [];
@@ -45,7 +46,7 @@ export class ManagementAppComponent implements OnInit {
   isRoll:any= true;
   isGroupRoll:any= true;
   listApp = [];
-
+  
   members: any[] = [
       {
         id: 41,
@@ -116,7 +117,14 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Lewis",
         user_name: "blewis",
         country: "United States",
-    }
+    },
+    {
+      id: 48,
+      first_name: "Bill11",
+      last_name: "Lewis11",
+      user_name: "blewis11",
+      country: "Viet Nam",
+  }
     ];
 
   constructor(
@@ -154,6 +162,7 @@ export class ManagementAppComponent implements OnInit {
   searchApp(flag?:boolean)
   {
     // const body = {app: " ", pageNumber: this.page, pageSize: this.pageSize}
+    this.loading = true;
     let data: any;
     if(!flag){
       data = this.formData.value;
@@ -173,6 +182,7 @@ export class ManagementAppComponent implements OnInit {
     console.log(this.formData.value);
 
     this.groupRoleService.getAllApp( this.formData.value).subscribe(data => {
+      this.loading = false;
       if(data && data.data){
         if(data.data.content && data.data.content.length){
           this.listDomain = data.data.content;
@@ -182,7 +192,7 @@ export class ManagementAppComponent implements OnInit {
         this.totalElements = data.data.totalElements || 0;
         this.cdr.detectChanges();
         this.refreshCheckedStatus();
-      }else{
+      }else{ 
         this.listDomain = [];
         this.totalElements = 0;
       }
@@ -191,6 +201,7 @@ export class ManagementAppComponent implements OnInit {
       console.log(error);
       this.listDomain = [];
       this.totalElements = 0;
+      this.loading = false;
      // this.router.navigate(['/account/login']);
     })
   }
@@ -453,6 +464,22 @@ export class ManagementAppComponent implements OnInit {
   }
   refreshCheckedStatus(){
     this.checked = this.members.every(item => this.setOfCheckedId.has(item.id));
+  }
+
+  get getSelectRecord(): number{
+    return Array.from(this.setOfCheckedId).length || 0
+  }
+
+  //Ân hiện cột
+  columns = [
+    {key:0, value: 'first_name', isShow:true},
+    {key:1, value: 'last_name', isShow:true},
+    {key:2, value: 'user_name', isShow:true},
+    {key:3, value: 'country', isShow:true}
+  ]
+
+  toggleColumns(col){
+    col.isShow = !col.isShow;
   }
 
 }
