@@ -16,30 +16,38 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
 import { DateRangePickerComponent } from './components/date-range-picker/date-range-picker.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { ErrorMessagesComponent } from './components/error-messages/error-messages.component';
+import { DepartSelectComponent } from './components/depart-select/depart-select.component';
+import {TreeviewModule} from 'ngx-treeview';
+import { TreeSelectComponent } from './components/tree-select/tree-select.component';
+
 @NgModule({
   declarations: [
     PaginationComponent,
     DatePickerComponent,
     DateRangePickerComponent,
     AvatarComponent,
-    ErrorMessagesComponent
+    ErrorMessagesComponent,
+    DepartSelectComponent,
+    TreeSelectComponent
   ],
-    imports: [
-        CommonModule,
-        UIModule,
-        WidgetModule,
-        NgbPaginationModule,
-        ReactiveFormsModule,
-        FormsModule,
-        NgbDatepickerModule
-
-    ],
+  imports: [
+      CommonModule,
+      UIModule,
+      WidgetModule,
+      NgbPaginationModule,
+      ReactiveFormsModule,
+      FormsModule,
+      NgbDatepickerModule,
+      TreeviewModule.forRoot(),
+  ],
   exports: [
     PaginationComponent,
     DatePickerComponent,
     DateRangePickerComponent,
     AvatarComponent,
-    ErrorMessagesComponent
+    ErrorMessagesComponent,
+    DepartSelectComponent,
+    TreeSelectComponent
   ]
 })
 

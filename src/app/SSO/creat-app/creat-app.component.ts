@@ -663,17 +663,17 @@ export class CreatAppComponent implements OnInit {
 
   checkTabGroupRole()
   {
-    if (this.isDisabled == false || this.isDisabledRole == false){
-      this.error();
-      Swal.fire({
-        title:'Bạn không thể tạo mới nhóm quyền!',
-        text: `Vui lòng tạo mới app hoặc quyền trước khi tạo nhóm quyền. `,
-        confirmButtonColor: '#0062AE',
-        cancelButtonColor: '#f46a6a',
-        confirmButtonText: 'Đồng ý!'
-      });
-      this.activeTab = 'App';
-    }
+    // if (this.isDisabled == false || this.isDisabledRole == false){
+    //   this.error();
+    //   Swal.fire({
+    //     title:'Bạn không thể tạo mới nhóm quyền!',
+    //     text: `Vui lòng tạo mới app hoặc quyền trước khi tạo nhóm quyền. `,
+    //     confirmButtonColor: '#0062AE',
+    //     cancelButtonColor: '#f46a6a',
+    //     confirmButtonText: 'Đồng ý!'
+    //   });
+    //   this.activeTab = 'App';
+    // }
   }
  
 }

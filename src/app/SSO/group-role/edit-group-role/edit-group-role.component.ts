@@ -61,59 +61,7 @@ value: any;
     ]; 
 
     this.getTree(this.dtIdApp);
-    
     this.formData.patchValue(this.dtGroupRole);
-
-    // node
-    // if (this.dtGroupRole.role){
-    //   this.getRoleId = this.dtGroupRole.role.map((e: any)=>{ return e.roleId});
-    //   console.log( 'getrole', this.getRoleId);
-    //   this.formData.value.roleId = this.getRoleId;
-    // }
-    // const value = this.formData.value.roleId;
-    // console.log('--------form',this.formData.value);
-
-   
-    // this.items.forEach(e => { 
-    //   e.checked = false;
-    //   if (e.children)
-    //   {
-       
-    //     e.children.forEach(item => { 
-    //       item.checked = false;
-    //        if(item.value == value){
-    //           item.checked = true;
-    //         } 
-
-    //         if(item.children)
-    //         {
-    //           let count = 0;
-    //           item.children.forEach(k =>{
-                
-    //             k.checked = false;
-    //             for ( let i =0; i<value.length;i++)
-    //             {
-    //               if(k.value == value[i]){
-    //                 k.checked = true;
-    //                 count += 1;
-    //               }
-                  
-    //             } 
-                    
-    //           })
-    //           if (count == item.children.length){
-    //             item.checked = true;
-    //           }
-    //         } 
-             
-           
-    //     })        
-    //   }
-
-    //  })
-
-
-   // this.loadObject(this.dtIdApp);
   }
   //  load data
   getTree(id)
@@ -128,10 +76,6 @@ value: any;
   }
   getTreeRole()
   {
-    const dataSource= [];
-    let parent = 1;
-    let children = 1;
-
     this.dataSource = this.listRole.map(e => {
       e.text = e.systemParam;
      // e.value = e.systemParamId;
@@ -178,10 +122,7 @@ value: any;
                   count += 1;
                 } 
               } 
-              // if (count == e.children.length){
-              //     e.checked = true;
-              //   }
-  
+
               if(item.children)
               {
                 let count = 0;
@@ -221,13 +162,6 @@ value: any;
     let arr:any = [];
     arr = value;
     console.log('arr', arr);
-
-    // for (  let i in arr){
-    //   if(arr[i] == undefined){
-    //       arr.splice(i,1);
-    //   }
-    // }
-
     let filterValueTree = arr.filter(e =>{
       return e !== undefined
     })

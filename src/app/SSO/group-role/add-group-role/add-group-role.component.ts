@@ -15,7 +15,9 @@ export class AddGroupRoleComponent implements OnInit {
   items:any = [] ;
   config = TreeviewConfig.create({
     hasFilter: true,
-    hasCollapseExpand: true,
+    hasCollapseExpand: false,
+    hasAllCheckBox: false,
+    decoupleChildFromParent: true,
     maxHeight: 300
   });
   
@@ -52,30 +54,28 @@ export class AddGroupRoleComponent implements OnInit {
     ]; 
     this.defaultValue = 1
     this.getTreeRole(this.dtIdApp);
-  
-    // this.items = [new TreeviewItem({
-    //   text: "Quản trị hệ thống",
-    //   value: 9,
+    this.loadParent();
+    this.items = [new TreeviewItem({
+      text: "Quản trị hệ thống",
+      value: 9,
 
-    //   children: [
-
-    //     {
-    //       text:"Cơ cấu tổ chức",
-    //       value: 1,
-    //       children:[
-    //       ],
-    //     },
-    //     {
-    //       text: "Hệ thống chức danh",
-    //       value: 2,
-    //     },
-    //     ,
-    //     {
-    //       text: "Định biên",
-    //       value: 3,
-    //     },
-    //   ],
-    // })];
+      children: [
+        {
+          text:"Cơ cấu tổ chức",
+          value: 1,
+          children:[
+          ],
+        },
+        {
+          text: "Hệ thống chức danh",
+          value: 2,
+        },
+        {
+          text: "Định biên",
+          value: 3,
+        },
+      ],
+    })];
     
   }
 
@@ -83,44 +83,8 @@ export class AddGroupRoleComponent implements OnInit {
   {
     this.groupRoleService.getAllRole(id).subscribe(data => {
       this.listRole= data.data;
-    //  this.listRole= data.data.map(e => e.systemParam)
       console.log("Domains",this.listRole);
 
-    let parent = 1;
-    let children = 1;
-    // this.listRole.forEach(e =>{
-      
-
-    //   const childrens = e.roleRes;
-    //   console.log('---',childrens);
-
-    //   dataSource.push({
-    //     text: e.systemParam,
-    //     value:  e.roleRes,
-    //     data: {
-    //       parent: true,
-    //       id: e.roleRes
-    //    },children:e.roleRes:e.
-    //   });
-      
-    //   if(childrens.length >0)
-    //   {
-    //     childrens.forEach(subitem =>{
-    //       dataSources.push({
-    //         text:subitem.role,
-    //         value: subitem.roleId
-    //       });         
-    //       children ++;
-    //     })
-    //   }
-    //   else{
-    //     return dataSource;
-    //   }
-
-    //   parent++;
-
-    // })
-       
     this.dataSource = this.listRole.map(e => {
       e.text = e.systemParam;
       e.children = e.roleRes ?  e.roleRes.map(k => {
@@ -177,7 +141,9 @@ export class AddGroupRoleComponent implements OnInit {
     description:[''],
     groupRoleId:[''],
     roleId:[''],
-    groupRoleCode:['',Validators.required] 
+    groupRoleCode:['',Validators.required],
+    parentId: [''],
+    unitId: [null, [Validators.required]]
   })
 
   get f(){
@@ -205,13 +171,6 @@ export class AddGroupRoleComponent implements OnInit {
 
   onSubmit()
   {
-  //  const roleIdList = [];
-  //   for (const item of this.groupRoleId) {
-  //     for (const childItem of item) {
-  //       roleIdList.push(childItem.roleId);
-  //     }
-  //   }
-   // this.roleId = this.groupRoleId.map(e=>e.roleId)
    this.formData.value.appId = this.dtIdApp ; 
     this.formData.value.roleId = this.groupRoleId;
     console.log('Group role',this.groupRoleId);
@@ -235,19 +194,79 @@ export class AddGroupRoleComponent implements OnInit {
     });
   }
 
+  // Tree depart -select
+  fullList: any[] = [];
+  listParent: any[] = [];
+  parentId:any = null;
+  loadParent(){
+    let newArr = [];
+    const data = [
+      {unitId: 327, parentId: null, name:'sso', code:'sso'},
+      {unitId: 328, parentId: 327, name:'abcs', code:'ABCS'},
+      {unitId: 331, parentId: 327, name:'Thanh Hoa', code:'TH'},
+      {unitId: 329, parentId: 328, name:'abcsefgh', code:'ABCSghi'},
+      {unitId: 330, parentId: null, name:'Ha Noi', code:'HN'}
+    ]
+    this.fullList = data.map(e =>{
+      return {
+        ...e,
+        text: `${e.name ? e.name + (e.code ?'-':''):''} ${e.code ? `${e.code}`:''}`,
+        title: `${e.name ? e.name + (e.code ?'-':''):''} ${e.code ? `${e.code}`:''}`,
+        value: e.unitId,
+        key: e.unitId,
+        parentId: e.parentId
+      }
+    })
+
+    newArr = data.map(e =>{
+      return {
+        ...e,
+        text: `${e.name ? e.name + (e.code ?'-':''):''} ${e.code ? `${e.code}`:''}`,
+        title: `${e.name ? e.name + (e.code ?'-':''):''} ${e.code ? `${e.code}`:''}`,
+        value: e.unitId,
+        key: e.unitId,
+      }
+    })
+
+    let arr: any = newArr.filter(e => !e.parentId);
+    this.mapChild(arr,  newArr);
+    this.listParent = arr;
+    console.log("this.listParent", this.listParent);
+    
+    this.listParent = arr.map(e => new TreeviewItem(e));
+  }
+
+  mapChild(need:any, array: any){
+    for(let i = 0; i <need.length; i++){
+      const obj:any = need[i];
+      obj.text = `${obj.name ? obj.name + (obj.code ?'-':''):''} ${obj.code ? `${obj.code}`:''}`;
+      obj.title = `${obj.name ? obj.name + (obj.code ?'-':''):''} ${obj.code ? `${obj.code}`:''}`;
+      obj.value = obj.unitId;
+      obj.key = obj.unitId;
+      const child = array.filter(e => e.parentId === obj.unitId);
+      if(child.length === 0){
+        obj.isLeaf = true;
+        continue;
+      }else{
+        obj.children = child.map( e =>{
+          return {
+            ...e,
+            text: `${e.name ? e.name + (e.code ?'-':''):''} ${e.code ? `${e.code}`:''}`,
+            title: `${e.name ? e.name + (e.code ?'-':''):''} ${e.code ? `${e.code}`:''}`,
+            value: e.unitId,
+            key: e.unitId,
+          }
+        })
+      }
+      this.mapChild(obj.children, array)
+    }
+  }
+
+  onValueChange(event){
+    console.log("event", event);
+   // this.formData.get('parentId').setValue(event);
+    this.parentId = event
+  }
+
+
 }
-
-
-    //  this.message = '' ;
-    //  this.err = false ; 
-    // this.groupRoleService.addGroupRole(this.formData.value).subscribe(data => {
-    //   console.log ("submit:", this.formData.value);
-    //   this.activeModal.dismiss(this.formData.value);
-    //   this.activeModal.close('Close click');   
-      
-    // }, error => {
-    //   this.err = true ; 
-    //   this.message = error ; 
-    //   console.log(this.message);
-    //   return ;
-    // })

@@ -461,6 +461,9 @@ export class ManagementAppComponent implements OnInit {
         this.itemRecord.splice(getItemFromId,1);
       }
     }
+
+//    const inputId: any = Array.from(this.setOfCheckedId)
+
   }
   refreshCheckedStatus(){
     this.checked = this.members.every(item => this.setOfCheckedId.has(item.id));

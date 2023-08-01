@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddGroupRoleComponent } from './add-group-role.component';
+import { TreeSelectComponent } from './tree-select.component';
 
-describe('AddGroupRoleComponent', () => {
-  let component: AddGroupRoleComponent;
-  let fixture: ComponentFixture<AddGroupRoleComponent>;
+describe('TreeSelectComponent', () => {
+  let component: TreeSelectComponent;
+  let fixture: ComponentFixture<TreeSelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddGroupRoleComponent ]
+      declarations: [ TreeSelectComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddGroupRoleComponent);
+    fixture = TestBed.createComponent(TreeSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -79,12 +79,13 @@
                     <label class="col-sm-3" >Phân quyền (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8" >
-                        <!-- <ngx-treeview [items]="items"
+                        <!-- <ngx-treeview [items]="listParent"
                         [config]="config"
                         (selectedChange)="onSelectedChange($event)"
                         (filterChange)="onFilterChange($event)">
                         >
                         </ngx-treeview> -->
+
                         <ngx-dropdown-treeview 
                         [items]="items"
                         [config]="config"
@@ -102,6 +103,53 @@
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
                         <input type="text" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả" maxlength="500">
+                    </div>
+
+                </div>
+                <div class="row mb-4" >
+                    <label class="col-sm-3" for="parentId" >Tên đơn vị</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <!-- <input type="text" ngxTrim class="form-control" formControlName = 'description' placeholder="Nhập mô tả" maxlength="500"> -->
+                        <!-- <app-depart-select 
+                            [config]="config" 
+                            [headerTemplate]="headerTemplate" 
+                            [items]="listParent"
+                            style="width: 100%;"
+                            (valueChange) ="onValueChange($event)"
+                            [(value)]="parentId"
+                            [itemTemplate]="itemTemplate">
+
+                        </app-depart-select> -->
+
+                        <app-tree-select 
+                            [config]="config" 
+                            [items]="listParent"
+                            style="width: 100%;"
+                            (valueChange) ="onValueChange($event)"
+                            [(value)]="parentId"
+                            id="departs-tree"
+                            >
+                        </app-tree-select>
+                        
+                    </div>
+
+                </div>
+
+                <div class="row mb-4" >
+                    <label class="col-sm-3" for="depart-select-modal" >Cây đơn vị</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <app-depart-select 
+                            [control] = "formData.controls.unitId" 
+                            [items]="listParent"
+                            style="width: 100%;"
+                            [fullList]="fullList"
+                            [isRequired]="false"
+                            id="depart-select-modal"
+                        >
+                        </app-depart-select>
+                        
                     </div>
 
                 </div>

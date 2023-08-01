@@ -1,0 +1,35 @@
+
+
+._custom-tree-select{
+    position: relative;
+    .depart-item{
+        display: flex;
+        align-items: center;
+        .label-depart{
+            padding: 3px 10px 3px 0;
+            cursor: pointer;
+            width: 100%;
+            &:hover{
+                background-color: #eff2f7;
+                color: #333
+            }
+        }
+        .is-label-selected{
+            background-color: #eff2f7;
+            color: #333;
+            font-weight: bold;
+        }
+    }
+}
+
+:host ::ng-deep{
+    .disableStyle1{
+        .dropdown{
+            .btn-outline-secondary{
+                background-color: #eff2f7 !important;
+                opacity: 1;
+                pointer-events: none !important;
+            }
+        }
+    }
+}
