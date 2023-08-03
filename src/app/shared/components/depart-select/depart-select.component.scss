@@ -1,4 +1,48 @@
 
+label{
+    margin-bottom: 0;
+    cursor: pointer;
+}
+ 
+.bi{
+    cursor: pointer;
+    margin-right: 0.3rem;
+}
+:host ::ng-deep{
+    .dropdown-menu{
+        width: 100%;
+    }
+    .form-check-label{
+        color: #495057 !important;
+        font-weight: 400;
+    }
+}
+:host::ng-deep{
+    .dropdown button{
+        border: 1px solid #ced4da !important;
+    }
+}
+:host ::ng-deep{
+    .btn-outline-secondary{
+        &:hover{
+            color: unset;
+            background-color: unset;
+            outline: none;
+            border: none;
+        }
+        &:focus{
+            color: unset;
+            background-color: unset;
+            box-shadow: none;
+        }
+    }
+    .dropdown-toggle .btn .btn-outline-secondary{
+        color: #495057 !important;
+    }
+    .is-invalid-button{
+        
+    }
+}
 
 ._custom-tree-select{
     position: relative;
@@ -6,7 +50,7 @@
         display: flex;
         align-items: center;
         .label-depart{
-            padding: 3px 10px 3px 0;
+            padding: 8px 10px 8px 0;
             cursor: pointer;
             width: 100%;
             &:hover{
