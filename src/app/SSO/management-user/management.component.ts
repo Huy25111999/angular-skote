@@ -13,8 +13,26 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
 import { Router } from '@angular/router';
 import { GroupRoleService } from '../service/group-role.service';
 import * as moment from 'moment';
+import { omit } from 'lodash'; 
+import { Observable, Subject, of } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { HttpResponse } from '@angular/common/http';
+export const TIME_OUT = {
+  DUE_TIME_SEARCH : 1000
+}
 
-
+export const STATUS_CODE = {
+  SUCCESS: 200,
+  CREATED: 201,
+  NOT_FOUND_DATA: 204,
+  BAD_REQUEST: 400,
+  AUTH: 401,
+  METHOD_NOT_ALLOWED: 405,
+  EXIST:409,
+  CONFIRM: 419,
+  ARG_INVALID: 422,
+  SERVER_ERROR: 500
+}
 @Component({
   selector: 'app-management',
   templateUrl: './management.component.html',
@@ -37,7 +55,72 @@ export class ManagementUserComponent implements OnInit
   token : any;
 
 //--------
-  listUsers : infor[]= [];
+  // listUsers : infor[]= [];
+  listUsers : any[] = [
+    {
+      id: 41,
+      fullName: "Joan",
+      email: "Brown",
+      username: "jbrown",
+      phone: "Canada",
+  },
+  {
+      id: 40,
+      fullName: "Mort",
+      email: "Johnston",
+      username: "morty",
+      phone: "Canada",
+  },
+  {
+      id: 42,
+      fullName: "Sally",
+      email: "Johns",
+      username: "smothers",
+      phone: "Canada",
+  },
+  {
+      id: 39,
+      fullName: "Kat",
+      email: "Preston",
+      username: "kipreston",
+      phone: "United States",
+  },
+  {
+      id: 34,
+      fullName: "James",
+      email: "Preston",
+      username: "jpreston",
+      phone: "United States",
+  },
+  {
+      id: 43,
+      fullName: "Anya",
+      email: "Promaski",
+      username: "anyapro",
+      phone: "United States",
+  },
+  {
+      id: 44,
+      fullName: "Elena",
+      email: "Savkin",
+      username: "esavkin",
+      phone: "United States",
+  },
+  {
+      id: 45,
+      fullName: "Johan",
+      email: "Severson",
+      username: "jsever",
+      phone: "United States",
+  },
+  {
+      id: 46,
+      fullName: "Kathya",
+      email: "Smith",
+      username: "ksmith",
+      phone: "United States",
+  }
+  ];
   oneUser: infor[] = [];
   searchValue : string;
   infors:infor[] ;
@@ -68,6 +151,10 @@ export class ManagementUserComponent implements OnInit
       {id:1, name:'Kích hoạt', active: true},
       {id:0, name:'Không kích hoạt'}
     ];
+    //AutoComplete
+    this.listUserCopy = JSON.stringify(this.listUsers);
+    this.debounceOnSearch();
+
     this.onSearch(false);
    // this.getToken();
     this.getIdApp();
@@ -132,7 +219,8 @@ export class ManagementUserComponent implements OnInit
     status: 1,
     pageNumber: [null],
     pageSize: [null],
-    noStatus: [null]
+    noStatus: [null],
+    invoiceTemplateId: [null]
   })
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
@@ -186,9 +274,75 @@ export class ManagementUserComponent implements OnInit
     this.userService.search(this.formData.value).subscribe(data => {
       this.listUsers = data.data.content;
       this.totalElements = data.data.totalElements;
-
+      this.listUserCopy = JSON.stringify(data.data.content); 
     }, error => {
       //this.router.navigate(['/account/login']);
+      this.listUsers = [
+        {
+          id: 41,
+          fullName: "Joan",
+          email: "Brown",
+          username: "jbrown",
+          phone: "Canada",
+      },
+      {
+          id: 40,
+          fullName: "Mort",
+          email: "Johnston",
+          username: "morty",
+          phone: "Canada",
+      },
+      {
+          id: 42,
+          fullName: "Sally",
+          email: "Johns",
+          username: "smothers",
+          phone: "Canada",
+      },
+      {
+          id: 39,
+          fullName: "Kat",
+          email: "Preston",
+          username: "kipreston",
+          phone: "United States",
+      },
+      {
+          id: 34,
+          fullName: "James",
+          email: "Preston",
+          username: "jpreston",
+          phone: "United States",
+      },
+      {
+          id: 43,
+          fullName: "Anya",
+          email: "Promaski",
+          username: "anyapro",
+          phone: "United States",
+      },
+      {
+          id: 44,
+          fullName: "Elena",
+          email: "Savkin",
+          username: "esavkin",
+          phone: "United States",
+      },
+      {
+          id: 45,
+          fullName: "Johan",
+          email: "Severson",
+          username: "jsever",
+          phone: "United States",
+      },
+      {
+          id: 46,
+          fullName: "Kathya",
+          email: "Smith",
+          username: "ksmith",
+          phone: "United States",
+      }
+      ];
+
     })
 
   }
@@ -481,6 +635,202 @@ export class ManagementUserComponent implements OnInit
     }else{
       this.message = false
     }
+  }
+
+  // update trực tiếp trên bảng
+  idRowEdit:any;
+  editRow: any;
+  listUserCopy: any;
+  listInvoiceTemplate$ = new Observable<any[]>();
+
+  onEditRow(type, item){
+    if(this.idRowEdit){
+      this.listUsers = this.listUsers.map(e => (e.id === this.editRow.id? this.editRow :e));
+    }
+    this.editRow = JSON.parse(JSON.stringify(item));
+    this.idRowEdit = item.id
+  }
+
+  onResetEditRow(item){
+    const oldRowData = JSON.parse(this.listUserCopy).find(e =>e.id === item.id);
+    this.listUsers = this.listUsers.map(e => e.id === oldRowData.id ? oldRowData : e);
+  }
+
+  onCancelEditRow(item){
+    this.idRowEdit = null;
+    this.listUsers = this.listUsers.map(e => e.id === this.editRow.id ? this.editRow: e);
+  }
+
+  onUpdateEditRow(item){
+    const setData = omit(item, ['id']);
+    const request = {
+      fullName : setData.fullName,
+      username : setData.username,
+      email: setData.email,
+      phone: setData.phone,
+      active: setData.active
+    };
+    console.log("request", request);
+    this.idRowEdit = null;
+  }
+
+
+  //Autocomplete------------------
+
+  debouncerInvoice: Subject<string> = new Subject<string>();
+  listInvoice$ = new Observable<any[]>();
+  isSearchInvoice: boolean;
+  listInvoiceName: any[];
+
+  debounceOnSearch(){
+    this.debouncerInvoice.pipe(debounceTime(TIME_OUT.DUE_TIME_SEARCH)).subscribe(value => this.loadDataOnSearchInvoice(value));
+  }
+  
+  loadDataOnSearchInvoice(term){
+    this.userService.getInvoiceTemplate({
+      tenantBranchId: 'tenant',
+      invoiceName: term,
+      taxtCodeCluster: 'code'
+    }).subscribe((res: HttpResponse<any[]>) =>{
+      if(res && res.body['code'] === STATUS_CODE.SUCCESS){
+        this.listInvoice$ = of(res.body['data'].map(e =>{
+          e.tenantName = `${e.templateCode} - ${e.invoiceName}`;
+          return e
+        }).sort((a, b) => a.tenantName.localeCompare(b.tenantName))
+        );
+      }else{
+        this.listInvoice$ = of([])
+      }
+    })
+  }
+
+  onSearchTemplate(event){
+    const term = event.term;
+    console.log("tẻm", term);
+    
+    if( term.trim() !== '' && this.listInvoice$.subscribe(res =>{
+      return res.length === 0
+    })){
+      this.isSearchInvoice = true;
+    }else{
+      this.isSearchInvoice = false;
+    }
+    if(term !== ''){
+      this.debouncerInvoice.next(term.trim())
+    }
+  }
+
+  loadTemplatesInvoice(event){
+    console.log("event", event);
+    
+    if(event){
+      const supplierTaxCode = event.taxCode;
+      if(supplierTaxCode !==  null){
+        this.getInvoiceNameTemplate(supplierTaxCode);
+      }else{
+        this.listInvoiceName = [];
+      }
+    }else{
+      console.log("?");
+      
+    }
+  }
+  
+  getInvoiceNameTemplate(supplierTaxCode){
+    this.userService.getBranchByTenant(supplierTaxCode).subscribe((res: HttpResponse<any>) =>{
+      if(res && res.status === STATUS_CODE.SUCCESS){
+        this.listInvoiceName = res.body;
+        this.listInvoiceTemplate$ = of(this.listInvoiceName);
+      }else{
+        this.listInvoiceName = [];
+      }
+    })
+  }
+
+
+  // Bảng động
+
+  listData = {
+    headers:[
+      {columnName:'ID', columnType:'INTEGER', notNull: true,primaryKey: false},
+      {columnName:'name', columnType:'VARCHAR', notNull: true,primaryKey: false},
+      {columnName:'code', columnType:'VARCHAR', notNull: true,primaryKey: false},
+      {columnName:'fullName', columnType:'MEDIUMBLOB', notNull: true,primaryKey: false},
+      {columnName:'email', columnType:'VARCHAR', notNull: true,primaryKey: false},
+      {columnName:'dateStart', columnType:'TIMESTAMP', notNull: true,primaryKey: false}
+    ],
+    body:[
+      {
+        ID: 1,
+        name:'admin',
+        code:'AD',
+        fullName: 'Admin sso',
+        email:'abc@gmail.com',
+        dateStart: '03-04-2020 03:05:40'
+      },
+      {
+        ID: 2,
+        name:'user',
+        code:'USER',
+        fullName: 'user sso',
+        email:'user@gmail.com',
+        dateStart: '08-02-2023 05:06:02'
+      }
+    ]
+  }
+
+  headerNoID: any = this.listData.headers.filter( e => e.columnName !== 'ID');
+  IDColumn: any = this.listData.headers.filter( e => e.columnName === 'ID');
+  contentList:any = this.listData.body;
+  
+  convertValueCol(columnType, value){
+    return columnType.includes('DATE') || columnType.includes('TIME') ? this.formatDate(value) : value;
+  }
+
+  formatDate(date){
+    return date ? moment (new Date(date)).format('YYYY-MM-DD HH:mm:ss') : null
+  }
+
+  returnTypeInput(type){
+    if(type.includes('INT') || type.includes('DECIMAL')){
+      return 'number'
+    }else return 'text'
+  }
+
+  onEditTable(type, item){
+    if(this.idRowEdit){
+      this.listUsers = this.contentList.map(e => (e.ID === this.editRow.ID? this.editRow :e));
+    }
+    this.editRow = JSON.parse(JSON.stringify(item));
+    this.idRowEdit = item.ID
+  }
+
+  onInputNumber(event:any, type: string, index: number, columnName: string){
+    if(this.returnTypeInput(type) === 'number'){
+      const minMaxObj = this.returnMaxMinField(type)
+      const  min = minMaxObj.min;
+      const max = minMaxObj.max;
+      if(min && event.target.value < min ){
+        event.target.value = min;
+        this.contentList[index][columnName] = min;
+      }
+      if(max && event.target.value > max ){
+        event.target.value = max;
+        this.contentList[index][columnName] = max;
+      }
+    }
+  }
+
+  returnMaxMinField(type){
+    if(type.includes('INT')){
+      switch (type.split('(')[0]){
+        case 'INT':
+          return {max: 127, min: -138};
+        case 'INTEGER':
+          return {max:2147483647, min: -2147483647
+          }
+      }
+    }else return { max: '', min:''}
   }
 
 }

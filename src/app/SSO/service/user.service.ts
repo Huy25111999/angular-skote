@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { infor } from '../../model/infor';
 import { domain } from 'src/app/model/domain';
 import { THeadModule } from 'ng2-smart-table/lib/components/thead/thead.module';
 import { author } from 'src/app/model/author';
 import { environment } from 'src/environments/environment';
+import {omit, pick} from 'lodash';
 @Injectable({
   providedIn: 'root'
 })
@@ -153,5 +154,17 @@ export class UserService {
   {
     return this.http.post<any>(this.API + '/user-domain/update/'+id,domainId);
 
+  }
+
+  // Autocomplate
+  getInvoiceTemplate(req?:any): Observable<HttpResponse<any>>{
+    const param = pick(req, ['tenantBranchId', 'invoiceName','taxCodeCluster']);
+    return this.http.get<[]>(this.API + 'tools/get-invoice-template', {params: param, observe: 'response'})
+  }
+
+  getBranchByTenant(taxCode?: any): Observable<HttpResponse<any>>{
+    return this.http.get<[]>(
+      this.API + '/tenant/get-branch?taxCodeCluster=' + taxCode, {observe: 'response'}
+    )
   }
 }

@@ -20,6 +20,9 @@
 </ng-template>
 <ng-template #headerTemplate let-config="config" let-item="item" let-onCollapseExpand="onCollapseExpand"
              let-onCheckedChange="onCheckedChange" let-onFilterTextChange="onFilterTextChange">
+<!-- config gợi ý tìm kiếm theo định dạng LV1-LV2-LV3 
+  <ng-template #headerTemplate let-config="config" let-item="item" let-onCollapseExpand="onCollapseExpand"
+             let-onCheckedChange="onCheckedChange"> -->
   <div *ngIf="config.hasFilter" class="row row-filter">
     <div class="col-12">
       <input class="form-control" type="text" placeholder="Nhập để tìm kiếm" [(ngModel)]="filterText"

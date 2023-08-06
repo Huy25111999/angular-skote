@@ -3,7 +3,8 @@ import { TreeviewI18n, TreeviewItem, TreeviewConfig, DropdownTreeviewComponent, 
 import { DropdownTreeviewSelectI18n } from './dropdown-treeview-select-i18n-custom';
 import { isNil } from 'lodash';
 import { AbstractControl} from "@angular/forms"
-
+import {get} from 'http';
+import {element} from 'protractor'
 @Component({
   selector: 'app-depart-select',
   templateUrl: './depart-select.component.html',
@@ -18,7 +19,7 @@ export class DepartSelectComponent implements OnChanges {
   config = TreeviewConfig.create({
     hasAllCheckBox: false,
     hasCollapseExpand: false,
-      decoupleChildFromParent: true,
+    decoupleChildFromParent: true,
     hasFilter: true,
     maxHeight: 500
   });
@@ -45,20 +46,42 @@ export class DepartSelectComponent implements OnChanges {
     this.dropdownTreeviewSelectI18n = i18n as DropdownTreeviewSelectI18n;
   }
 
+  ngOnInit(): void{
+    this.dropdownTreeviewSelectI18n.plhd = this.placeholder;
+    this.control.valueChanges.subscribe(value =>{
+      if(!value){
+        this.updateSelectedItem();
+        this.title = this.dropdownTreeviewSelectI18n.textInner;
+      }else{
+        this.updateSelectedItem();
+        this.title = this.dropdownTreeviewSelectI18n.textInner;
+      }
+    })
+    //-----------
+    this.fullList = this.fullList.map( e=>{
+      return {
+        ...e,
+        text: `${e.name?e.name + (e.code?'_':''):''} ${e.code ? `${e.code}`:''}`,
+        title: `${e.name?e.name + (e.code?'_':''):''} ${e.code ? `${e.code}`:''}`,
+        value: e.unitId,
+        key:e.unitId,
+        patch: `${e.code}`
+      }
+    })
+  };
+
   ngOnChanges(changes: SimpleChanges): void {
-   // throw new Error('Method not implemented.');
     this.updateSelectedItem();
     this.dropdownTreeviewSelectI18n.fullList = this.fullList;
+
+    //----------
+    this.itemsOld = this.items;
+
   }
 
-  // OnChanges(): void {
-  //   this.updateSelectedItem();
-  // }
 
   select(item: TreeviewItem): void {
-    // if (!item.children) {
       this.selectItem(item);
-    // }
   }
 
   isEmpty(v: any){
@@ -107,6 +130,151 @@ export class DepartSelectComponent implements OnChanges {
   eventClose(){
     this.isOpen = !this.isOpen;
     this.isOpenEvent.emit(this.isOpen);
+  }
+
+
+  //  config filter gợi ý định dạng LV1-LV2-LV3 or LV1/LV2/LV3
+
+  itemsOld:any
+  unit: any[] = []
+  onFilterTextChange(event){
+    let newArr = [];
+    let need = [];
+    let unitParent = [];
+    let unitChild = [];
+    const text = event.includes('-')? event.split('-').filter( e => e !== ""): event.split('/').filter(e =>e !== "");
+    
+    newArr = this.fullList;
+    if(text.length <= 1){
+      const filterNode = this.fullList.filter( e => e.text.includes(event.replace('-',"")));
+      if(event === ''){
+        this.items = this.itemsOld
+      }else if(filterNode.length > 0){
+        let parent = [];
+        let child = [];
+        this.setUnitTreeParent(parent, filterNode, newArr);
+        this.setUnitChildren(child, filterNode, newArr);
+        const unit = [...parent, ...child];
+        let mapUnit = [...new Set(unit)];
+
+        const mapTree: any = mapUnit.filter(k => !k.parentId);
+        this.mapChild(mapTree, mapUnit);
+        this.items = mapTree.map(e =>new TreeviewItem(e));
+      }else{
+        this.items = []
+      }
+    }else{
+      for(let i =0; i<text.length; i++){
+        if(i === 0){
+          const getChild = this.fullList.filter(e => e.text.includes(text[i].replace('-',"")) && !e.parentId);
+          need = [...getChild];
+        }else{
+          const checkNodata = [];
+          need.forEach((item, j) =>{
+            const getNode = this.fullList.filter(e => e.parentId === item.unitId && e.text.includes(text[i].replace('-',"")));
+            if(getNode.length >0){
+              need = [...getNode];
+              checkNodata.push(getNode);
+              unitParent.push(item);
+            }
+          });
+          if(checkNodata.length === 0){
+            need = []
+          }
+        }
+      }
+      if(need.length >0){
+        if(text.length === 1){
+          this.mapChild(need, newArr);
+          this.items = need.map(e => new TreeviewItem(e));
+        }
+      }else{
+        this.items = []
+      }
+    }
+
+  }
+
+  mapChild(need:any, array: any){
+    for(let i = 0; i <need.length; i++){
+      const obj:any = need[i];
+      obj.text = `${obj.name ? obj.name + (obj.code ?'-':''):''} ${obj.code ? `${obj.code}`:''}`;
+      obj.title = `${obj.name ? obj.name + (obj.code ?'-':''):''} ${obj.code ? `${obj.code}`:''}`;
+      obj.value = obj.unitId;
+      obj.key = obj.unitId;
+      const child = array.filter(e => e.parentId === obj.unitId);
+      if(child.length === 0){
+        obj.isLeaf = true;
+        continue;
+      }else{
+        obj.children = child.map( e =>{
+          return {
+            ...e,
+            text: `${e.name ? e.name + (e.code ?'-':''):''} ${e.code ? `${e.code}`:''}`,
+            title: `${e.name ? e.name + (e.code ?'-':''):''} ${e.code ? `${e.code}`:''}`,
+            value: e.unitId,
+            key: e.unitId,
+          }
+        })
+      }
+      this.mapChild(obj.children, array)
+    }
+  }
+
+  setNode(need:any, text: any){
+    need.forEach(element =>{
+      const getNode = this.fullList.filter(e => e.parentId === element.unitId && e.name.includes(text));
+      if(getNode){
+        need = [...getNode, element]
+      }
+    })
+  }
+
+  setUnitTreeParent(need:any, array:any, unitStatus:any){
+    array.forEach(element =>{
+      if(element.parentId !== null){
+        const record = unitStatus.filter(e =>{
+          if(e.unitId === element.parentId){
+            need.push(e);
+            return e
+          }
+        });
+        if(record.length > 0){
+          need.push(element);
+          this.setUnitTreeParent(need,record,unitStatus)
+        }
+      }
+    })
+  }
+
+  setUnitTreeChildren(need:any, array:any){
+    for(let i= 0; i<array.length; i++){
+      const obj = array[i];
+      const child = this.fullList.filter(e =>{
+        if(e.parentId === obj.unitId){
+          need.push(e);
+          return e
+        }
+      });
+      if(child.length >0 ){
+        this.setUnitTreeChildren(need, child);
+      }
+    }
+  }
+
+  setUnitChildren(need:any, array:any, unitStatus){
+    for(let i= 0; i<array.length; i++){
+      const obj = array[i];
+      const child = unitStatus.filter(e =>{
+        if(e.parentId === obj.unitId){
+          need.push(e);
+          return e
+        }
+      });
+      if(child.length >0 ){
+        this.setUnitChildren(need, child, unitStatus);
+      }
+    }
   }
 
 }
