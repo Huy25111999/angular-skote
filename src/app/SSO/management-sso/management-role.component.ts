@@ -11,6 +11,9 @@ import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as FileSaver from "file-saver";
 import { sampleData } from './datasource';
+import { ImportFileComponent } from 'src/app/shared/components/import-file/import-file.component';
+
+
 @Component({
   selector: 'app-management-role',
   templateUrl: './management-role.component.html',
@@ -267,7 +270,14 @@ export class ManagementSSOComponent implements OnInit {
 
   //---------Import
   import(){
-
+    const modalRef = this.modalService.open(ImportFileComponent, { size : 'lg'})
+      modalRef.componentInstance.listRole== 'data' ;
+      modalRef.result.then((data)=>{
+  
+      },(reason)=>{
+        console.log("reason", reason);
+        
+      })
   }
 
   // form array

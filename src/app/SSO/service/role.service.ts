@@ -64,4 +64,21 @@ export class RoleService {
     const url = this.API + `/role/download`;
     return this.http.post(url, body, {responseType: 'blob'});
   }
+
+  // Import ======
+  // download template
+  downloadTemplate(): Observable<any> {
+    const url = `${this.API}/manage/excel/get-excel-template/DAI_LY`;
+    return this.http.get(url, {
+      responseType: 'blob'
+    });
+  };
+
+  uploadCud(formData: any): Observable<any> {
+    const url = `${this.API}/manage/shop/import-excel`
+    return this.http.post(url, formData, {
+      responseType: 'blob',
+      observe: 'response',
+    });
+  }
 }

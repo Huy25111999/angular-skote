@@ -19,6 +19,7 @@ import { ErrorMessagesComponent } from './components/error-messages/error-messag
 import { DepartSelectComponent } from './components/depart-select/depart-select.component';
 import {TreeviewModule} from 'ngx-treeview';
 import { TreeSelectComponent } from './components/tree-select/tree-select.component';
+import { ImportFileComponent } from './components/import-file/import-file.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TreeSelectComponent } from './components/tree-select/tree-select.compon
     AvatarComponent,
     ErrorMessagesComponent,
     DepartSelectComponent,
-    TreeSelectComponent
+    TreeSelectComponent,
+    ImportFileComponent
   ],
   imports: [
       CommonModule,
@@ -47,7 +49,8 @@ import { TreeSelectComponent } from './components/tree-select/tree-select.compon
     AvatarComponent,
     ErrorMessagesComponent,
     DepartSelectComponent,
-    TreeSelectComponent
+    TreeSelectComponent,
+    ImportFileComponent
   ]
 })
 

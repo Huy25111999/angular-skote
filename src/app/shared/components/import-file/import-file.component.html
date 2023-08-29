@@ -1,0 +1,62 @@
+    <div class="wrap">
+      <a class="download" (click)="downloadTemplate()">
+        <span>{{ "Tải về file mẫu" }}</span>
+        <i nz-icon nzType="download" nzTheme="outline"></i>
+      </a>
+      <div
+        appDnd
+        (files)="dragDrop($event)"
+        class="import-zone d-flex align-items-center justify-content-center position-relative"
+        (click)="clear(); fileInput.click()"
+        style="cursor: pointer"
+      >
+        <div *ngIf="!file" class="">
+          <div class="text-center">
+            {{ "Chọn file" }}
+          </div>
+        </div>
+  
+        <div *ngIf="file">
+          <div class="text-info d-flex align-items-center">
+            <div class="overFileName title mr-5" [title]="file.name">
+              {{ file.name }}
+            </div>
+            <img
+              nz-tooltip
+              nzTooltipPlacement="bottom"
+              src="assets/icons-svg/icon_delete.svg"
+              alt=""
+              (click)="clear(); $event.preventDefault(); $event.stopPropagation()"
+            />
+          </div>
+        </div>
+        <input
+          #fileInput
+          (change)="openUploadCVFile($event)"
+          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          type="file"
+          style="display: none"
+        />
+      </div>
+      <a
+        *ngIf="fileResult"
+        class="download"
+        (click)="downloadFileResult()"
+        style="margin: 0"
+      >
+        <span>{{ "Download file kết quả" }}</span>
+        <i nz-icon nzType="download" nzTheme="outline"></i>
+      </a>
+    </div>
+  
+    <div class="d-flex justify-content-end mt-25">
+      <button
+        class="btn-common title ant-btn ant-btn-lg"
+        nz-button
+        nzType="default"
+        (click)="onUpload()"
+      >
+        {{ "Import" }}
+      </button>
+    </div>
+  
