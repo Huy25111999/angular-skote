@@ -170,7 +170,7 @@
                                 <tbody>
 
                                     
-                                    <tr *ngFor="let dataDomain of members;  let i = index">
+                                    <tr *ngFor="let dataDomain of members | slice: (page-1) * pageSize : page * pageSize;  let i = index">
                                         <td class="info-number-icon"><input  type="checkbox" [ngModel]="setOfCheckedId.has(dataDomain?.id)" 
                                             (ngModelChange)="onItemChecked(dataDomain?.id, $event)"></td>
                                         <td class="info-number-icon">{{(page-1)*pageSize + (i+1)}}</td>
@@ -194,10 +194,10 @@
                             </ng-container> 
                             <!--Pagination-->      
                             <!-- <app-pagination *ngIf="totalElements"></app-pagination>                          -->
-                            <app-pagination *ngIf="listDomain.length"
+                            <app-pagination *ngIf="members.length"
                                             [page]="page"
                                             [pageSize]="pageSize"
-                                            [collectionSize]="totalElements"
+                                            [collectionSize]="members.length"
                                             (pageChange)="onPageChangeApp($event)"
                                             (pageSizeChange)="pageChangeEventApp($event)"
                             >

@@ -14,12 +14,24 @@ export class AuthGuard implements CanActivate {
 
   }
   canActivate(){
-    if (this.service.isLoggedIn()){
+    // --------------guard sso
+    // if (this.service.isLoggedIn()){
+    //   return true;
+    // }else{
+    //   this.router.navigate(["/account/login"])
+    //     return false;
+    // }
+
+    // --------------guard smartmotor
+    let storageData: any = localStorage.getItem('USER_DATA') || sessionStorage.getItem('USER_DATA');
+    let token: any = localStorage.getItem('TOKEN') || sessionStorage.getItem('TOKEN');
+    if (token && storageData) {
+      this.service.isAuthenticated$.next(true);
       return true;
-    }else{
-      this.router.navigate(["/account/login"])
-        return false;
     }
+    // this.router.navigate([`${ROUTERS.AUTH}/${ROUTERS.LOGIN}`]);
+    this.router.navigate(["/account/login"]);
+    return false;
 
   }
   

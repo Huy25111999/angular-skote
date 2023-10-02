@@ -12,6 +12,7 @@ import {TranslateService} from '@ngx-translate/core';
 import { error } from 'console';
 import * as FileSaver from 'file-saver';
 import { takeUntil } from 'rxjs/operators';
+import { DestroyService } from 'src/app/SSO/service/destroy.service';
 import { RoleService } from 'src/app/SSO/service/role.service';
 
 @Component({
@@ -43,6 +44,7 @@ export class ImportFileComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private roleService: RoleService,
+    private destroy:DestroyService
 
   ) { }
 
