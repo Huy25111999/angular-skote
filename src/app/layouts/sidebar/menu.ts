@@ -847,6 +847,12 @@ export const MENU: MenuItem[] = [
         label: 'Form Validate',
         link: '/role',
         parentId: 134
+      },
+      {
+        id: 136,
+        label: 'Ant-design',
+        link: '/ant-design',
+        parentId: 134
       }
     ]
   },

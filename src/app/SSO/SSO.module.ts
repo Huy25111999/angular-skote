@@ -34,6 +34,7 @@ import { EditAppComponent } from './edit-app/edit-app.component';
 import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-select/dropdown-treeview-select.component';
 import { OnSalePipe } from './on-sale.pipe';
 import { TreeGridModule} from '@syncfusion/ej2-angular-treegrid';
+import { AntModule } from './ant/ant.module';
 // import { TreeviewI18nDefault } from './group-role/tree-picker/ngx-treeview';
 
 // import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -83,6 +84,7 @@ import { TreeGridModule} from '@syncfusion/ej2-angular-treegrid';
     NgSelectModule,
     NgxTrimModule,
     TreeGridModule,
+    AntModule,
     TreeviewModule.forRoot(),
     // BrowserModule,
     //PerfectScrollbarModule

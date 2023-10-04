@@ -67,8 +67,7 @@ const routes: Routes = [
         component:ManagementUserComponent,
        canActivate:[AuthGuard]
     },
-   // { path: 'ant', loadChildren: () => import('./ant/ant.module').then(m => m.AntModule)}
-
+    { path: 'ant-design', loadChildren: () => import('./ant/ant.module').then(m => m.AntModule)}
 ];
 
 @NgModule({

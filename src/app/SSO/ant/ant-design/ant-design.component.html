@@ -1,0 +1,64 @@
+<p>ant-design works!</p>
+
+<!-- <nz-layout class="layout" id="layout">
+    <nz-layout id="layout2"> -->
+      <div class="table-product">
+        <!-- <nz-content class="content-right unset-height"> -->
+          <div class="card">
+            <h5 class="title">
+              {{ "Product" }}
+            </h5>
+            <div nz-row>
+              <form
+                nz-form
+                nz-row
+                [nzGutter]="16"
+                [formGroup]="formSearch"
+                class="w-100"
+                nzLayout="vertical"
+              >
+                <div nz-col nzSpan="8">
+                  <nz-form-item>
+                    <nz-form-label
+                      >{{ "name"}}
+                    </nz-form-label>
+                    <input
+                      nz-input
+                      maxlength="50"
+                      formControlName="productName"
+                      trim="blur"
+                      vtAutofocus
+                    />
+                  </nz-form-item>
+                </div>
+                <div nz-col nzSpan="24">
+                  <button
+                    class="btn-common d-flex align-items-center btn-hover ant-btn"
+                    nz-button
+                    nzType="default"
+                    style="margin: 0 0 0 auto"
+                  >
+                    <i nz-icon nzType="search" nzTheme="outline"></i>
+                    <span>{{ "Search" }}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card card-table">
+            <button
+              class="btn-common d-flex align-items-center btn-hover ant-btn ml-auto"
+              nz-button
+              nzType="default"
+              style="margin-left: auto; margin-bottom: 10px"
+            >
+              <i nz-icon nzType="plus" nzTheme="outline"></i>
+              <span>{{ "Thêm mới" }}</span>
+            </button>
+          
+          </div>
+          
+        <!-- </nz-content> -->
+      </div>
+    <!-- </nz-layout>
+  </nz-layout> -->
