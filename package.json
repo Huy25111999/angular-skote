@@ -37,6 +37,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@nicky-lenaers/ngx-scroll-to": "^9.0.0",
+    "@syncfusion/ej2": "^23.1.40",
     "@syncfusion/ej2-angular-navigations": "^20.3.48",
     "@syncfusion/ej2-angular-treegrid": "^22.1.35",
     "@types/chartist": "^0.11.0",
