@@ -755,7 +755,7 @@ export class ManagementUserComponent implements OnInit
       {columnName:'ID', columnType:'INTEGER', notNull: true,primaryKey: false},
       {columnName:'name', columnType:'VARCHAR', notNull: true,primaryKey: false},
       {columnName:'code', columnType:'VARCHAR', notNull: true,primaryKey: false},
-      {columnName:'fullName', columnType:'MEDIUMBLOB', notNull: true,primaryKey: false},
+      {columnName:'fullName', columnType:'MEDIUMBLOB', notNull: false,primaryKey: false},
       {columnName:'email', columnType:'VARCHAR', notNull: true,primaryKey: false},
       {columnName:'dateStart', columnType:'TIMESTAMP', notNull: true,primaryKey: false}
     ],

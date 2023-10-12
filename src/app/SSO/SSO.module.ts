@@ -29,8 +29,8 @@ import { AddGroupRoleComponent } from './group-role/add-group-role/add-group-rol
 import { ManagementAppComponent } from './management-app/management-group-role.component';
 import { EditGroupRoleComponent } from './group-role/edit-group-role/edit-group-role.component';
 import { ConnectUserRoleComponent } from './connect-user-role/connect-user-role.component';
-import { CreatAppComponent } from './creat-app/creat-app.component';
-import { EditAppComponent } from './edit-app/edit-app.component';
+import { CreatAppComponent } from './management-app/creat-app/creat-app.component';
+import { EditAppComponent } from './management-app/edit-app/edit-app.component';
 import { DropdownTreeviewSelectComponent } from './group-role/dropdown-treeview-select/dropdown-treeview-select.component';
 import { OnSalePipe } from './on-sale.pipe';
 import { TreeGridModule} from '@syncfusion/ej2-angular-treegrid';

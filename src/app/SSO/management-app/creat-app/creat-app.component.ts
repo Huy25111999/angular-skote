@@ -4,15 +4,15 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { domain } from 'src/app/model/domain';
 import Swal from 'sweetalert2';
-import { ConnectUserRoleComponent } from '../connect-user-role/connect-user-role.component';
-import { AddGroupRoleComponent } from '../group-role/add-group-role/add-group-role.component';
-import { EditRoleComponent } from '../role/edit-role/edit-role.component';
-import { ModalRoleComponent } from '../role/modal-role/modal-role.component';
-import { GroupRoleService } from '../service/group-role.service';
-import { RoleService } from '../service/role.service';
-import { UserService } from '../service/user.service';
+import { ConnectUserRoleComponent } from '../../connect-user-role/connect-user-role.component';
+import { AddGroupRoleComponent } from '../../group-role/add-group-role/add-group-role.component';
+import { EditRoleComponent } from '../../role/edit-role/edit-role.component';
+import { ModalRoleComponent } from '../../role/modal-role/modal-role.component';
+import { GroupRoleService } from '../../service/group-role.service';
+import { RoleService } from '../../service/role.service';
+import { UserService } from '../../service/user.service';
 import { TreeviewItem, TreeviewConfig } from 'ngx-treeview';
-import { EditGroupRoleComponent } from '../group-role/edit-group-role/edit-group-role.component';
+import { EditGroupRoleComponent } from '../../group-role/edit-group-role/edit-group-role.component';
 
 @Component({
   selector: 'app-creat-app',

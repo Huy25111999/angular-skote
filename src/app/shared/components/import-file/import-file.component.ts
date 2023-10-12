@@ -11,14 +11,16 @@ import {
 import {TranslateService} from '@ngx-translate/core';
 import { error } from 'console';
 import * as FileSaver from 'file-saver';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { DestroyService } from 'src/app/SSO/service/destroy.service';
 import { RoleService } from 'src/app/SSO/service/role.service';
+import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-import-file',
   templateUrl: './import-file.component.html',
-  styleUrls: ['./import-file.component.scss']
+  styleUrls: ['./import-file.component.scss'],
+  providers: [DestroyService]
 })
 export class ImportFileComponent implements OnInit {
 
@@ -44,7 +46,8 @@ export class ImportFileComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private roleService: RoleService,
-    private destroy:DestroyService
+    private destroy:DestroyService,
+    public activeModal: NgbActiveModal,
 
   ) { }
 
@@ -71,7 +74,9 @@ export class ImportFileComponent implements OnInit {
 
   downloadTemplate() {
     this.isSpinning = true;
-   // if (this.dialogData.featute === 'agent') {
+    console.log("-afds----",this.dialogData);
+    
+    if (this.dialogData === 'sso') {
       this.roleService.downloadTemplate().subscribe(
         (res) => {
           this.isSpinning = false;
@@ -80,7 +85,7 @@ export class ImportFileComponent implements OnInit {
           this.downLoadFile('abc', 'IMPORT_DAI_LY.xlsx');
         }
       );
-    //} 
+    } 
   }
 
   downLoadFile(res: any, fileName: string) {
@@ -122,14 +127,22 @@ export class ImportFileComponent implements OnInit {
     this.isSpinning = true;
     const formData: FormData = new FormData();
     formData.append('file', this.file, this.file.name);
-    this.roleService.uploadCud(formData).subscribe(
-      //this.observer
-      res =>{
-        this.saveFile(res);
-      },error =>{
-        console.log("message errỏ", error);
-      }
-    );
+    console.log("formDataformData", formData);
+    if (this.dialogData === 'ssos') {
+      this.roleService.uploadCud(formData).pipe(
+        finalize(() => this.isSpinning = false),
+        takeUntil(this.destroy)
+      ).subscribe(
+        //this.observer
+        res =>{
+          this.saveFile(res);
+        },error =>{
+          console.log("message errỏ", error);
+        }
+      );
+    }
+    this.closeModal()
+   
   }
   async convertBlobToJson(e: any) {
     return JSON.parse(await e.error.text()).message;
@@ -153,4 +166,7 @@ export class ImportFileComponent implements OnInit {
     FileSaver.saveAs(this.fileResult, 'KET_QUA_IMPORT_DAI_LY.xlsx');
   }
 
+  closeModal(){
+    this.activeModal.close('Close click'); 
+  }
 }

@@ -12,6 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as FileSaver from "file-saver";
 import { sampleData } from './datasource';
 import { ImportFileComponent } from 'src/app/shared/components/import-file/import-file.component';
+import * as moment from 'moment';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -193,32 +196,6 @@ export class ManagementSSOComponent implements OnInit {
       timer: 1500
     });
   }
-
-   //Open modal
-  //  openModalAdd(data)
-  // {
-  //   const modalRef = this.modalService.open(ModalRoleComponent, { size : 'lg'})
-  //   modalRef.componentInstance.listRole== data ;
-  //   modalRef.result.then((data)=>{
-
-  //   },(reason)=>{
-  //     data = reason;
-  //     this.onSearch(true) ;
-  //   })
-  // }
-
-  // openModalEdit(data)
-  // {
-  //   const modalRef = this.modalService.open(EditRoleComponent, { size : 'lg'})
-  //   modalRef.componentInstance.dtRole== data ;
-  //   modalRef.result.then((data)=>{
-
-  //   },(reason)=>{
-  //     data = reason;
-  //     this.onSearch(true) ;
-  //   })
-  // }
-
   handleDate(event){
     console.log("-dfd---event", event);
   }
@@ -268,12 +245,75 @@ export class ManagementSSOComponent implements OnInit {
     document.body.removeChild(link);
   }
 
+  // -----------------------------------Export new
+
+  isLoading = false;
+  destroy$ = new Subject<void>();
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  exportFile() {
+    // if(this.formData.invalid){
+    //   this.formData.markAllAsTouched();
+    //   return;
+    // }
+    const data = this.formData.value;
+    const request = {
+        startDate: "2023-10-02T07:28:40.237Z",
+        endDate: "2023-10-05T07:28:43.194Z",
+        sku: null,
+        typeMap: [
+            "VTMAP"
+        ]
+
+      //...data,
+      //startDate: moment(data.startDate, 'YYYY-MM-DDTHH:mm:ss').format(DATE_FORMAT_VI.DATE_HM_MOMENT),
+      //endDate: moment(data.startDate, 'YYYY-MM-DDTHH:mm:ss').format(DATE_FORMAT_VI.DATE_HM_MOMENT)
+    }
+    this.isLoading = true;
+    this.roleService.exportTraffic(request).pipe(
+      finalize(() => this.isLoading = false),
+      takeUntil(this.destroy$)
+    ).subscribe(this.observer)
+  }
+
+  observer = {
+    next: (res: any) => {
+      this.isLoading = false;
+      const dataForm = this.form.value;
+      if (res) {
+        const startDate = moment(dataForm.startDate, 'YYYY-MM-DDTHH:mm:ss').format('DDMMyyyy');
+        const endDate = moment(dataForm.endDate, 'YYYY-MM-DDTHH:mm:ss').format('DDMMyyyy');
+        const setName = 'Thông tin lưu lượng' + '_' + startDate + '_' + endDate ;
+        const data = new Blob([res.body], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+       // const data = new Blob([res.body], { type: 'text/plain' });
+
+        FileSaver.saveAs(data, setName);
+      } else {
+        alert('error exporting data');
+      }
+    },
+    error: async (e: Error) => {
+      const message = await this.convertBlobToJson(e);
+      alert('error')
+    },
+  }
+
+  async convertBlobToJson(e: any) {
+    return JSON.parse(await e.error.text()).message;
+  }
+
+
+
   //---------Import
   import(){
     const modalRef = this.modalService.open(ImportFileComponent, { size : 'lg'})
-      modalRef.componentInstance.listRole== 'data' ;
+      modalRef.componentInstance.dialogData = 'sso' ;
       modalRef.result.then((data)=>{
-  
+        console.log("data--", data);
+        
       },(reason)=>{
         console.log("reason", reason);
         

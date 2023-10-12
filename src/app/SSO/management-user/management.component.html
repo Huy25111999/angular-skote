@@ -182,7 +182,7 @@
                                                 </button>
                                                 <button *ngIf="idRowEdit === dataUser?.id" 
                                                     (click)="onUpdateEditRow(dataUser)">
-                                                    <i class="fa fa-floppy-o bx bx-lock-alt" aria-hidden="true"></i>
+                                                    <i class="fas fa-check" aria-hidden="true"></i>
                                                 </button>
                                                 <button *ngIf="idRowEdit === dataUser?.id" 
                                                     (click)="onResetEditRow(dataUser) ">
@@ -190,7 +190,7 @@
                                                 </button>
                                                 <button *ngIf="idRowEdit === dataUser?.id"
                                                     (click)="onCancelEditRow(dataUser)" >
-                                                    <i class="fa fa-window-close-o bx bx-lock-open-alt" aria-hidden="true"></i>
+                                                    <i class="fas fa-window-close" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </td>
@@ -294,7 +294,7 @@
                                             </button>
                                             <button *ngIf="idRowEdit === item?.ID" 
                                                 (click)="onUpdateEditRow(item)">
-                                                <i class="fa fa-floppy-o bx bx-lock-alt" aria-hidden="true"></i>
+                                                <i class="fas fa-check" aria-hidden="true"></i>
                                             </button>
                                             <button *ngIf="idRowEdit === item?.ID" 
                                                 (click)="onResetEditRow(item) ">
@@ -302,7 +302,7 @@
                                             </button>
                                             <button *ngIf="idRowEdit === item?.ID"
                                                 (click)="onCancelEditRow(item)" >
-                                                <i class="fa fa-window-close-o bx bx-lock-open-alt" aria-hidden="true"></i>
+                                                <i class="fas fa-window-close" aria-hidden="true"></i>
                                             </button>
                                         </td>
                                         <td *ngFor = "let header of headerNoID, index as j">

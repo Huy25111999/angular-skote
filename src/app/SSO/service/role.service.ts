@@ -10,7 +10,7 @@ export class RoleService {
   role: any;
   constructor(private http: HttpClient) { }
 
- private API:string = environment.serviceUrl ;
+ private API:string = environment.server ;
   // Role
   searchRole(paramSearch:any):Observable<any>
   {
@@ -63,6 +63,11 @@ export class RoleService {
   downloadExcel(body): Observable<any>{
     const url = this.API + `/role/download`;
     return this.http.post(url, body, {responseType: 'blob'});
+  }
+
+  exportTraffic(body): Observable<any>{
+    const url = this.API + `/logs/synthetic-request-map/export-excel`;
+    return this.http.post(url, body, {responseType: 'blob', observe: 'response'});
   }
 
   // Import ======

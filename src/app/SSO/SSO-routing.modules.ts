@@ -8,8 +8,8 @@ import { RoleGuard } from '../shared/sso/role.guard';
 import { ManagementSSOComponent } from './management-sso/management-role.component';
 import { GroupRoleComponent } from './group-role/group-role.component';
 import { ManagementAppComponent } from './management-app/management-group-role.component';
-import { CreatAppComponent } from './creat-app/creat-app.component';
-import { EditAppComponent } from './edit-app/edit-app.component';
+import { CreatAppComponent } from './management-app/creat-app/creat-app.component';
+import { EditAppComponent } from './management-app/edit-app/edit-app.component';
 const routes: Routes = [
     {
         path: 'user',
