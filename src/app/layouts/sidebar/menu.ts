@@ -844,7 +844,7 @@ export const MENU: MenuItem[] = [
     subItems: [
       {
         id: 135,
-        label: 'Form Validate',
+        label: 'Management SSO',
         link: '/role',
         parentId: 134
       },

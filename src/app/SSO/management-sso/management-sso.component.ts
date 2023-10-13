@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from '../service/role.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,12 +15,14 @@ import { ImportFileComponent } from 'src/app/shared/components/import-file/impor
 import * as moment from 'moment';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { NgbDate, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-  selector: 'app-management-role',
-  templateUrl: './management-role.component.html',
-  styleUrls: ['./management-role.component.scss']
+  selector: 'app-management-sso',
+  templateUrl: './management-sso.component.html',
+  styleUrls: ['./management-sso.component.scss']
 })
 export class ManagementSSOComponent implements OnInit {
 
@@ -47,12 +49,10 @@ export class ManagementSSOComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private ngbDateParserFormatter: NgbDateParserFormatter
   ) {
     this.id = this.route.snapshot.params['id'];
-    this.formControls = this.fb.group({
-      phone: this.fb.array([]),
-      avatar: ''
-    });
+
     this.valueForm = [
       { name: 'admmin', phoneNumber: '249832' },
       { name: 'admmin1', phoneNumber: '2498329385' },
@@ -61,6 +61,7 @@ export class ManagementSSOComponent implements OnInit {
 
   public data: Object[];
   title='gettingstarted';
+
   ngOnInit(): void {
     //this.onSearch(false);
     this.selectStatus = [
@@ -68,10 +69,16 @@ export class ManagementSSOComponent implements OnInit {
       {id:0, name:'Không kích hoạt'},
       this.data = sampleData
     ];
+    this.selected = '';
+    this.hidden = true;
 
     this.getParamRole();
 
-    this.patchFormArray()
+    this.formControls = this.fb.group({
+      phone: this.fb.array([]),
+      avatar: ''
+    });
+    this.patchFormArray();
   }
 
   formData: FormGroup = this.fb.group({
@@ -126,35 +133,20 @@ export class ManagementSSOComponent implements OnInit {
 
   onSubmit() {
     this.formData.value.appId = this.id;
+
+    let ngbDate = this.formData.controls['time'].value;
+    //let myDate = this.ngbDateParserFormatter.format(ngbDate);
+
+    let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
+    let formValues = this.formData.value;
+    formValues['time'] = myDate;
+    
+    const formatDate = moment(myDate, 'YYYY-MM-DDTHH:mm:ss').format('DD/MM/yyyy HH:mm')
+    console.log("formatDate", formatDate);
+    console.log("this.formData.value", this.formData.value);
+    
+
     this.listRole.push(this.formData.value);
-  }
-
-  onCreatRole() {
-    this.formControls.get('avatar').setValue(this.files);
-
-    console.log("fomrArray", this.form.controls);
-    let i = 0;
-    for (let item of this.form.controls) {
-      // let control = <FormArray>this.formControls.controls['phone'];
-      // control.controls[i].get('filess').setValue('2893473924');
-      // console.log("alue--", item);
-      // item.get('filess').setValue(2893473924);
-
-      i++;
-    }
-    console.log('value formArray', this.formControls.getRawValue());
-
-
-    const tbody = this.listRole;
-    this.roleService.editRole(tbody).subscribe(data => {
-      console.log('list role', this.listRole);
-      console.log('data', data.data);
-      this.success();
-      this.router.navigate(['/group-role/' + this.id]);
-
-    }, error => {
-      return error;
-    })
   }
 
   openEditRole(index) {
@@ -361,24 +353,92 @@ export class ManagementSSOComponent implements OnInit {
       alert('invalid format');
       return;
     }
+    
     reader.onload = this._handleReaderLoaded.bind(this,i);
     reader.readAsDataURL(file);
 
   }
-  _handleReaderLoaded(e, i) {
-    let reader = e.target;
-    console.log("----i", i, i.target.result);
-    console.log(reader);
-
-    this.form.controls.forEach((control, index) =>{
-      if(control.value.files !== null){
-        control.get('files').setValue(i.target.result);
-      }
-    });
+  _handleReaderLoaded(index, e) {
+    let i = 0;
+    for (let item of this.form.controls) {
+      let control = <FormArray>this.formControls.controls['phone'];
+      control.controls[index].get('files').setValue(e.target.result);
+      i++;
+    }
   }
+
+  onCreatRole() {
+    this.formControls.get('avatar').setValue(this.files);
+    console.log('value formArray', this.formControls.getRawValue());
+
+    const tbody = this.listRole;
+    this.roleService.editRole(tbody).subscribe(data => {
+      console.log('list role', this.listRole);
+      console.log('data', data.data);
+      this.success();
+      this.router.navigate(['/group-role/' + this.id]);
+
+    }, error => {
+      return error;
+    })
+  }
+
+
   // image --------
-  setValue(event){
+  uploadFileImage(event){
     this.files = event;
+    console.log("this.files", this.files);
+    
+  }
+
+  // Arount time---- time --------
+  hoveredDate: NgbDate;
+  fromNGDate: NgbDate;
+  toNGDate: NgbDate;
+  hidden: boolean;
+  selected: any;
+  time: any;
+
+  @Input() fromDate: Date;
+  @Input() toDate: Date;
+  @Output() dateRangeSelected: EventEmitter<{}> = new EventEmitter();
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromNGDate) || date.equals(this.toNGDate) || this.isInside(date) || this.isHovered(date);
+  }
+
+  isInside(date: NgbDate) {
+    return date.after(this.fromNGDate) && date.before(this.toNGDate);
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromNGDate && !this.toNGDate && this.hoveredDate && date.after(this.fromNGDate) && date.before(this.hoveredDate);
+  }
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromNGDate = date;
+      this.fromDate = new Date(date.year, date.month - 1, date.day);
+      this.selected = '';
+    } else if (this.fromDate && !this.toDate && date.after(this.fromNGDate)) {
+      this.toNGDate = date;
+      this.toDate = new Date(date.year, date.month - 1, date.day);
+      this.hidden = true;
+      this.selected = this.fromDate.toLocaleDateString() + '-' + this.toDate.toLocaleDateString();
+      this.dateRangeSelected.emit({ fromDate: this.fromDate, toDate: this.toDate });
+
+      this.fromDate = null;
+      this.toDate = null;
+      this.fromNGDate = null;
+      this.toNGDate = null;
+
+    } else {
+      this.fromNGDate = date;
+      this.fromDate = new Date(date.year, date.month - 1, date.day);
+      this.selected = '';
+    }
+    console.log("selectedselectedselectedselected", this.selected);
+    
   }
 
 }

@@ -20,7 +20,7 @@ import {SharedModule} from "../shared/shared.module";
 // import { ModalUserDomainComponent } from './modal-user-domain/modal-user-domain.component';
 import {NgxTrimModule} from 'ngx-trim';
 import { TreeviewModule } from 'ngx-treeview';
-import { ManagementSSOComponent } from './management-sso/management-role.component';
+import { ManagementSSOComponent } from './management-sso/management-sso.component';
 import { ModalRoleComponent } from './role/modal-role/modal-role.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EditRoleComponent } from './role/edit-role/edit-role.component';

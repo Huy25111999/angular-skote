@@ -5,7 +5,7 @@ import { ManagementUserComponent } from './management-user/management.component'
 import { DomainComponent } from './managementDomain/domain/domain.component';
 import { AuthGuard } from '../shared/sso/auth.guard';
 import { RoleGuard } from '../shared/sso/role.guard';
-import { ManagementSSOComponent } from './management-sso/management-role.component';
+import { ManagementSSOComponent } from './management-sso/management-sso.component';
 import { GroupRoleComponent } from './group-role/group-role.component';
 import { ManagementAppComponent } from './management-app/management-group-role.component';
 import { CreatAppComponent } from './management-app/creat-app/creat-app.component';
