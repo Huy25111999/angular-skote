@@ -11,8 +11,7 @@ export class ErrorMessagesComponent implements OnInit {
 
   constructor() { }
   ngOnInit(): void {
-    console.log("errorMsg", this.errorMsg);
-    console.log("displayError", this.displayError);
-    
+  }
+  ngOnchange(): void {
   }
 }

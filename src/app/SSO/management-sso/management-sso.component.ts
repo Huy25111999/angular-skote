@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from '../service/role.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -61,9 +61,11 @@ export class ManagementSSOComponent implements OnInit {
 
   public data: Object[];
   title='gettingstarted';
+  formData: FormGroup;
 
   ngOnInit(): void {
     //this.onSearch(false);
+    this.buildForm();
     this.selectStatus = [
       {id:1, name:'Kích hoạt', active: true},
       {id:0, name:'Không kích hoạt'},
@@ -79,18 +81,24 @@ export class ManagementSSOComponent implements OnInit {
       avatar: ''
     });
     this.patchFormArray();
+    console.log("---------", this.formData);
+    
   }
 
-  formData: FormGroup = this.fb.group({
-    roleId: '',
-    appId: '',
-    role: ['', [Validators.required]],
-    roleCode: ['', [Validators.required]],
-    status: ['', [Validators.required]],
-    description: [''],
-    systemParamId: [''],
-    time: ''
-  })
+
+  buildForm(){
+    this.formData = this.fb.group({
+      roleId: '',
+      appId: '',
+     // Validators.pattern(/^[a-zA-Z0-9_]+$/)
+      role: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")])],
+      roleCode: ['', [Validators.required]],
+      status: ['', [Validators.required]],
+      description: [''],
+      systemParamId: [''],
+      time: ''
+    })
+  }
 
   get f(){
     return this.formData.controls;
@@ -439,6 +447,32 @@ export class ManagementSSOComponent implements OnInit {
     }
     console.log("selectedselectedselectedselected", this.selected);
     
+  }
+
+    // Note : Một số phương thức của form
+    methodForm(){
+      this.formData.addControl('tenant', new FormControl(null, [Validators.required]));
+      this.formData.removeControl('tenant');
+      this.formData.get('tenant').clearValidators();
+      this.formData.get('tenant').updateValueAndValidity();
+      this.formData.get('tenant').setValue(null)
+    };
+    
+  // Validate form ---------------
+  displayFieldHasError( field: string){
+    return {
+      'has-error': this.isFieldValid(field)
+    }
+  }
+
+  isFieldValid(field: string){
+     //return !this.formData.get(field).valid && this.formData.get(field).touched;
+    const valid = !this.formData.controls[field].valid && (this.formData.controls[field].dirty || this.formData.controls[field].touched);
+    return valid
+  }
+
+  getValueOfField(field){
+    return this.formData.get(field).value
   }
 
 }

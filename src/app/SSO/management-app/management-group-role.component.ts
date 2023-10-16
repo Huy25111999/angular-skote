@@ -54,13 +54,15 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Brown",
         user_name: "jbrown",
         country: "Canada",
+        age: 25
     },
     {
-        id: 40,
+       id: 40,
         first_name: "Mort",
         last_name: "Johnston",
         user_name: "morty",
         country: "Canada",
+        age:41
     },
     {
         id: 42,
@@ -68,6 +70,7 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Johns",
         user_name: "smothers",
         country: "Canada",
+        age:24
     },
     {
         id: 39,
@@ -75,6 +78,7 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Preston",
         user_name: "kipreston",
         country: "United States",
+        age:52
     },
     {
         id: 34,
@@ -82,6 +86,7 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Preston",
         user_name: "jpreston",
         country: "United States",
+        age:50
     },
     {
         id: 43,
@@ -89,6 +94,7 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Promaski",
         user_name: "anyapro",
         country: "United States",
+        age:43
     },
     {
         id: 44,
@@ -96,6 +102,7 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Savkin",
         user_name: "esavkin",
         country: "United States",
+        age:12
     },
     {
         id: 45,
@@ -103,6 +110,7 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Severson",
         user_name: "jsever",
         country: "United States",
+        age:32
     },
     {
         id: 46,
@@ -110,6 +118,7 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Smith",
         user_name: "ksmith",
         country: "United States",
+        age:34
     },
     {
         id: 47,
@@ -117,6 +126,7 @@ export class ManagementAppComponent implements OnInit {
         last_name: "Lewis",
         user_name: "blewis",
         country: "United States",
+        age:54
     },
     {
       id: 48,
@@ -124,6 +134,7 @@ export class ManagementAppComponent implements OnInit {
       last_name: "Lewis11",
       user_name: "blewis11",
       country: "Viet Nam",
+      age:10
   }
     ];
 
@@ -478,13 +489,27 @@ export class ManagementAppComponent implements OnInit {
     {key:0, value: 'first_name', isShow:true},
     {key:1, value: 'last_name', isShow:true},
     {key:2, value: 'user_name', isShow:true},
-    {key:3, value: 'country', isShow:true}
+    {key:3, value: 'country', isShow:true},
+    {key:4, value: 'age', isShow:true}
   ]
 
   toggleColumns(col){
     col.isShow = !col.isShow;
   }
 
+  // refreshCountries() {
+  //   this.countries = COUNTRIES
+  //     .map((country, i) => ({id: i + 1, ...country}))
+  //     .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  // }
+
+  // Sort local -----
+  sortKey: string = 'first_name';
+  sort(key: string){
+    console.log("key: " + key);
+    
+    this.members.sort((a:any, b:any) => (a.key > b.key)? 1: -1);
+  }
 }
 
 

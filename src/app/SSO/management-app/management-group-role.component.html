@@ -118,7 +118,7 @@
 
                         <!-- -------------------------------------- -->
                         <div class="table-responsive">
-                            <div ngbDropdown class="d-inline-block choose-column mb-3" ngbTooltip="Ẩn/hiện côt">
+                            <div ngbDropdown class="d-inline-block choose-column mb-3 float-right" ngbTooltip="Ẩn/hiện côt">
                                 <button id="dropdownBasic1" class=" btn btn-primary btn-view-column" type="button" placement="top" ngbDropdownToggle>
                                     <i class="fa fa-list" aria-hidden="true"></i>
                                     <span>Ẩn hiện cột</span>
@@ -161,10 +161,11 @@
                                          (ngModelChange)="onAllChecked($event)">
                                     </th>
                                     <th class="info-number-icon">STT</th>
-                                    <th class="info-text" *ngIf="this.columns[0].isShow">first_name</th>
+                                    <th class="info-text" (click)="sort('first_name')" *ngIf="this.columns[0].isShow">first_name</th>
                                     <th class="info-text" *ngIf="this.columns[1].isShow">last_name</th>
                                     <th class="info-text" *ngIf="this.columns[2].isShow">user_name</th>
                                     <th class="info-number-date" *ngIf="this.columns[3].isShow">country</th>
+                                    <th class="info-number-date" (click)="sort('first_name')" *ngIf="this.columns[4].isShow">Age</th>
                                     <th class="text-center">Hành động</th>
                                 </thead>
                                 <tbody>
@@ -178,6 +179,7 @@
                                         <td class="info-text" *ngIf="this.columns[1].isShow">{{dataDomain.last_name}}</td>
                                         <td class="info-text" *ngIf="this.columns[2].isShow">{{dataDomain.user_name}}</td>
                                         <td class="info-text" *ngIf="this.columns[3].isShow">{{dataDomain.country}}</td>
+                                        <td class="info-text" *ngIf="this.columns[4].isShow">{{dataDomain.age}}</td>
                                         <td class="info-number-icon" >
                                             <i routerLink='../edit-app/{{dataDomain?.id}}' routerLinkActive="active" class="bx bxs-edit-alt"></i>
                                             <i class="bx bx-trash" (click)="deleteApp(dataDomain.appId,dataDomain.app)"></i>
