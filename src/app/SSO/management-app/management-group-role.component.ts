@@ -24,6 +24,7 @@ import * as moment from 'moment';
   styleUrls: ['./management-group-role.component.scss']
 })
 export class ManagementAppComponent implements OnInit {
+  
   page: number = 1;
   pageSize = 10;
   count: number = 0;
@@ -503,12 +504,37 @@ export class ManagementAppComponent implements OnInit {
   //     .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   // }
 
+
   // Sort local -----
-  sortKey: string = 'first_name';
-  sort(key: string){
-    console.log("key: " + key);
-    
-    this.members.sort((a:any, b:any) => (a.key > b.key)? 1: -1);
+  directive: string = 'DESC';
+  isColumn:string;
+
+  sort(key: string, directive: string){
+    this.isColumn = key;
+    if(directive === 'DESC'){
+      this.members.sort((a:any, b:any) => {
+        if(a[key] < b[key]) {
+          return -1;
+        }
+        if(a[key] > b[key]) {
+          return 1;
+        }
+        return 0
+      })
+      this.directive = 'ASC';
+    }else{
+      this.members.sort((a:any, b:any) => {
+        if(a[key] < b[key]) {
+          return 1;
+        }
+        if(a[key] > b[key]) {
+          return -1;
+        }
+        return 0
+      })
+      this.directive = 'DESC';
+    }
+
   }
 }
 

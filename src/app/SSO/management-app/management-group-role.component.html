@@ -161,11 +161,27 @@
                                          (ngModelChange)="onAllChecked($event)">
                                     </th>
                                     <th class="info-number-icon">STT</th>
-                                    <th class="info-text" (click)="sort('first_name')" *ngIf="this.columns[0].isShow">first_name</th>
-                                    <th class="info-text" *ngIf="this.columns[1].isShow">last_name</th>
-                                    <th class="info-text" *ngIf="this.columns[2].isShow">user_name</th>
-                                    <th class="info-number-date" *ngIf="this.columns[3].isShow">country</th>
-                                    <th class="info-number-date" (click)="sort('first_name')" *ngIf="this.columns[4].isShow">Age</th>
+                                    <th class="info-text" (click)="sort('first_name', directive)" *ngIf="this.columns[0].isShow">
+                                        <div class="d-flex justify-content-between">
+                                            <span>first_name</span>
+                                            <div class="sort">
+                                                <i class="fas fa-sort-up" [ngClass]="{'icon-sort': directive == 'DESC' && isColumn == 'first_name' }"></i>  
+                                                <i class="fas fa-sort-down" [ngClass]="{'icon-sort': directive == 'ASC' && isColumn == 'first_name' }"></i>               
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="info-text" (click)="sort('last_name', directive)" *ngIf="this.columns[1].isShow">last_name</th>
+                                    <th class="info-text" (click)="sort('user_name', directive)" *ngIf="this.columns[2].isShow">user_name</th>
+                                    <th class="info-number-date" (click)="sort('country', directive)" *ngIf="this.columns[3].isShow">country</th>
+                                    <th class="info-number-date" (click)="sort('age', directive)" *ngIf="this.columns[4].isShow">
+                                        <div class="d-flex justify-content-between">
+                                            <span>age</span>
+                                            <div class="sort">
+                                                <i class="fas fa-sort-up" [ngClass]="{'icon-sort': directive == 'DESC' && isColumn == 'age' }"></i>  
+                                                <i class="fas fa-sort-down" [ngClass]="{'icon-sort': directive == 'ASC' && isColumn == 'age' }"></i>               
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th class="text-center">Hành động</th>
                                 </thead>
                                 <tbody>
