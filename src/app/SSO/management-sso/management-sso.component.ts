@@ -18,6 +18,11 @@ import { Subject } from 'rxjs';
 import { NgbDate, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
+// Ckeditor-----
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+
 export function autoSlashDateTime(event: any): string {
   const inputValue = event.target.value.replace(/[\/\s:]/g, '');
 
@@ -197,7 +202,8 @@ export class ManagementSSOComponent implements OnInit {
       status: ['', [Validators.required]],
       description: [''],
       systemParamId: [''],
-      time: ''
+      time: [null, [Validators.required]],
+      content: null,
     })
   }
 
@@ -587,5 +593,30 @@ export class ManagementSSOComponent implements OnInit {
     event.target.value = autoSlashDateTime(event);
     
   }
+
+  // CKeditor------
+  editor = ClassicEditor;
+  lengthCkeditor:number = 0;
+  isView: any;
+
+  configCkEdit:any = {
+    placeholder: 'Nội dung',
+    toolbar: [
+      'alignment',
+      'bold',
+      'italic',
+      'bulletedList',
+      'numberedList','|',
+    ]
+  }
+
+  onChangeCkEditor({ editor }: ChangeEvent){
+    let  data:any = editor.getData();
+    data = data.split('<p>&nbsp;</p>').join('');
+    this.lengthCkeditor = data.length;
+    console.log("data---ceditor", data);  
+  }
+
+//  body.content = body.content?.split('<p>&nbsp;</p>').join('');
 
 }

@@ -9,17 +9,25 @@
 </ng-template>
 
 <div class="position-relative showIconClose">
-    <input type="text" class="form-control date showIconClose"
-     name="daterange" autocomplete="off" [(ngModel)]="selected"
-    (ngModelChange)="inputByEnter($event)"
-    (blur)="onBlurDate()"
-    (click)="evenClick()"
-    [ngClass]="{'is-invalid': control.errors && (control.touched || control.dirty), 'disableStyle': control.disabled}"
-    style="background: unset"
-    placeholder="DD/MM/YYYY - DD/MM/YYYY"
-    >
-  <i *ngIf="selected && selected !=='' && !isRequired && control.enabled" class="fas fa-times-cicle icon-clear" ngbTooltip="Xóa" (click)="clear()"></i>
-  <i class="fas fa-calendar-alt icon-calendar" (click)="onClose()"></i>
+    <div class="d-flex justify-content-between">
+      
+      <input type="text" class="form-control date input-group clockpicker"
+        name="daterange" autocomplete="off" [(ngModel)]="selected"
+      (ngModelChange)="inputByEnter($event)"
+      (blur)="onBlurDate()"
+      (click)="evenClick()"
+      [ngClass]="{'is-invalid': control.errors && (control.touched || control.dirty), 'disableStyle': control.disabled}"
+      style="background: unset"
+      placeholder="DD/MM/YYYY - DD/MM/YYYY"
+      >
+      <div class="input-group-append">
+        <span class="input-group-text"><i class="fas fa-calendar-alt icon-calendar" (click)="onClose()"></i> 
+        </span>
+      </div>
+    </div>
+  <!-- <i *ngIf="selected && selected !=='' && !isRequired && control.enabled" class="fas fa-times-cicle icon-clear" ngbTooltip="Xóa" (click)="clear()"></i>
+        <i class="fas fa-calendar-alt icon-calendar" (click)="onClose()"></i> 
+  -->
   <div>
     <small class="text-danger" *ngIf="!valid && selected && selected.length">
       Nhập ngày sai định dạng

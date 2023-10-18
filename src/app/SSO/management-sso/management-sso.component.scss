@@ -137,3 +137,37 @@ img.no-data {
     background-color: #556ee6;
   }
   
+
+  //Ckeditor-----
+  :host ::ng-deep .ck-toolbar__grouped-dropdown{
+    width: 100% !important;
+    position: static !important;
+  }
+  
+  :host ::ng-deep{
+    .ck-editor__top, .ck-editor__main{
+        border: 1px solid #ccc;
+    }
+    .ck-on svg path{
+        color: red !important;
+        background-color: blue !important;
+    }
+  }
+  :host ::ng-deep .ck-dropdown__button{
+    display: none !important;
+  }
+  
+  :host ::ng-deep .ck-toolbar__separator{
+    display: none !important;
+  }
+  
+  :host ::ng-deep .ck.ck-toolbar-dropdown>.ck-dropdown__panel {
+    position: static !important;
+    display: block !important;
+    box-shadow: none !important;
+    border: none;
+  }
+      
+  :host ::ng-deep .ck.ck-editor__editable > .ck-placeholder::before {
+    color: #bfbfbf;
+  }

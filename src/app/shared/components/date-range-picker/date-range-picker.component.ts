@@ -97,8 +97,8 @@ export class DateRangePickerComponent implements OnInit {
         this.errorOverToDate = true; 
         return
       }
-      this.fromOutDate = moment(fromDate, 'DD/MM/YYY hh:mm:ss').toDate();
-      this.toOutDate = moment(toDate, 'DD/MM/YYY hh:mm:ss').toDate();
+      this.fromOutDate = moment(fromDate, 'DD/MM/YYYY hh:mm:ss').toDate();
+      this.toOutDate = moment(toDate, 'DD/MM/YYYY hh:mm:ss').toDate();
       this.control.setValue({fromDate: this.fromOutDate, toDate: this.toOutDate});
 
     })
@@ -132,7 +132,7 @@ export class DateRangePickerComponent implements OnInit {
         this.hidden = !this.hidden;
       }
     }else{
-      this.hidden = this.hidden;
+      this.hidden = !this.hidden;
     }
   }
 
@@ -145,7 +145,7 @@ export class DateRangePickerComponent implements OnInit {
       this.fromOutDate = new Date(date.year, date.month -1, date.day);
       this.selected = '';
     }
-    else if(this.fromDate && !this.toDate && (date.equals(this.fromDate) || date.equals(this.fromDate))){
+    else if(this.fromDate && !this.toDate && (date.equals(this.fromDate) || date.after(this.fromDate))){
       this.toDate = date;
       this.toOutDate = new Date(date.year, date.month -1, date.day);
       this.hidden = true;
@@ -155,7 +155,7 @@ export class DateRangePickerComponent implements OnInit {
       this.hiddenOutput.emit(true);
     }else{
       this.toDate = null;
-      this.fromDate = null;
+      this.fromDate = date;
       this.fromOutDate = new Date(date.year, date.month -1, date.day);
       this.selected = ''
     } 
@@ -168,7 +168,7 @@ export class DateRangePickerComponent implements OnInit {
     return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
   }
   isRange(date: NgbDate){
-    return date.equals(this.fromDate) && (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
   selectToday(){
     this.model = this.calendar.getToday();
