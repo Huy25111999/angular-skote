@@ -173,3 +173,13 @@ i.bx.bxs-edit-alt {
 .icon-sort{
     color: #000 !important;
 }
+
+:host ::ng-deep{
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked{
+        background: #556ee6 !important;
+    }
+    .ng-option.ng-option-selected.ng-option-marked{
+        background: #556ee6 !important;
+        z-index: 999;
+    }
+  }

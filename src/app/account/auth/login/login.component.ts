@@ -200,11 +200,15 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           if (res) {
             this.authService.isAuthenticated$.next(true);
-            if (fValue.remember) {
-              localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(res.data));
-            } else {
-              sessionStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(res.data));
-            }
+            // if (fValue.remember) {
+            //   localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(res.data));
+            // } else {
+            //   sessionStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(res.data));
+            // }
+
+            localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(res.data));
+            sessionStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(res.data));
+
             this.router.navigate(['/']);
             this.isLoading = false;
             this.authService.isCaptcha.next(false);

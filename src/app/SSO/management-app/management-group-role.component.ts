@@ -7,7 +7,7 @@ import { EditRoleComponent } from '../role/edit-role/edit-role.component';
 import { AddGroupRoleComponent } from '../group-role/add-group-role/add-group-role.component';
 import { domain } from 'src/app/model/domain';
 import { UserService } from '../service/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditGroupRoleComponent } from '../group-role/edit-group-role/edit-group-role.component';
 import { role } from 'src/app/model/role';
 import Swal from 'sweetalert2';
@@ -17,11 +17,16 @@ import { EditDomainComponent } from '../managementDomain/edit-domain/edit-domain
 import { ConnectUserRoleComponent } from '../connect-user-role/connect-user-role.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, takeUntil } from 'rxjs/operators';
+import { DestroyService } from '../service/destroy.service';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-management-group-role',
   templateUrl: './management-group-role.component.html',
-  styleUrls: ['./management-group-role.component.scss']
+  styleUrls: ['./management-group-role.component.scss'],
+  providers: [DestroyService]
 })
 export class ManagementAppComponent implements OnInit {
   
@@ -147,18 +152,25 @@ export class ManagementAppComponent implements OnInit {
     private fb: FormBuilder,
     private router:Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private destroy$: DestroyService
   ) { }
 
   ngOnInit(): void {
    // this.onSearchRole(false);
      this.searchApp(false);
+     this.getProvinces();
+     this.isProvinceSearch();
+     this.getDistrict();
+     this.isDistrictSearch();
   }
 
   formData:FormGroup = this.fb.group({
     app: '',
     pageNumber: this.page ,
-    pageSize: this.pageSize
+    pageSize: this.pageSize,
+    provinceCode: null,
+    districtCode: null,
   })
 
   
@@ -505,7 +517,7 @@ export class ManagementAppComponent implements OnInit {
   // }
 
 
-  // Sort local -----
+  // Sort local ------------------------
   directive: string = 'DESC';
   isColumn:string;
 
@@ -536,6 +548,110 @@ export class ManagementAppComponent implements OnInit {
     }
 
   }
+
+  // chọn tinh-quận-huyện------------------------\
+  isLoading: boolean  = false;
+  listProvinces:any[] = [];
+  listProvincesClone: any[] = [];
+  isProvinceSearch$ = new Subject<any>();
+
+  listDistrict:any[] = [];
+  listDistrictClone: any[] = [];
+  isDistrictSearch$ = new Subject<any>();
+
+
+  getProvinces(){
+    this.isLoading = true;
+    this.userService.getProvince().pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe((res:any) =>{
+      if(res){
+        this.listProvinces = res.data;
+        this.listProvincesClone = cloneDeep(this.listProvinces);
+        console.log("listProvinces", this.listProvinces);
+        
+      }else{
+        alert('Lỗi'+ res.message);
+      }
+    })
+  }
+
+  searchProvince(val:any){
+    if(val.term){
+      console.log("val", val.term);
+      this.isProvinceSearch$.next(val.term);
+    }
+  }
+
+  isProvinceSearch(){
+    this.isProvinceSearch$.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+     .subscribe((res:any) =>{
+         if(res){
+           this.listProvinces = this.listProvincesClone.filter( (e : any) =>{
+             return e.name.toLowerCase().includes(res.toLowerCase().trim());
+           });              
+         }else{
+           this.listProvinces = cloneDeep(this.listProvincesClone);
+         }
+     })
+  }
+
+  changeProvince(event: any){
+    console.log("êvent--", event);
+  }
+//----
+  getDistrict(){
+    this.formData.get('provinceCode')?.valueChanges.subscribe(data =>{
+      if(data){
+        this.formData.get('districtCode')?.enable();
+        this.formData.get('districtCode')?.setValue('');
+        this.getDistrictById(data)
+      }else{
+        this.listDistrict = [];
+        this.formData.get('districtCode')?.enable();
+        this.formData.get('districtCode')?.setValue('');
+      }
+    });
+  }
+
+  getDistrictById(id: any){
+    this.isLoading = true;
+    this.userService.getDistrict(id).pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe((res:any) =>{
+      if(res){
+        this.listDistrict = res.data;
+        this.listDistrictClone = cloneDeep(this.listDistrict);        
+      }else{
+        alert('Lỗi'+ res.message);
+      }
+    })
+  }
+
+  searchDistrict(val:any){
+    if(val.term){
+      console.log("val", val.term);
+      this.isDistrictSearch$.next(val.term);
+    }
+  }
+
+  isDistrictSearch(){
+    this.isDistrictSearch$.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+     .subscribe((res:any) =>{
+         if(res){
+           this.listDistrict = this.listDistrictClone.filter( (e : any) =>{
+             return e.name.toLowerCase().includes(res.toLowerCase().trim());
+           });              
+         }else{
+           this.listDistrict = cloneDeep(this.listDistrictClone);
+         }
+     })
+  }
+
+  changeDistrict(event: any){
+    console.log("êvent--", event);
+  }
+
 }
 
 

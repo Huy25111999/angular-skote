@@ -27,8 +27,46 @@
                                     <label class = "col-md-2">Tìm kiếm app</label>
                                     <div class="col-md-10">
                                         <form action=""  [formGroup]="formData" >
-                                             <input  type="text" ngxTrim class="form-control" formControlName = 'app' placeholder="Nhập tên app">
-                                        </form>
+                                             <input  type="text" ngxTrim class="form-control mb-4" formControlName = 'app' placeholder="Nhập tên app">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class = "col-md-12">Chọn tỉnh/thành phố</label>
+                                                        <ng-select formControlName="provinceCode"
+                                                            (search)="searchProvince($event)"
+                                                            [searchable]="true"  
+                                                            [clearable]="true"
+                                                            placeholder="Chọn tỉnh/thành phố"
+                                                            [notFoundText]="'Không có bản ghi'"
+                                                            (change)="changeProvince($event)"
+                                                        >
+                                                            <ng-container *ngFor="let item of listProvinces; let i = index ">
+                                                                <ng-option [value] = item.id>
+                                                                    {{item.name}}
+                                                                </ng-option>
+                                                            </ng-container>
+                                                        </ng-select>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class = "col-md-12">Chọn quận/huyện</label>
+                                                        <ng-select formControlName="districtCode"
+                                                            (search)="searchDistrict($event)"
+                                                            [searchable]="true"
+                                                            [clearable]="true"
+                                                            placeholder="Chọn quận/huyện"
+                                                            [notFoundText]="'Không có bản ghi'"
+                                                            (change)="changeDistrict($event)"
+                                                        >
+                                                            <ng-container *ngFor="let item of listDistrict; let i = index ">
+                                                                <ng-option [value] = item.id>
+                                                                    {{item.name}}
+                                                                </ng-option>
+                                                            </ng-container>
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                            </form>
                                        
                                     </div>
     

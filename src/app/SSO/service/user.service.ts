@@ -15,7 +15,7 @@ export class UserService {
   user!: infor[];
   main!: domain[];
   auth!:author[];
- private API:string = environment.serviceUrl ;
+ private API:string = environment.server ;
   constructor(private http: HttpClient) {}
 
   // User
@@ -166,5 +166,23 @@ export class UserService {
     return this.http.get<[]>(
       this.API + '/tenant/get-branch?taxCodeCluster=' + taxCode, {observe: 'response'}
     )
+  }
+
+  getProvince(){
+    return this.http.get(this.API + '/manage/area/get-list-area', {
+      params: {
+        parentId: 0,
+        type: 1
+      }
+    })
+  }
+
+  getDistrict(parentId: any){
+    return this.http.get(this.API + '/manage/area/get-list-area', {
+      params: {
+        parentId: parentId,
+        type: 2
+      }
+    })
   }
 }
