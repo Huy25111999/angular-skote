@@ -1,5 +1,6 @@
 
 <div class="position-relative showIconClose">
+  <div class="d-flex">
     <input type="text" class="form-control showIconClose" name="dp" [(ngModel)]="model"
     (ngModelChange)="format($event)"
     (click)="d.toggle()"
@@ -9,11 +10,16 @@
     #c2="ngModel"
    [placement]="placement ? placement: 'bottom'"
    [positionTarget]="show"
-   [minDate]="minDate"
+   [minDate]="minDate" 
     ngbDatepicker #d="ngbDatepicker"
     >
   <i *ngIf="model && model !=='' && control.enabled" class="fas fa-times-cicle icon-clear" ngbTooltip="Xóa" (click)="clear()"></i>
   <i #show class="fas fa-calendar-alt icon-calendar" (click)="d.toggle()"></i>
+    <!-- <div class="input-group-append">
+      <span class="input-group-text"><i #show class="mdi mdi-calendar"></i></span>
+
+    </div> -->
+  </div>
   <div>
     <small class="text-danger" *ngIf="!valid && model && model.length">
       Nhập ngày sai định dạng
@@ -21,3 +27,57 @@
   </div>
 </div>
 
+<!--(keyup)="autoSlash($event)" --> 
+
+
+ <!-- <form [formGroup]="formDatePicker" novalidate>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="input-group">
+        <input class="form-control" [placeholder]="placeholder ? placeholder: formatDate"
+          [appMaskDate]="type" name="dp" [ngClass]="isValid ? 'isValid' : '' "
+          (blur)="change($event.target.value)" [ngModel]="dateInput | date: formatDate"
+          (keyup)="changeDatetime($event.target.value)"
+          (ngModelChange) = "changeDatetime($event)" formControlName="datePicker">
+        <div class="input-group-append" ngbDropdown>
+          <button class="btn btn-outline-secondary" (click)="isOpenDropdown()" type="button" ngbDropdownToggle>
+            <fa-icon icon="calendar-alt"></fa-icon>
+            icon
+          </button>
+          <div ngbDropdownMenu>
+            <div class="row">
+              <div class="col-md-12">
+                <ngb-datepicker #ngbDatepicker name="dateTimePicker" [(ngModel)]="dateValue"
+                  [ngModelOptions]="{standalone: true}"
+                  [minDate]="min" [maxDate]="max" (select)="chooseDate($event)"
+                >
+
+                </ngb-datepicker>
+              </div>
+              <div class="row pt-2" *ngIf="isShowTime">
+                <div class="col-md-12">
+                  <ngb-timepicker #ngbTimepicker name="timepicker" [(ngModel)]="timeValue"
+                  [ngModelOptions]="{standalone: true}"
+                  (ngModelChange)="chooseTime($event)"
+                  >
+
+                  </ngb-timepicker>
+                </div>
+                <div class="row pt-2" *ngIf="isShowTime">
+                  <div class="col-md-12">
+                    <div class="input-group-btn">
+                      <button class="btn btn-sm btn-info" (click)="close()">
+                        <fa-icon class="text-master" icon="ban"></fa-icon>
+                        <span class="text-master">Close</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ </form> -->

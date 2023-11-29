@@ -206,6 +206,10 @@ export class AuthService {
     }
     return '';
   }
+  getLanguage(): string {
+    let lang: string = localStorage.getItem('LANGUAGE') || sessionStorage.getItem('LANGUAGE') || 'vi'
+    return lang
+  }
 
   saveToken(token: string) {
     if (token && token !== 'null') {

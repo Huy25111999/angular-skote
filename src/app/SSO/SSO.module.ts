@@ -37,6 +37,13 @@ import { TreeGridModule} from '@syncfusion/ej2-angular-treegrid';
 import { AntModule } from './ant/ant.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
+import {
+  NgbDatepickerModule,
+  NgbPaginationModule,
+  NgbTimepickerModule,
+  NgbToastModule,
+  NgbTooltipModule
+} from "@ng-bootstrap/ng-bootstrap";
 // import { TreeviewI18nDefault } from './group-role/tree-picker/ngx-treeview';
 
 // import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -88,6 +95,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     TreeGridModule,
     AntModule,
     CKEditorModule,
+    NgbDatepickerModule,
     TreeviewModule.forRoot(),
     // BrowserModule,
     //PerfectScrollbarModule

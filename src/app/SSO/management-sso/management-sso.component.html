@@ -13,7 +13,7 @@
                         <form class="form" action="" [formGroup]="formData">
                             <div class="row">
                                 <div class='search-info col-md-6' [ngClass]="displayFieldHasError('role')">
-                                    <label class="col-sm-6">Tên quyền (<i>*</i>)</label>
+                                    <label >Tên quyền (<i>*</i>)</label>
                                     <input type="text" maxlength="200" ngxTrim class="form-control"
                                         formControlName='role' placeholder="Nhập tên quyền"
                                         [ngClass]="{'input-error': f.role.invalid && (f.role.dirty || f.role.touched)}">
@@ -24,9 +24,15 @@
                                                     </div>           
                                                 </div>
                                             </div> -->
-                                    <app-error-messages *ngIf="getValueOfField('role') == ''"
+
+                                    <!-- <app-error-messages *ngIf="getValueOfField('role') == ''"
                                         [displayError]="isFieldValid('role')" 
                                         errorMsg="{{'Tên quyền không được bỏ trống'}}">
+                                    </app-error-messages> -->
+                                    <app-error-messages *ngIf="f.role.hasError('required')"
+                                        [displayError]="isFieldValid('role')"
+                                        errorMsg="{{'Tên quyền không được bỏ trống'}}"
+                                    >
                                     </app-error-messages>
 
                                     <app-error-messages *ngIf="f['role'].hasError('maxlength')"
@@ -44,8 +50,7 @@
                                 <div class='search-info col-md-6'>
 
 
-                                    <label class="col-sm-6">Mã quyền (<i>*</i>)</label>
-
+                                    <label>Mã quyền (<i>*</i>)</label>
                                     <input type="text" maxlength="30" ngxTrim class="form-control"
                                         formControlName='roleCode' placeholder="Nhập mã quyền"
                                         [ngClass]="{'input-error': f.roleCode.invalid && (f.roleCode.dirty || f.roleCode.touched)}">
@@ -62,15 +67,15 @@
                                 <div class='search-info col-md-6'>
 
 
-                                    <p>Trạng thái</p>
+                                    <label>Trạng thái(*)</label>
                                     <ng-select formControlName="status" [items]="selectStatus" bindLabel="name"
-                                        bindValue="id"> </ng-select>
+                                        bindValue="id" placeholder="Chọn trạng thái"> </ng-select>
 
                                 </div>
 
                                 <div class='search-info col-md-6'>
 
-                                    <label class="col-sm-3">Mô tả</label>
+                                    <label>Mô tả</label>
                                     <input type="text" maxlength="500" ngxTrim class="form-control"
                                         formControlName='description' placeholder="Nhập mô tả">
 
@@ -81,26 +86,59 @@
 
                             <div class=row>
                                 <div class='search-info col-md-6'>
-                                    <label class="col-sm-6">Danh mục (<i>*</i>)</label>
+                                    <label >Danh mục (<i>*</i>)</label>
                                     <ng-select formControlName="systemParamId" [items]="selectParamId"
                                         bindLabel="systemParam" bindValue="id" placeholder="--Lựa chọn--"
                                         notFoundText="Không tìm thấy">
                                     </ng-select>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="time" class="col-sm-3 col-form-label">Datetime</label>
-                                    <!-- <app-date-picker id="time" [control]="formData.controls.time"></app-date-picker> -->
 
-                                    <div class="input-group clockpicker">
-                                        <input ngbDatepicker class="form-control" autoClose="false"
-                                            placeholder="yyyy-mm-dd" formControlName="time"
-                                            (keyup)="autoSlash($event)"
-                                            inputDatetimeFormat="dd/MM/yyyy" #date="ngbDatepicker" (click)="date.toggle()">
-                                        <div class="input-group-append" (click)="date.toggle()">
-                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                <div class="col-md-6">
+                                    <label for="startDate" class="col-sm-3 col-form-label">Start date</label>
+                                   <div class="col-md-10">
+                                    <!-- [minDate]="minDate" -->
+                                        <app-date-picker id="startDate" [control]="formData.controls.startDate" ></app-date-picker>
+                                        <div *ngIf=" f.startDate.errors && (f.startDate.touched || f.startDate.dirty)"  class="invalid-feedback-2">
+                                            <span *ngIf="f.startDate.errors.required">Ngày bắt đầu không được để trống</span>
+                                            <span *ngIf="f.startDate.errors.overReceiveDate">Ngày bắt đầu không được lớn hơn ngày kết thúc</span>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div class="col-md-6">
+                                    <label for="receiveDate" class="col-sm-3 col-form-label">End date</label>
+                                   <div class="col-md-10">
+                                    <!-- [minDate]="minDate" -->
+                                        <app-date-picker id="receiveDate" [control]="formData.controls.receiveDate" [placement]="'top'" ></app-date-picker>
+                                        <div *ngIf=" f.receiveDate.errors && (f.receiveDate.touched || f.receiveDate.dirty)"  class="invalid-feedback-2">
+                                            <span *ngIf="f.receiveDate.errors.required">Ngày kết thúc không được để trống</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label for="endDate" class="col-md-12 col-form-label fw-bolder">Khoảng thời gian</label>
+                                        <app-date-range-picker id="endDate"  [control]="f.endDate"></app-date-range-picker>
+                                        <div *ngIf=" f.endDate.errors && (f.endDate.touched || f.endDate.dirty)"  class="invalid-feedback-2">
+                                            <span *ngIf="f.endDate.errors.required">Ngày kết thúc không được để trống</span>
+                                        </div>
+                                        <!-- <ng-template #t let-date let-focused="focused">
+                                            <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                                                [class.faded]="isHovered(date) || isInside(date)"
+                                                (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                                                {{ date.day }}
+                                            </span>
+                                        </ng-template>
+    
+                                        <input type="text" class="form-control date" (click)="hidden=!hidden" name="daterange"
+                                            autocomplete="off" [(ngModel)]="selected" />
+    
+                                        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2"
+                                            [dayTemplate]="t" outsideDays="hidden" [hidden]="hidden">
+                                        </ngb-datepicker> -->
+                                    </div>
+    
                                 </div>
 
                                 <div class="col-md-12">
@@ -120,29 +158,8 @@
                                     </span>
                                 </div>
                             </div>
+                    
                         </form>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="time" class="col-md-12 col-form-label fw-bolder">Khoảng thời gian</label>
-                                <app-date-range-picker id="time"  [control]="formData.controls.time"></app-date-range-picker>
-
-                                <!-- <ng-template #t let-date let-focused="focused">
-                                    <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
-                                        [class.faded]="isHovered(date) || isInside(date)"
-                                        (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
-                                        {{ date.day }}
-                                    </span>
-                                </ng-template>
-
-                                <input type="text" class="form-control date" (click)="hidden=!hidden" name="daterange"
-                                    autocomplete="off" [(ngModel)]="selected" />
-
-                                <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2"
-                                    [dayTemplate]="t" outsideDays="hidden" [hidden]="hidden">
-                                </ngb-datepicker> -->
-                            </div>
-
-                        </div>
                     </div>
 
                     <div class="form-array">
@@ -224,7 +241,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let role of listRole; let i = index">
-                                    <td class="info-text">{{i}}</td>
+                                    <td class="info-text">{{i + 1}}</td>
                                     <td class="info-text">{{role.role}}</td>
                                     <td class="info-text">{{role.roleCode | uppercase}}</td>
                                     <td class="info-text">{{role.description}}</td>

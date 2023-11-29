@@ -7,6 +7,7 @@ import {HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from "rxjs";
 import { AuthService } from 'src/app/services/auth.service';
 import { catchError, switchMap, filter, take, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 const TOKEN_HEADER_KEY = 'Authorization';
 
 @Injectable({
@@ -17,12 +18,13 @@ export class AuthInterceptor implements HttpInterceptor {
   refresh= false;
   constructor(private authService: AuthService,
               private http: HttpClient,
-              private injector: Injector
+              private injector: Injector,
+              private router: Router,
     ) {
   }
 
   intercept(req:  HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem("token");
+   // const token = localStorage.getItem("token");
     // if (token) {
     //   req = req.clone({
     //     setHeaders: {
@@ -40,8 +42,10 @@ export class AuthInterceptor implements HttpInterceptor {
     //   });
     // }
 
+    const token = this.authService.getToken();
+    const language = this.authService.getLanguage();
     if(token){
-      req = this.addTokenHeader(req, token, 'vi');
+      req = this.addTokenHeader(req, token, language);
     }
      return next.handle(req).pipe(
 
@@ -50,6 +54,42 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((errorData: any) =>{
         console.log("errorData", errorData);
         const autherService = this.injector.get(AuthService);
+
+        if (
+          errorData.url.includes("token?grant_type=refresh_token") ||
+          errorData.url.includes("token?grant_type=password") ||
+          errorData.url.includes("/account/info")
+
+        ) {
+          if (errorData.url.includes("token?grant_type=refresh_token")) {
+            this.authService.reset();
+            this.router.navigate([`account/login`]);
+            this.authService.checkAuthenticated();
+          } else if (errorData.url.includes("token?grant_type=password")) {
+            this.authService.reset();
+            if (errorData.status == 400) {
+              if (errorData.error.code === 410 || errorData.error.code === 411) {
+                autherService.isCaptcha.next(true);
+                autherService.isHadError.next(false);
+              }
+              else {
+                // autherService.isCaptcha.next(false);
+                autherService.isHadError.next(true);
+              }
+            }
+          } else if (errorData.url.includes("/account/info")) {
+            if (errorData.status == 400 || errorData.status == 403 || errorData.status == 404) {
+              this.authService.reset();
+              autherService.isHadError.next(true);
+            } else {
+              if (errorData.status !== 401 ) {
+                console.log("lỗi hệ thống")
+                //this.notification.error(translate.instant('common.error'), translate.instant('common.errorSystem'));
+              }
+            }
+          }
+          return throwError(errorData);
+        }
 
         if (errorData.status === 401) {
           if (this.refreshTokenInProgress) {
@@ -73,6 +113,24 @@ export class AuthInterceptor implements HttpInterceptor {
               })
             )
           }
+        }
+        if (errorData.status == 400) {
+          if(errorData.error instanceof Blob){
+          }else{
+            console.log("error 400")
+            //this.notification.error(translate.instant('common.error'), errorData.error.message);
+          }
+        } else if (errorData.status == 500) {
+          if(errorData.error instanceof Blob){
+          }else{
+            autherService.isHadError.next(false)
+            console.log("error server")
+            //this.notification.error(translate.instant('common.error'), translate.instant('common.errorSystem'))
+          }
+        }
+        else {
+          console.log("error hệ thống")
+          //this.notification.error(translate.instant('common.error'), errorData.error.message)
         }
         return throwError(errorData);
       })

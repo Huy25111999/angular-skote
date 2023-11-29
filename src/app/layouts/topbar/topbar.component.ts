@@ -52,6 +52,7 @@ export class TopbarComponent implements OnInit {
     this.shareDataService.title.subscribe(res => {
       this.title = res
     })
+    translate.setDefaultLang('vi');
   }
 
   listLang = [
@@ -60,6 +61,7 @@ export class TopbarComponent implements OnInit {
     { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },
     { text: 'Italian', flag: 'assets/images/flags/italy.jpg', lang: 'it' },
     { text: 'Russian', flag: 'assets/images/flags/russia.jpg', lang: 'ru' },
+    { text: 'Vietnam', flag: 'assets/images/flags/us.jpg', lang: 'vi' },
   ];
 
   openMobileMenu: boolean;

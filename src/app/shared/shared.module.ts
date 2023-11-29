@@ -20,6 +20,7 @@ import { DepartSelectComponent } from './components/depart-select/depart-select.
 import {TreeviewModule} from 'ngx-treeview';
 import { TreeSelectComponent } from './components/tree-select/tree-select.component';
 import { ImportFileComponent } from './components/import-file/import-file.component';
+import { MaskDateDirective } from './directives/mask-date.directive';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ImportFileComponent } from './components/import-file/import-file.compon
     ErrorMessagesComponent,
     DepartSelectComponent,
     TreeSelectComponent,
-    ImportFileComponent
+    ImportFileComponent,
+    MaskDateDirective
   ],
   imports: [
       CommonModule,

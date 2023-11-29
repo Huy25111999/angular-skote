@@ -845,7 +845,7 @@ export const MENU: MenuItem[] = [
       {
         id: 135,
         label: 'Management SSO',
-        link: '/role',
+        link: '/sso',
         parentId: 134
       },
       {

@@ -63,6 +63,7 @@ export class ManagementUserComponent implements OnInit
       email: "Brown",
       username: "jbrown",
       phone: "Canada",
+      createdTime:'02/03/2022'
   },
   {
       id: 40,
@@ -70,6 +71,8 @@ export class ManagementUserComponent implements OnInit
       email: "Johnston",
       username: "morty",
       phone: "Canada",
+      createdTime:'02/03/2022'
+
   },
   {
       id: 42,
@@ -77,6 +80,8 @@ export class ManagementUserComponent implements OnInit
       email: "Johns",
       username: "smothers",
       phone: "Canada",
+      createdTime:'02/03/2022'
+
   },
   {
       id: 39,
@@ -84,6 +89,8 @@ export class ManagementUserComponent implements OnInit
       email: "Preston",
       username: "kipreston",
       phone: "United States",
+      createdTime:'02/03/2022'
+
   },
   {
       id: 34,
@@ -91,6 +98,8 @@ export class ManagementUserComponent implements OnInit
       email: "Preston",
       username: "jpreston",
       phone: "United States",
+      createdTime:'02/03/2022'
+
   },
   {
       id: 43,
@@ -98,6 +107,8 @@ export class ManagementUserComponent implements OnInit
       email: "Promaski",
       username: "anyapro",
       phone: "United States",
+      createdTime:'02/03/2022'
+
   },
   {
       id: 44,
@@ -105,6 +116,8 @@ export class ManagementUserComponent implements OnInit
       email: "Savkin",
       username: "esavkin",
       phone: "United States",
+      createdTime:'02/03/2022'
+
   },
   {
       id: 45,
@@ -112,6 +125,8 @@ export class ManagementUserComponent implements OnInit
       email: "Severson",
       username: "jsever",
       phone: "United States",
+      createdTime:'02/03/2022'
+
   },
   {
       id: 46,
@@ -119,6 +134,8 @@ export class ManagementUserComponent implements OnInit
       email: "Smith",
       username: "ksmith",
       phone: "United States",
+      createdTime:'02/03/2022'
+
   }
   ];
   oneUser: infor[] = [];

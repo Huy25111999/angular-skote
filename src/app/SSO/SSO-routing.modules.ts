@@ -32,7 +32,7 @@ const routes: Routes = [
     //     canActivate:[AuthGuard]
     // },
     {
-        path: 'role',
+        path: 'sso',
         component: ManagementSSOComponent,
     },
     {
@@ -42,7 +42,7 @@ const routes: Routes = [
     },
     
     {
-        path: 'role/:id',
+        path: 'sso/:id',
         component: ManagementSSOComponent,
     },
     {

@@ -21,6 +21,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, finalize, takeUntil } from 'rxjs/operators';
 import { DestroyService } from '../service/destroy.service';
 import { cloneDeep } from 'lodash';
+import { CommonService } from '../service/common.service';
 
 @Component({
   selector: 'app-management-group-role',
@@ -153,7 +154,8 @@ export class ManagementAppComponent implements OnInit {
     private router:Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private destroy$: DestroyService
+    private destroy$: DestroyService,
+    private commonService: CommonService
   ) { }
 
   ngOnInit(): void {
@@ -163,14 +165,16 @@ export class ManagementAppComponent implements OnInit {
      this.isProvinceSearch();
      this.getDistrict();
      this.isDistrictSearch();
+     this.formData.controls['districtCode'].disable()
   }
 
   formData:FormGroup = this.fb.group({
     app: '',
     pageNumber: this.page ,
     pageSize: this.pageSize,
-    provinceCode: null,
+    provinceCode: [null, [Validators.required]],
     districtCode: null,
+    sql: [null, [Validators.required]],
   })
 
   
@@ -185,6 +189,11 @@ export class ManagementAppComponent implements OnInit {
   //--------- App
   searchApp(flag?:boolean)
   {
+    if(this.formData.valid){
+      this.commonService.validateAllForm(this.formData);
+    }
+    this.commonService.trimSpaceForm(this.formData);
+    this.commonService.setValueIsNull(this.formData)
     // const body = {app: " ", pageNumber: this.page, pageSize: this.pageSize}
     this.loading = true;
     let data: any;
@@ -454,17 +463,13 @@ export class ManagementAppComponent implements OnInit {
   // Note: them refreshCheckedStatus() vao search
 
   onAllChecked(value:boolean): void{
-    if(this.members){
-      console.log("value", value);
-      
+    if(this.members){      
       this.members.forEach( item => this.updateCheckedSet(item?.id, value));
       this.refreshCheckedStatus();
     }
   }
   onItemChecked(id: number, checked: boolean){
-    this.updateCheckedSet(id, checked);
-    console.log("id", id, "checked",checked);
-    
+    this.updateCheckedSet(id, checked);    
     this.refreshCheckedStatus()
   }
   updateCheckedSet(id: number, checked: boolean){
@@ -567,9 +572,7 @@ export class ManagementAppComponent implements OnInit {
     })).subscribe((res:any) =>{
       if(res){
         this.listProvinces = res.data;
-        this.listProvincesClone = cloneDeep(this.listProvinces);
-        console.log("listProvinces", this.listProvinces);
-        
+        this.listProvincesClone = cloneDeep(this.listProvinces);        
       }else{
         alert('Lỗi'+ res.message);
       }
@@ -578,7 +581,6 @@ export class ManagementAppComponent implements OnInit {
 
   searchProvince(val:any){
     if(val.term){
-      console.log("val", val.term);
       this.isProvinceSearch$.next(val.term);
     }
   }
@@ -597,14 +599,19 @@ export class ManagementAppComponent implements OnInit {
   }
 
   changeProvince(event: any){
-    console.log("êvent--", event);
+    if(event !== undefined){
+      this.formData.controls['provinceCode'].enable()
+    }else{
+      this.formData.controls['districtCode'].disable();
+      this.formData.get('districtCode')?.setValue(null);
+    }
   }
 //----
   getDistrict(){
     this.formData.get('provinceCode')?.valueChanges.subscribe(data =>{
       if(data){
         this.formData.get('districtCode')?.enable();
-        this.formData.get('districtCode')?.setValue('');
+       // this.formData.get('districtCode')?.setValue('');
         this.getDistrictById(data)
       }else{
         this.listDistrict = [];
@@ -630,7 +637,6 @@ export class ManagementAppComponent implements OnInit {
 
   searchDistrict(val:any){
     if(val.term){
-      console.log("val", val.term);
       this.isDistrictSearch$.next(val.term);
     }
   }
@@ -649,7 +655,26 @@ export class ManagementAppComponent implements OnInit {
   }
 
   changeDistrict(event: any){
-    console.log("êvent--", event);
+  }
+
+  // Validate form --------------
+   displayFieldHasError( field: string){
+    return {
+      'has-error': this.isFieldValid(field)
+    }
+  }
+
+  isFieldValid(field: string){
+    const valid = !this.formData.controls[field].valid && (this.formData.controls[field].dirty || this.formData.controls[field].touched);
+    return valid
+  }
+
+  getValueOfField(field){
+    return this.formData.get(field).value
+  }
+
+  get f(){
+    return this.formData.controls;
   }
 
 }

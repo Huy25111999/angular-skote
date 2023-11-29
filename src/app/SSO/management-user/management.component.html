@@ -215,7 +215,7 @@
                                             <input trim="blue" type="text" [(ngModel)]="dataUser['phone']"  *ngIf="idRowEdit === dataUser?.id">
                                         </td>
                                         <td class="info-number-date">
-                                            {{convertDateTime(dataUser.createdTime)}}
+                                            {{convertDateTime(dataUser?.createdTime)}}
                                         </td>
                                         <td class="info-number">{{dataUser.createdBy}}</td>
                                         <td class="info-text">

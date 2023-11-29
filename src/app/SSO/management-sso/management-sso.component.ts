@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from '../service/role.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -145,10 +145,16 @@ export class ManagementSSOComponent implements OnInit {
   selectParamId: any[];
 
   listRole: any = [];
+  listRoleCache: any = [];
   idApp: number;
   formControls: FormGroup
   valueForm;
   files: any;
+  maxDate: any;
+  errorDate: any = '';
+  minDate: any = '';
+  action: any = 'add';
+
   constructor(
     private roleService: RoleService,
     private modalService: NgbModal,
@@ -171,7 +177,19 @@ export class ManagementSSOComponent implements OnInit {
 
   ngOnInit(): void {
     //this.onSearch(false);
-    this.buildForm();
+  //  this.buildForm();
+    const current = new Date();
+    this.maxDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate() - 1
+    }
+    this.minDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    }
+
     this.selectStatus = [
       {id:1, name:'Kích hoạt', active: true},
       {id:0, name:'Không kích hoạt'},
@@ -186,9 +204,29 @@ export class ManagementSSOComponent implements OnInit {
       phone: this.fb.array([]),
       avatar: ''
     });
-    this.patchFormArray();
-    console.log("---------", this.formData);
-    
+    this.patchFormArray();    
+    this.listRole = [
+      {role: 1928392328, roleCode: 'USER', status:0, description: 1, id:1},
+      {role: 1928392328, roleCode: 'admin', status:1, description: 2, id:2},
+      {role: 1928392329, roleCode: 'sso', status:1, description: 3, id:3}
+    ];
+
+    this.listRoleCache = this.listRole;
+    this.formData = this.fb.group({
+      roleId: '',
+      appId: '',
+     // Validators.pattern(/^[a-zA-Z0-9_]+$/)
+      role: [null, Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")])],
+      roleCode: [null, [Validators.required]],
+      status: [null, [Validators.required]],
+      description: [null],
+      systemParamId: [null],
+      startDate: [null, [Validators.required, this.validateStartDate.bind(this)]],
+      receiveDate: [null, [Validators.required, this.validateEndDate.bind(this)]],
+      endDate: [null, [Validators.required]],
+      content: null,
+      isNew: false
+    })
   }
 
 
@@ -197,13 +235,16 @@ export class ManagementSSOComponent implements OnInit {
       roleId: '',
       appId: '',
      // Validators.pattern(/^[a-zA-Z0-9_]+$/)
-      role: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")])],
+      role: [null, Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")])],
       roleCode: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      description: [''],
-      systemParamId: [''],
-      time: [null, [Validators.required]],
+      status: [null, [Validators.required]],
+      description: [null],
+      systemParamId: [null],
+      startDate: [null, [Validators.required, this.validateStartDate.bind(this)]],
+      receiveDate: [null, [Validators.required, this.validateEndDate.bind(this)]],
+      endDate: [null,],
       content: null,
+      isNew: false
     })
   }
 
@@ -240,36 +281,66 @@ export class ManagementSSOComponent implements OnInit {
   // }
 
   // reset
+ 
   onReset() {
     this.formData.reset();
-    this.formData.value.roleCode = '';
-    this.formData.value.description = '';
+    // this.formData.value.roleCode = '';
+    // this.formData.value.description = '';
+    this.formData.patchValue({
+      role: [null],
+      roleCode: [null],
+      status: [null],
+      description: [null],
+      systemParamId: [null],
+      startDate: [null],
+      endDate: [null,],
+      content: null,
+    })
   }
 
   onSubmit() {
+    const value = this.formData.getRawValue();
+    value.startDate = value.startDate ? moment(value.startDate).format('YYYY-MM-DD'): null
+    console.log("formatDate---value", value);
+
+
+    if (this.formData.invalid) {
+      this.formData.markAllAsTouched();
+      return
+    }
     this.formData.value.appId = this.id;
 
-    let ngbDate = this.formData.controls['time'].value;
-    //let myDate = this.ngbDateParserFormatter.format(ngbDate);
+    // let ngbDate = this.formData.controls['time'].value;
+    // let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
+    // let formValues = this.formData.value;
+    // formValues['time'] = myDate;
+        
+   // const formatDate = moment(myDate, 'YYYY-MM-DDTHH:mm:ss').format('DD/MM/yyyy HH:mm')
 
-    let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
-    let formValues = this.formData.value;
-    formValues['time'] = myDate;
-    
-    console.log("getRawValue", this.formData.getRawValue());
-    
-    const formatDate = moment(myDate, 'YYYY-MM-DDTHH:mm:ss').format('DD/MM/yyyy HH:mm')
-    console.log("formatDate", formatDate);
-    console.log("this.formData.value", this.formData.value);
-    
+    const data = this.formData.getRawValue();
+    if(this.action === 'edit'){
+      const dataOld = this.listRole.filter( e => e.roleCode !== data.roleCode);
+      this.listRole = [{...data, isNew : true}, ...dataOld];
+      this.action = 'add'
 
-    this.listRole.push(this.formData.value);
+    }else{
+      const  filterRoleCode = this.listRole.find(e => e.roleCode ===  data.roleCode);
+      if(filterRoleCode){
+        alert("Mã quyền đã tồn tại")
+      }else{
+        const body = {
+          ...data,
+          isNew: true
+        }
+        this.listRole.push(body);
+      }
+    }
+    this.onReset()
   }
 
   openEditRole(index) {
     this.formData.patchValue(this.listRole[index]);
-    console.log(index);
-    console.log('data', this.listRole[index]);
+    this.action = 'edit';
   }
 
   removeAt(index) {
@@ -278,10 +349,8 @@ export class ManagementSSOComponent implements OnInit {
 
   getParamRole() {
     this.roleService.getAllParamID().subscribe(data => {
-      console.log("submit:", data);
       this.selectParamId = data.data;
     }, error => {
-      console.log(error);
       return;
     })
   }
@@ -339,7 +408,6 @@ export class ManagementSSOComponent implements OnInit {
 
   downloadFile(data) {
     if (!data) {
-      console.log("Show error download");
       return
     }
     //const fileName = data.headers.get('File');
@@ -488,14 +556,13 @@ export class ManagementSSOComponent implements OnInit {
     this.formControls.get('avatar').setValue(this.files);
     console.log('value formArray', this.formControls.getRawValue());
 
-    const tbody = this.listRole;
+    const tbody = this.listRole.filter(e => e.isNew === true);
     this.roleService.editRole(tbody).subscribe(data => {
-      console.log('list role', this.listRole);
-      console.log('data', data.data);
       this.success();
       this.router.navigate(['/group-role/' + this.id]);
 
     }, error => {
+      this.router.navigate(['/group-role/' + this.id]);
       return error;
     })
   }
@@ -554,7 +621,6 @@ export class ManagementSSOComponent implements OnInit {
       this.fromDate = new Date(date.year, date.month - 1, date.day);
       this.selected = '';
     }
-    console.log("selectedselectedselectedselected", this.selected);
     
   }
 
@@ -585,11 +651,50 @@ export class ManagementSSOComponent implements OnInit {
   }
 
   //Datepicker------
+  // Validate start date- end date
+  validateStartDate(control: AbstractControl){
+    if(!control || !control.value || !control.parent || !control.parent.get('receiveDate')){
+      return null
+    } 
+    const receiveDate = control.parent.get('receiveDate');
+    if(!receiveDate.value){
+      return null
+    }
+
+    const boolCheck = moment(control.value).isAfter(moment(receiveDate.value), 'days');
+    if(boolCheck){
+      return {overReceiveDate: true}
+    }
+    return null
+  }
+
+
+  validateEndDate(control: AbstractControl){
+    if(!control || !control.value || !control.parent || !control.parent.get('startDate')){
+      return null
+    }
+    // Ngày kết thúc phai lớn hơn ngày bắt đầu
+    const startDate = control.parent.get('startDate');
+    if(!startDate.value){
+      return null
+    }
+    const boolCheck = moment(control.value).isBefore(moment(startDate.value), 'days');
+    if(boolCheck){
+      startDate.setErrors({overReceiveDate : true});
+      startDate.markAllAsTouched();
+      startDate.markAsDirty();
+      return null
+    }else{
+      startDate.setErrors(null);
+      if(startDate.invalid){
+        startDate.setErrors({required: true})
+      }
+    }
+    return null
+  }
+  
   autoSlash(event: any) {
-    const getValueTime = this.formData.get('time').value;
-    console.log("getValueTime", getValueTime);
-    
-    console.log("event autoSlash", event);
+    const getValueTime = this.formData.get('startDate').value;
     event.target.value = autoSlashDateTime(event);
     
   }

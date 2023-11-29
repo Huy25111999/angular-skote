@@ -26,12 +26,12 @@
                                 <div class = 'search-info row' >
                                     <label class = "col-md-2">Tìm kiếm app</label>
                                     <div class="col-md-10">
-                                        <form action=""  [formGroup]="formData" >
+                                        <form action="" [formGroup]="formData" >
                                              <input  type="text" ngxTrim class="form-control mb-4" formControlName = 'app' placeholder="Nhập tên app">
 
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label class = "col-md-12">Chọn tỉnh/thành phố</label>
+                                                    <div class="col-md-6" [ngClass]="displayFieldHasError('provinceCode')">
+                                                        <label class = "col-md-12">Chọn tỉnh/thành phố(<span class="text-red">*</span>)</label>
                                                         <ng-select formControlName="provinceCode"
                                                             (search)="searchProvince($event)"
                                                             [searchable]="true"  
@@ -39,6 +39,7 @@
                                                             placeholder="Chọn tỉnh/thành phố"
                                                             [notFoundText]="'Không có bản ghi'"
                                                             (change)="changeProvince($event)"
+                                                            [ngClass]="{'input-error': f.provinceCode.invalid && (f.provinceCode.dirty || f.provinceCode.touched)}" 
                                                         >
                                                             <ng-container *ngFor="let item of listProvinces; let i = index ">
                                                                 <ng-option [value] = item.id>
@@ -46,6 +47,19 @@
                                                                 </ng-option>
                                                             </ng-container>
                                                         </ng-select>
+
+                                                        <!-- <div *ngIf="f.provinceCode.invalid && (f.provinceCode.dirty || f.provinceCode.touched)">
+                                                            <div *ngIf="f.provinceCode.errors">
+                                                                <div *ngIf="f.provinceCode.errors.required">
+                                                                    <small style="color: red;">Tỉnh/thành phố không được để trống</small>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+                                                        <app-error-messages *ngIf="f.provinceCode.hasError('required')"
+                                                            [displayError]="isFieldValid('provinceCode')"
+                                                            errorMsg="Tỉnh/thành phố không được để trống"
+                                                        >
+                                                        </app-error-messages>
                                                     </div>
 
                                                     <div class="col-md-6">
@@ -65,6 +79,17 @@
                                                             </ng-container>
                                                         </ng-select>
                                                     </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class = "col-md-12" [ngClass]="displayFieldHasError('sql')">SQL(*) {{formData.valid}}</label>
+                                                        <textarea formControlName="sql" style="height: 200px;" class="form-control"></textarea>
+                                                        <app-error-messages *ngIf="f.sql.hasError('required')"
+                                                            [displayError]="isFieldValid('sql')"
+                                                            errorMsg="Nhập câu SQL"
+                                                        >
+                                                        </app-error-messages>
+                                                    </div>
+
                                                 </div>
                                             </form>
                                        
