@@ -47,6 +47,8 @@ export class AuthInterceptor implements HttpInterceptor {
     if(token){
       req = this.addTokenHeader(req, token, language);
     }
+    // return next.handle(req)
+    
      return next.handle(req).pipe(
 
       // ----Xử lý refresh token
@@ -135,6 +137,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return throwError(errorData);
       })
      ) ;
+     
 
   }
 

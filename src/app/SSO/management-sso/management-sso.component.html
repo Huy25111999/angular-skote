@@ -1,268 +1,288 @@
 <div class="containers" id="containers">
     <div class="row">
         <div class="content">
+            
 
             <!-- seach    -->
             <div class="search">
                 <div class="search-container">
                     <div class="search-header">
-                        <h4>Thông tin quyền</h4>
+                        <h4>Thông tin sso</h4>
                     </div>
 
-                    <div class="">
-                        <form class="form" action="" [formGroup]="formData">
-                            <div class="row">
-                                <div class='search-info col-md-6' [ngClass]="displayFieldHasError('role')">
-                                    <label >Tên quyền (<i>*</i>)</label>
-                                    <input type="text" maxlength="200" ngxTrim class="form-control"
-                                        formControlName='role' placeholder="Nhập tên quyền"
-                                        [ngClass]="{'input-error': f.role.invalid && (f.role.dirty || f.role.touched)}">
-                                    <!-- <div *ngIf="f.role.invalid && (f.role.dirty || f.role.touched)">
-                                                <div *ngIf="f.role.errors">
-                                                    <div [hidden]="!f.role.errors.required">
-                                                        <small>Trường Tên quyền không được phép để trống</small>
-                                                    </div>           
+                    <div>
+                        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+                            <ng-container ngbNavItem>
+                                <a ngbNavLink>Form</a>
+                                <ng-template ngbNavContent>
+                                    <div class="">
+                                        <form class="form" action="" [formGroup]="formData">
+                                            <div class="row">
+                                                <div class='search-info col-md-6' [ngClass]="displayFieldHasError('role')">
+                                                    <label >Tên quyền (<i>*</i>)</label>
+                                                    <input type="text" maxlength="200" ngxTrim class="form-control"
+                                                        formControlName='role' placeholder="Nhập tên quyền"
+                                                        [ngClass]="{'input-error': f.role.invalid && (f.role.dirty || f.role.touched)}">
+                                                    <!-- <div *ngIf="f.role.invalid && (f.role.dirty || f.role.touched)">
+                                                                <div *ngIf="f.role.errors">
+                                                                    <div [hidden]="!f.role.errors.required">
+                                                                        <small>Trường Tên quyền không được phép để trống</small>
+                                                                    </div>           
+                                                                </div>
+                                                            </div> -->
+
+                                                    <!-- <app-error-messages *ngIf="getValueOfField('role') == ''"
+                                                        [displayError]="isFieldValid('role')" 
+                                                        errorMsg="{{'Tên quyền không được bỏ trống'}}">
+                                                    </app-error-messages> -->
+                                                    <app-error-messages *ngIf="f.role.hasError('required')"
+                                                        [displayError]="isFieldValid('role')"
+                                                        errorMsg="{{'Tên quyền không được bỏ trống'}}"
+                                                    >
+                                                    </app-error-messages>
+
+                                                    <app-error-messages *ngIf="f['role'].hasError('maxlength')"
+                                                        [displayError]="isFieldValid('role')" 
+                                                        errorMsg="{{'Tên quyền không được vượt quá 50 ký tự'}}">
+                                                    </app-error-messages>
+
+                                                    <app-error-messages *ngIf="f['role'].hasError('pattern')"
+                                                        [displayError]="isFieldValid('role')" 
+                                                        errorMsg="{{'Tên quyền phải đủ 10 số'}}">
+                                                    </app-error-messages>
+
                                                 </div>
-                                            </div> -->
 
-                                    <!-- <app-error-messages *ngIf="getValueOfField('role') == ''"
-                                        [displayError]="isFieldValid('role')" 
-                                        errorMsg="{{'Tên quyền không được bỏ trống'}}">
-                                    </app-error-messages> -->
-                                    <app-error-messages *ngIf="f.role.hasError('required')"
-                                        [displayError]="isFieldValid('role')"
-                                        errorMsg="{{'Tên quyền không được bỏ trống'}}"
-                                    >
-                                    </app-error-messages>
-
-                                    <app-error-messages *ngIf="f['role'].hasError('maxlength')"
-                                        [displayError]="isFieldValid('role')" 
-                                        errorMsg="{{'Tên quyền không được vượt quá 50 ký tự'}}">
-                                    </app-error-messages>
-
-                                    <app-error-messages *ngIf="f['role'].hasError('pattern')"
-                                        [displayError]="isFieldValid('role')" 
-                                        errorMsg="{{'Tên quyền phải đủ 10 số'}}">
-                                    </app-error-messages>
-
-                                </div>
-
-                                <div class='search-info col-md-6'>
+                                                <div class='search-info col-md-6'>
 
 
-                                    <label>Mã quyền (<i>*</i>)</label>
-                                    <input type="text" maxlength="30" ngxTrim class="form-control"
-                                        formControlName='roleCode' placeholder="Nhập mã quyền"
-                                        [ngClass]="{'input-error': f.roleCode.invalid && (f.roleCode.dirty || f.roleCode.touched)}">
-                                    <div *ngIf="f.roleCode.invalid && (f.roleCode.dirty || f.roleCode.touched)">
-                                        <div *ngIf="f.roleCode.errors">
-                                            <div *ngIf="f.roleCode.errors.required">
-                                                <small>Trường Mã quyền không được phép để trống</small>
+                                                    <label>Mã quyền (<i>*</i>)</label>
+                                                    <input type="text" maxlength="30" ngxTrim class="form-control"
+                                                        formControlName='roleCode' placeholder="Nhập mã quyền"
+                                                        [ngClass]="{'input-error': f.roleCode.invalid && (f.roleCode.dirty || f.roleCode.touched)}">
+                                                    <div *ngIf="f.roleCode.invalid && (f.roleCode.dirty || f.roleCode.touched)">
+                                                        <div *ngIf="f.roleCode.errors">
+                                                            <div *ngIf="f.roleCode.errors.required">
+                                                                <small>Trường Mã quyền không được phép để trống</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=row>
-                                <div class='search-info col-md-6'>
+                                            <div class=row>
+                                                <div class='search-info col-md-6'>
 
 
-                                    <label>Trạng thái(*)</label>
-                                    <ng-select formControlName="status" [items]="selectStatus" bindLabel="name"
-                                        bindValue="id" placeholder="Chọn trạng thái"> </ng-select>
+                                                    <label>Trạng thái(*)</label>
+                                                    <ng-select formControlName="status" [items]="selectStatus" bindLabel="name"
+                                                        bindValue="id" placeholder="Chọn trạng thái"> </ng-select>
 
-                                </div>
+                                                </div>
 
-                                <div class='search-info col-md-6'>
+                                                <div class='search-info col-md-6'>
 
-                                    <label>Mô tả</label>
-                                    <input type="text" maxlength="500" ngxTrim class="form-control"
-                                        formControlName='description' placeholder="Nhập mô tả">
+                                                    <label>Mô tả</label>
+                                                    <input type="text" maxlength="500" ngxTrim class="form-control"
+                                                        formControlName='description' placeholder="Nhập mô tả">
 
-                                </div>
+                                                </div>
 
 
-                            </div>
+                                            </div>
 
-                            <div class=row>
-                                <div class='search-info col-md-6'>
-                                    <label >Danh mục (<i>*</i>)</label>
-                                    <ng-select formControlName="systemParamId" [items]="selectParamId"
-                                        bindLabel="systemParam" bindValue="id" placeholder="--Lựa chọn--"
-                                        notFoundText="Không tìm thấy">
-                                    </ng-select>
-                                </div>
+                                            <div class=row>
+                                                <div class='search-info col-md-6'>
+                                                    <label >Danh mục (<i>*</i>)</label>
+                                                    <ng-select formControlName="systemParamId" [items]="selectParamId"
+                                                        bindLabel="systemParam" bindValue="id" placeholder="--Lựa chọn--"
+                                                        notFoundText="Không tìm thấy">
+                                                    </ng-select>
+                                                </div>
 
-                                <div class="col-md-6">
-                                    <label for="startDate" class="col-sm-3 col-form-label">Start date</label>
-                                   <div class="col-md-10">
-                                    <!-- [minDate]="minDate" -->
-                                        <app-date-picker id="startDate" [control]="formData.controls.startDate" ></app-date-picker>
-                                        <div *ngIf=" f.startDate.errors && (f.startDate.touched || f.startDate.dirty)"  class="invalid-feedback-2">
-                                            <span *ngIf="f.startDate.errors.required">Ngày bắt đầu không được để trống</span>
-                                            <span *ngIf="f.startDate.errors.overReceiveDate">Ngày bắt đầu không được lớn hơn ngày kết thúc</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                                <div class="search-info col-md-6">
+                                                    <label for="startDate">Start date</label>
+                                                <div>
+                                                    <!-- [minDate]="minDate" -->
+                                                        <app-date-picker id="startDate" [control]="formData.controls.startDate" ></app-date-picker>
+                                                        <div *ngIf=" f.startDate.errors && (f.startDate.touched || f.startDate.dirty)"  class="invalid-feedback-2">
+                                                            <span *ngIf="f.startDate.errors.required">Ngày bắt đầu không được để trống</span>
+                                                            <span *ngIf="f.startDate.errors.overReceiveDate">Ngày bắt đầu không được lớn hơn ngày kết thúc</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                <div class="col-md-6">
-                                    <label for="receiveDate" class="col-sm-3 col-form-label">End date</label>
-                                   <div class="col-md-10">
-                                    <!-- [minDate]="minDate" -->
-                                        <app-date-picker id="receiveDate" [control]="formData.controls.receiveDate" [placement]="'top'" ></app-date-picker>
-                                        <div *ngIf=" f.receiveDate.errors && (f.receiveDate.touched || f.receiveDate.dirty)"  class="invalid-feedback-2">
-                                            <span *ngIf="f.receiveDate.errors.required">Ngày kết thúc không được để trống</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-4">
-                                    <div class="col-md-6">
-                                        <label for="endDate" class="col-md-12 col-form-label fw-bolder">Khoảng thời gian</label>
-                                        <app-date-range-picker id="endDate"  [control]="f.endDate"></app-date-range-picker>
-                                        <div *ngIf=" f.endDate.errors && (f.endDate.touched || f.endDate.dirty)"  class="invalid-feedback-2">
-                                            <span *ngIf="f.endDate.errors.required">Ngày kết thúc không được để trống</span>
-                                        </div>
-                                        <!-- <ng-template #t let-date let-focused="focused">
-                                            <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
-                                                [class.faded]="isHovered(date) || isInside(date)"
-                                                (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
-                                                {{ date.day }}
-                                            </span>
-                                        </ng-template>
-    
-                                        <input type="text" class="form-control date" (click)="hidden=!hidden" name="daterange"
-                                            autocomplete="off" [(ngModel)]="selected" />
-    
-                                        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2"
-                                            [dayTemplate]="t" outsideDays="hidden" [hidden]="hidden">
-                                        </ngb-datepicker> -->
-                                    </div>
-    
-                                </div>
-
-                                <div class="col-md-12">
-                                    <label for="time" class="col-sm-3 col-form-label">Ckeditor</label>
-                                    <ckeditor
-                                        [editor]="editor"
-                                        formControlName="content"
-                                        [config]="configCkEdit"
-                                        [disabled]="isView"
-                                        (change)="onChangeCkEditor($event)"
-                                    ></ckeditor>
-                                    <span *ngIf="lengthCkeditor > 1000"
-                                        translate
-                                        class="text-danger"
-                                    >
-                                        config_news.limit_content
-                                    </span>
-                                </div>
-                            </div>
+                                                <div class="row mb-4">
+                                                    <div class="search-info col-md-6">
+                                                        <label for="receiveDate">End date</label>
+                                                    <div>
+                                                        <!-- [minDate]="minDate" -->
+                                                            <app-date-picker id="receiveDate" [control]="formData.controls.receiveDate" [placement]="'top'" ></app-date-picker>
+                                                            <div *ngIf=" f.receiveDate.errors && (f.receiveDate.touched || f.receiveDate.dirty)"  class="invalid-feedback-2">
+                                                                <span *ngIf="f.receiveDate.errors.required">Ngày kết thúc không được để trống</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="search-info col-md-6">
+                                                        <label for="endDate" >Khoảng thời gian</label>
+                                                        <app-date-range-picker id="endDate"  [control]="f.endDate"></app-date-range-picker>
+                                                        <div *ngIf=" f.endDate.errors && (f.endDate.touched || f.endDate.dirty)"  class="invalid-feedback-2">
+                                                            <span *ngIf="f.endDate.errors.required">Ngày kết thúc không được để trống</span>
+                                                        </div>
+                                                        <!-- <ng-template #t let-date let-focused="focused">
+                                                            <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                                                                [class.faded]="isHovered(date) || isInside(date)"
+                                                                (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                                                                {{ date.day }}
+                                                            </span>
+                                                        </ng-template>
                     
-                        </form>
-                    </div>
+                                                        <input type="text" class="form-control date" (click)="hidden=!hidden" name="daterange"
+                                                            autocomplete="off" [(ngModel)]="selected" />
+                    
+                                                        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2"
+                                                            [dayTemplate]="t" outsideDays="hidden" [hidden]="hidden">
+                                                        </ngb-datepicker> -->
+                                                    </div>
+                    
+                                                </div>
 
-                    <div class="form-array">
-                        <form [formGroup]="formControls">
-                            <div formArrayName="phone">
-                                <div class="row mb-4" *ngFor="let control of form.controls; let i = index"
-                                    [formGroupName]="i">
-                                    <div class="col-md-2">
-                                        <label for="time">Phone</label>
+                                                <div class="col-md-12" [ngClass]="displayFieldHasError('content')">
+                                                    <label for="content">Ckeditor</label>
+                                                    <ckeditor
+                                                        [editor]="editor"
+                                                        formControlName="content"
+                                                        [config]="configCkEdit"
+                                                        [disabled]="isView"
+                                                        (change)="onChangeCkEditor($event)"
+                                                    ></ckeditor>
+                                                    <app-error-messages *ngIf="f.content.hasError('required')"
+                                                        [displayError]="isFieldValid('content')"
+                                                        errorMsg="{{'Nội dung không được bỏ trống'}}"
+                                                    >
+                                                    </app-error-messages>
+
+                                                    <span *ngIf="lengthCkeditor > 1000"
+                                                        translate
+                                                        class="text-danger"
+                                                    >
+                                                        config_news.limit_content
+                                                    </span>
+                                                </div>
+                                            </div>
+                                    
+                                        </form>
                                     </div>
-                                    <div class="row col-md-8">
-                                        <div class="col-md-4">
-                                            <input class="form-control" type="text" placeholder="Nhập text"
-                                                formControlName="name">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input class="form-control" type="text" placeholder="Nhập text"
-                                                formControlName="phoneNumber">
-                                        </div>
-                                        <div class="mb-3 col-md-4">
-                                            <input (change)="onChangeBase64($event, i)" type="file"
-                                                formControlName="files" class="form-control" id="inputGroupFile01">
+
+                                    <div class="form-array">
+                                        <form [formGroup]="formControls">
+                                            <div formArrayName="phone">
+                                                <div class="row mb-4" *ngFor="let control of form.controls; let i = index"
+                                                    [formGroupName]="i">
+                                                    <div class="col-md-2">
+                                                        <label for="time">Phone</label>
+                                                    </div>
+                                                    <div class="row col-md-8">
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" type="text" placeholder="Nhập text"
+                                                                formControlName="name">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" type="text" placeholder="Nhập text"
+                                                                formControlName="phoneNumber">
+                                                        </div>
+                                                        <div class="mb-3 col-md-4">
+                                                            <input (change)="onChangeBase64($event, i)" type="file"
+                                                                formControlName="files" class="form-control" id="inputGroupFile01">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <input type="button" class=" btn btn-primary" value="Delete"
+                                                            (click)="removePhone(i)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <input type="button" class="btn btn-primary inner" value="Add number" (click)="addPhone()">
+                                    </div>
+
+                                    <div class="row">
+                                        <app-avatar (avatar)="uploadFileImage($event)"></app-avatar>
+
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+
+                            <ng-container ngbNavItem>
+                                <a ngbNavLink>Kết quả</a>
+                                <ng-template ngbNavContent>
+                                    <div class="button">
+                                        <div class="btn-search">
+                
+                                            <button class=" btn btn-primary btn-sm" type="button" (click)="onSubmit()">
+                                                <span>Thêm mới</span>
+                                            </button>
+                
+                                            <button class=" btn btn-primary btn-sm" type="button" (click)="onCreatRole()">
+                                                <span>Lưu</span>
+                                            </button>
+                
+                                            <button class=" btn btn-primary btn-sm" type="button" (click)="download()">
+                                                <span>Download</span>
+                                            </button>
+                
+                                            <button class=" btn btn-primary btn-sm" type="button" (click)="exportFile()">
+                                                <span>Exports</span>
+                                            </button>
+                
+                                            <button class=" btn btn-primary btn-sm" type="button" (click)="import()">
+                                                <span>Imports</span>
+                                            </button>
+                
+                                            <button class=" btn btn-secondary" type="button" (click)="onReset()">
+                                                <span>Nhập lại</span>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="col-md-1">
-                                        <input type="button" class=" btn btn-primary" value="Delete"
-                                            (click)="removePhone(i)">
+
+                                    <div class="table-responsive">
+                                        <table id="data-table" class="table table-striped mb-0">
+                                            <thead>
+                                                <th class="info-text">STT</th>
+                                                <th class="info-text">Tên quyền</th>
+                                                <th class="info-number">Mã code</th>
+                                                <th class="info-text">Miêu tả</th>
+                                                <th class="info-text">Trạng thái</th>
+                                                <th class="info-text">Hành động</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let role of listRole; let i = index">
+                                                    <td class="info-text">{{i + 1}}</td>
+                                                    <td class="info-text">{{role.role}}</td>
+                                                    <td class="info-text">{{role.roleCode | uppercase}}</td>
+                                                    <td class="info-text">{{role.description}}</td>
+                                                    <td class="info-date">{{role.status}}</td>
+                                                    <td class="info-text">
+                                                        <i (click)="openEditRole(i)">
+                                                            <img class="edit" src="./assets/images/sso/edit.png" alt="">
+                
+                                                        </i>
+                                                        <i class="bx bx-trash" (click)="removeAt(i)"></i>
+                
+                                                    </td>
+                                                </tr>
+                
+                                            </tbody>
+                                        </table>
+                                        <ng-container *ngIf="this.listRole.length == 0">
+                                            <div class="no-container">
+                                                <img class="no-data" src="./assets/images/sso/no-data.png" alt="">
+                                            </div>
+                                        </ng-container>
                                     </div>
-                                </div>
-                            </div>
-                        </form>
-                        <input type="button" class="btn btn-primary inner" value="Add number" (click)="addPhone()">
-                    </div>
-
-                    <div class="row">
-                        <app-avatar (avatar)="uploadFileImage($event)"></app-avatar>
-
-                    </div>
-
-                    <div class="button">
-                        <div class="btn-search">
-
-                            <button class=" btn btn-primary btn-sm" type="button" (click)="onSubmit()">
-                                <span>Thêm mới</span>
-                            </button>
-
-                            <button class=" btn btn-primary btn-sm" type="button" (click)="onCreatRole()">
-                                <span>Lưu</span>
-                            </button>
-
-                            <button class=" btn btn-primary btn-sm" type="button" (click)="download()">
-                                <span>Download</span>
-                            </button>
-
-                            <button class=" btn btn-primary btn-sm" type="button" (click)="exportFile()">
-                                <span>Exports</span>
-                            </button>
-
-                            <button class=" btn btn-primary btn-sm" type="button" (click)="import()">
-                                <span>Imports</span>
-                            </button>
-
-                            <button class=" btn btn-secondary" type="button" (click)="onReset()">
-                                <span>Nhập lại</span>
-                            </button>
-                        </div>
-                    </div>
-
-
-                    <div class="table-responsive">
-                        <table id="data-table" class="table table-striped mb-0">
-                            <thead>
-                                <th class="info-text">STT</th>
-                                <th class="info-text">Tên quyền</th>
-                                <th class="info-number">Mã code</th>
-                                <th class="info-text">Miêu tả</th>
-                                <th class="info-text">Trạng thái</th>
-                                <th class="info-text">Hành động</th>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let role of listRole; let i = index">
-                                    <td class="info-text">{{i + 1}}</td>
-                                    <td class="info-text">{{role.role}}</td>
-                                    <td class="info-text">{{role.roleCode | uppercase}}</td>
-                                    <td class="info-text">{{role.description}}</td>
-                                    <td class="info-date">{{role.status}}</td>
-                                    <td class="info-text">
-                                        <i (click)="openEditRole(i)">
-                                            <img class="edit" src="./assets/images/sso/edit.png" alt="">
-
-                                        </i>
-                                        <i class="bx bx-trash" (click)="removeAt(i)"></i>
-
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                        <ng-container *ngIf="this.listRole.length == 0">
-                            <div class="no-container">
-                                <img class="no-data" src="./assets/images/sso/no-data.png" alt="">
-                            </div>
-                        </ng-container>
+                                </ng-template>
+                            </ng-container>
+                        </nav>
+                        <div [ngbNavOutlet]="nav" class="mt-2"></div>
                     </div>
                 </div>
 

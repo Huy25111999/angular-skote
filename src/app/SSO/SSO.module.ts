@@ -36,6 +36,8 @@ import { OnSalePipe } from './on-sale.pipe';
 import { TreeGridModule} from '@syncfusion/ej2-angular-treegrid';
 import { AntModule } from './ant/ant.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import {
   NgbDatepickerModule,
@@ -97,6 +99,7 @@ import {
     CKEditorModule,
     NgbDatepickerModule,
     TreeviewModule.forRoot(),
+    NgbNavModule
     // BrowserModule,
     //PerfectScrollbarModule
   ],
@@ -107,6 +110,7 @@ import {
     //   useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     // }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SSOModule { }

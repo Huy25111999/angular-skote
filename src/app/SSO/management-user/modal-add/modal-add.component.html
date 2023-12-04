@@ -24,7 +24,9 @@
                                 <div *ngIf="f.fullName.errors.maxlength">
                                     <small>Họ và tên không được vượt quá 100 ký tự</small>
                                 </div>
-
+                                <div *ngIf="formData.get('fullName').hasError('minlength')">
+                                    <small>Mật khẩu phải ít nhất 6 ký tự</small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -36,7 +38,6 @@
                     <label class="col-sm-3">Tên đăng nhập (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
-                        <!-- <input *ngIf="err == false" ngxTrim type="text" class="form-control" formControlName = 'username' placeholder="Nhập tên đăng nhập"> -->
                         <input ngxTrim type="text" maxlength="100" class="form-control" formControlName='username'
                             placeholder="Nhập tên đăng nhập"
                             [ngClass]="{'input-error': f.username.invalid && (f.username.dirty || f.username.touched)}">
@@ -54,6 +55,70 @@
                         </div>
                     </div>
 
+                </div>
+
+                
+                <div class="row mb-4">
+                    <label class="col-sm-3">Images (<i>*</i>)</label>
+                    <!-- app.component.html -->
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <label class="custom-file-upload">
+                            <input ngxTrim type="file" class="form-control" formControlName='image'
+                            placeholder="Nhập tên đăng nhập"
+                            accept="image/png, image/gif,image/jpeg,image/png"
+                            (change)="onSelectedImageDevice($event)"
+                            #imageDevice
+                           >
+                        </label>
+                        <i *ngIf="!imageDeviceBase64" class="one-line row ml-1" style="font-size: 14px; color: #a9a9a9">Nên sử dụng ảnh có tỷ lệ 110px*180px (width*height)</i>
+
+                        <div class="wraper" *ngIf="imageDeviceBase64" >
+                            <div class="wrap-image" (click)="imageDevice.click()">
+                                <img style=" height: 180px; width: 250px;"
+                                [src]="'data:image/jpeg;base64,' + imageDeviceBase64"
+                                alt=""
+                                />
+                            </div>
+                            <i class="one-line" style="font-size: 14px; color: #a9a9a9">Nên sử dụng ảnh có tỷ lệ 110px*180px (width*height)</i>
+                            <a
+                                class="wrap-icon-download"
+                                [href]="'data:image/jpeg;base64,' + imageDeviceBase64"
+                                [download]="titleImageDevice + '.png'"
+                            >
+                                <i nz-icon nzType="download" nzTheme="outline"></i>
+                                {{ titleImageDevice }}
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-4">
+                    <label class="col-sm-3">Giá tiền(<i>*</i>)</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <input type="text" maxlength="100" class="form-control" ngxTrim formControlName='price'
+                            placeholder="Nhập price"
+                            [ngClass]="{'input-error': f.price.invalid && (f.price.dirty || f.price.touched)}" required>
+
+                        <div *ngIf="f.price.invalid && (f.price.dirty || f.price.touched)">
+                            <div *ngIf="f.price.errors">
+                                <div *ngIf="f.price.errors.required">
+                                    <small>Giá tiền không được để trống</small>
+                                </div>
+                                
+                                <div *ngIf="formData.get('price').hasError('numberOnly')">
+                                    <small>Giá tiền chỉ được phép nhập số</small>
+                                </div>
+                                
+                                <div *ngIf="formData.get('price').hasError('maxLength')">
+                                    <small>Giá tiền không được vượt quá 15 ký tự</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
 
                 <div class="row mb-4">
@@ -75,10 +140,7 @@
 
                             </div>
                         </div>
-
                     </div>
-
-
                 </div>
 
                 <div class="row mb-4">
@@ -93,10 +155,12 @@
                                 <div *ngIf="f.password.errors.required">
                                     <small>Mật khẩu không được để trống</small>
                                 </div>
-                                <div [hidden]="!f.password.errors.minlength">
+                                <div *ngIf="formData.get('password').hasError('minMax')">
                                     <small>Mật khẩu phải ít nhất 6 ký tự</small>
                                 </div>
-
+                                <div *ngIf="formData.get('password').hasError('checkPassWord')">
+                                    <small>Mật khẩu phải chứa ký tự thường, hoa, số và ký tự đặc biệt</small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -117,10 +181,11 @@
                                 style="background-color: #fff;"
                                 [ngClass]="{'is-invalid': errorDate, 'input-error': f.issueDate?.invalid && (f.issueDate?.dirty || f.issueDate?.touched)}"
                                 [readOnly]="false"
+                                (keyup)="autoSlash($event)"
                                 >
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button" inputDatetimeFormat="dd/MM/yyyy" (click)="d2.toggle()">
-                                    Date
+                                    <i class="fas fa-calendar"></i>
                                 </button>
                             </div>
                         </div>
@@ -134,15 +199,78 @@
                         <div *ngIf="errorDate">
                             <small *ngIf="errorDate.length" style="color: red;">{{errorDate}}</small>
                         </div>
-                       
                     </div>
-
                 </div>
 
+                <div class="row mb-4">
+                    <label class="col-sm-3">Ngày bắt đầu(<i>*</i>)</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input ngbDatepicker class="form-control" autoClose="false"
+                                placeholder="dd/mm/yyyy"
+                                formControlName='startDate'
+                                name="d3"
+                                #d3="ngbDatepicker"
+                                [maxDate]="maxDate"
+                                [readOnly]="false"
+                                style="background-color: #fff;"
+                                [ngClass]="{'is-invalid': errorDate, 'input-error': f.startDate?.invalid && (f.startDate?.dirty || f.startDate?.touched)}"
+                                [readOnly]="false"
+                                >
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" inputDatetimeFormat="dd/MM/yyyy" (click)="d3.toggle()">
+                                    <i class="fas fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
 
+                        <!-- <div *ngIf="f.startDate.invalid && (f.startDate.dirty || f.startDate.touched)">
+                            <div *ngIf="f.startDate.errors">
+                                <div *ngIf="f.startDate.errors.required">
+                                    <small>Ngày bắt đầu không được để trống</small>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div *ngIf="formData.hasError('dateRangeError')">
+                            Ngày bắt đầu không được lớn hơn ngày kết thúc
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row mb-4">
+                    <label class="col-sm-3">Ngày kết thúc(<i>*</i>)</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input ngbDatepicker class="form-control" autoClose="false"
+                                placeholder="dd/mm/yyyy"
+                                formControlName='receiveDate'
+                                name="d4"
+                                #d4="ngbDatepicker"
+                                [maxDate]="maxDate"
+                                [readOnly]="false"
+                                style="background-color: #fff;"
+                                [ngClass]="{'input-error': f.receiveDate?.invalid && (f.receiveDate?.dirty || f.receiveDate?.touched)}"
+                                [readOnly]="false"
+                                >
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" inputDatetimeFormat="dd/MM/yyyy" (click)="d4.toggle()">
+                                    <i class="fas fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div *ngIf="f.receiveDate.invalid && (f.receiveDate.dirty || f.receiveDate.touched)">
+                            <div *ngIf="f.receiveDate.errors">
+                                <div *ngIf="f.receiveDate.errors.required">
+                                    <small>Ngày kết thúc không được để trống</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row mb-4">
                     <label class="col-sm-3">Trạng thái (<i>*</i>)</label>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-8">
@@ -250,6 +378,15 @@
                     </div>
 
                 </div>
+
+                <div class="row mb-4">
+                    <label class="col-sm-3">Enable</label>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-8">
+                            <input class="form-check-input ml-1" type="checkbox" id="formCheckRight1" formControlName='enable'>
+                    </div>
+                </div>
+              
             </div>
         </div>
 

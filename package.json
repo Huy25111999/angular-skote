@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --live-reload false",
+    "start": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng serve",
+
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod"
+    "build-prod": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --prod"
   },
   "private": true,
   "dependencies": {

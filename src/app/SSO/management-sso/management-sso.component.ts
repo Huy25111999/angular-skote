@@ -22,109 +22,6 @@ import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-
-export function autoSlashDateTime(event: any): string {
-  const inputValue = event.target.value.replace(/[\/\s:]/g, '');
-
-  const regexDateTime = /^([1-9]|([012][0-9])|(3[01]))\/([0]{0,1}[1-9]|1[012])\/\d\d\d\d(\s(([01]{0,1}[0-9])|(2[0-3])):[0-5][0-9])?$/;
-  const regexDay = /^([1-9]|([012][0-9])|(3[01]))\/?$/;
-  const regexMounth = /^([0]{0,1}[1-9]|1[012])\/?$/;
-  const regexYear = /^\d\d\d\d$/;
-  const regexHour = /^(([01]{0,1}[0-9])|(2[0-3]))$/;
-  const regexMinute = /^[0-5][0-9]$/;
-
-  let day = inputValue.slice(0, 2);
-  let mounth = inputValue.slice(2, 4);
-  let year = inputValue.slice(4, 8);
-  let hour = inputValue.slice(8, 10);
-  let minute = inputValue.slice(10, 12);
-
-  if (event.which == 8) {
-    return  event.target.value;
-  }
-
-  let result = '';
-  if (day && regexDay.test(day)) {
-    if (day.length === 2) {
-      result += (day + '/');
-    } else {
-      return result + day;
-    }
-  } else {
-    return day.slice(0,2);
-  }
-
-  if (mounth && regexMounth.test(mounth)) {
-    // if (mounth.length === 2) {
-    //   result += (mounth + '/');
-    // }
-    // else if (mounth.length === 1 && mounth <= 9) {
-    //   result += ('0' + mounth + '/');
-    // }
-    // else {
-    //   return result + mounth;
-    // }
-
-    if (mounth.length === 2) {
-      result += (mounth + '/');
-    }
-    else if ( mounth <= 9) {   
-      result += ( mounth + '/');
-    }
-    else {
-      return result + mounth;
-    }
-  } else {
-    return result + mounth.slice(0, 2);
-  }
-
-  if (year && regexYear.test(year)) {
-    if (year.length === 4) {
-      result += (year + ' ');
-    } else {
-      return result + year;
-    }
-  } else {
-    return result + year.slice(0, 4);
-  }
-
-  // if (hour) {
-  //   if (parseInt(hour) >= 0 && parseInt(hour) <= 23) {
-  //     if (hour.length === 2) {
-  //       result += hour + ':';
-  //     } else {
-  //       result += hour;
-  //     }
-  //   } else {
-  //     if (parseInt(hour) < 0) {
-  //       result += '00:';
-  //     } else {
-  //       result += '23:';
-  //     }
-  //   }
-  // }
-
-  // if (minute) {
-  //   if (parseInt(minute) >= 0 && parseInt(minute) <= 59) {
-  //     if (minute.length === 2) {
-  //       result += minute;
-  //     } else if (parseInt(minute) == 0) {
-  //       return result + minute;
-  //     } else {
-  //       result += (minute);
-  //     }
-  //   } else {
-  //     if (parseInt(minute) < 0) {
-  //       result += '00';
-  //     } else {
-  //       result += '59';
-  //     }
-  //   }
-  // }
-
-  return result;
-}
-
 @Component({
   selector: 'app-management-sso',
   templateUrl: './management-sso.component.html',
@@ -154,7 +51,7 @@ export class ManagementSSOComponent implements OnInit {
   errorDate: any = '';
   minDate: any = '';
   action: any = 'add';
-
+  
   constructor(
     private roleService: RoleService,
     private modalService: NgbModal,
@@ -224,7 +121,7 @@ export class ManagementSSOComponent implements OnInit {
       startDate: [null, [Validators.required, this.validateStartDate.bind(this)]],
       receiveDate: [null, [Validators.required, this.validateEndDate.bind(this)]],
       endDate: [null, [Validators.required]],
-      content: null,
+      content: [null, [Validators.required]],
       isNew: false
     })
   }
@@ -692,12 +589,6 @@ export class ManagementSSOComponent implements OnInit {
     }
     return null
   }
-  
-  autoSlash(event: any) {
-    const getValueTime = this.formData.get('startDate').value;
-    event.target.value = autoSlashDateTime(event);
-    
-  }
 
   // CKeditor------
   editor = ClassicEditor;
@@ -707,11 +598,17 @@ export class ManagementSSOComponent implements OnInit {
   configCkEdit:any = {
     placeholder: 'Nội dung',
     toolbar: [
+      //'fontfamily',
+      //'fontsize',
+      //'alignment',
       'alignment',
       'bold',
       'italic',
+      'underline',
       'bulletedList',
-      'numberedList','|',
+      'numberedList',
+      '|',
+      'link'
     ]
   }
 

@@ -14,7 +14,7 @@ const routes: Routes = [
     {
         path: 'user',
         component: ManagementUserComponent,
-        canActivate:[AuthGuard]
+        //canActivate:[AuthGuard]
     },
     // {
     //     path: 'detail/:id',
@@ -60,7 +60,7 @@ const routes: Routes = [
     {
         path: 'app',
         component: ManagementAppComponent,
-        canActivate:[AuthGuard]
+        //canActivate:[AuthGuard]
     },
     {
         path:'',
